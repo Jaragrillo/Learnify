@@ -1,0 +1,84 @@
+{
+    "categories": [
+        {
+          "categorie" : "Programación",
+          "description" : "Domina los lenguajes y herramientas que están moldeando el futuro. Desde fundamentos en HTML, CSS y JavaScript hasta inteligencia artificial, desarrollo móvil y blockchain, aprende habilidades prácticas para construir soluciones digitales innovadoras.",
+          "link" : "/categories/programmation"  
+        },
+        {
+          "categorie" : "Diseño",
+          "description" : "Libera tu creatividad aprendiendo desde diseño gráfico y UX/UI hasta ilustración digital y modelado 3D. Descubre cómo transmitir ideas visualmente y diseñar experiencias que marquen la diferencia.",
+          "link" : "/categories/design"  
+        },
+        {
+          "categorie" : "Matemáticas",
+          "description" : "Desentraña el lenguaje universal del universo. Desde álgebra y cálculo hasta estadística y matemáticas aplicadas, adquiere el conocimiento que impulsa las ciencias, la tecnología y la economía.",
+          "link" : "/categories/mathematics"  
+        },
+        {
+          "categorie" : "Idiomas",
+          "description" : "Conecta con el mundo aprendiendo nuevos idiomas. Mejora tus habilidades de comunicación en inglés, español, francés, alemán y más, con cursos que se adaptan a todos los niveles.",
+          "link" : "/categories/languages"  
+        },
+        {
+          "categorie" : "Música",
+          "description" : "Explora el arte de los sonidos y las melodías. Aprende a tocar instrumentos, teoría musical, producción y composición, o mejora tu técnica vocal con cursos diseñados para todos los niveles.",
+          "link" : "/categories/music"  
+        },
+        {
+          "categorie" : "Fitness",
+          "description" : "Ponte en forma y cuida de tu salud física. Desde rutinas de ejercicio en casa hasta yoga, entrenamiento funcional y nutrición, accede a conocimientos que te ayudarán a mantener un estilo de vida saludable.",
+          "link" : "/categories/fitness"  
+        },
+        {
+          "categorie" : "Ciencias",
+          "description" : "Explora el funcionamiento del universo con cursos de biología, química, física, y ciencias ambientales. Aprende con contenido actualizado que explica desde principios básicos hasta los últimos avances científicos.",
+          "link" : "/categories/sciences"  
+        },
+        {
+          "categorie" : "Literatura",
+          "description" : "Sumérgete en el mundo de las palabras. Mejora tu escritura creativa, analiza obras literarias clásicas y contemporáneas, o aprende a contar historias con impacto.",
+          "link" : "/categories/literature"  
+        },
+        {
+          "categorie" : "Fotografía",
+          "description" : "Captura momentos inolvidables aprendiendo técnicas de fotografía, edición, iluminación y composición. Desde fotografía básica hasta retratos, paisajes y fotografía profesional.",
+          "link" : "/categories/photography"  
+        },
+        {
+          "categorie" : "Negocios",
+          "description" : "Impulsa tus habilidades empresariales. Aprende sobre emprendimiento, liderazgo, marketing digital, gestión de proyectos y estrategias para crecer en el mundo de los negocios.",
+          "link" : "/categories/business"  
+        },
+        {
+          "categorie" : "Gastronomía",
+          "description" : "Conviértete en un chef desde la comodidad de tu hogar. Aprende técnicas culinarias, cocina internacional, pastelería, y tips para preparar platos deliciosos y saludables.",
+          "link" : "/categories/gastronomy"  
+        },
+        {
+          "categorie" : "Viajes",
+          "description" : "Descubre cómo viajar mejor y disfrutar al máximo cada destino. Aprende sobre planificación de itinerarios, fotografía de viajes, consejos de seguridad y culturas del mundo.",
+          "link" : "/categories/travels"  
+        },
+        {
+          "categorie" : "Salud",
+          "description" : "Invierte en tu bienestar con cursos de nutrición, meditación, cuidado emocional y hábitos saludables. Todo lo que necesitas para alcanzar el equilibrio entre mente y cuerpo.",
+          "link" : "/categories/health"  
+        },
+        {
+          "categorie" : "Cine",
+          "description" : "Explora el arte de contar historias a través del cine. Aprende guionismo, dirección, producción, edición y análisis cinematográfico para crear tus propias obras maestras.",
+          "link" : "/categories/cinema"  
+        },
+        {
+          "categorie" : "Jardinería",
+          "description" : "Descubre el placer de cultivar. Aprende a cuidar plantas, diseñar jardines, manejar cultivos sostenibles y mantener espacios verdes en cualquier entorno.",
+          "link" : "/categories/gardening"  
+        },
+        {
+          "categorie" : "Finanzas",
+          "description" : "Mejora tu relación con el dinero. Aprende a gestionar tus finanzas personales, inversiones, ahorros y estrategias para lograr estabilidad y éxito económico.",
+          "link" : "/categories/finances"  
+        }
+    ]
+}
