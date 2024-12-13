@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { sequelize } from '../../../../lib/db.js'; 
-import User from '../../../../models/User.js'; 
+import User from '@/models/User.js'; 
+import bcrypt from 'bcryptjs'
 
 export async function POST(req) {
   const { name, lastName, dateOfBirth, email, password } = await req.json();
@@ -39,13 +40,16 @@ export async function POST(req) {
       return NextResponse.json({ message: 'El correo ya está registrado.' }, { status: 400 });
     }
 
+    // Hashear la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 es el número de salt rounds
+
     // Crear nuevo usuario
     const newUser = await User.create({
       nombre: name,
       apellidos: lastName,
       fecha_nacimiento: dateOfBirth,
       correo: email,
-      contraseña: password,
+      contraseña: hashedPassword,
       id_rol: 2, // Establece un rol por defecto
     });
 
