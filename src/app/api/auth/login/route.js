@@ -39,10 +39,10 @@ export async function POST(req) {
     const response = NextResponse.json({ message: 'Inicio de sesión exitoso.' });
     
     response.cookies.set('auth-token', token, {
-      secure: process.env.NODE_ENV === 'production',  // Solo usa `secure` en producción
+      secure: process.env.NODE_ENV === 'production', // Solo asegurado en producción
       sameSite: 'strict',
-      maxAge: 3600,
-      path: "/"
+      maxAge: 3600, // 1 hora
+      path: '/', // Disponible en toda la app
     });
 
     return response;

@@ -73,7 +73,6 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-        // Eliminamos credentials: 'include' porque ya no necesitamos manejar cookies HttpOnly.
       });
 
       if (!response.ok) {
@@ -102,11 +101,11 @@ export default function LoginPage() {
 
       if (response.ok) {
         // Guardar el token en la cookie usando js-cookie
-        Cookies.set('auth-token', data.token, {
-          expires: 1, // El token expira en 1 día
-          secure: process.env.NODE_ENV === 'production', // Solo seguro en producción
-          sameSite: 'Strict', // Previene ataques CSRF
-        });
+        // Cookies.set('auth-token', data.token, {
+        //   expires: 1, // El token expira en 1 día
+        //   secure: process.env.NODE_ENV === 'production', // Solo seguro en producción
+        //   sameSite: 'Strict', // Previene ataques CSRF
+        // });
 
         Swal.fire({
           icon: 'success',
