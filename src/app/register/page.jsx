@@ -52,7 +52,6 @@ export default function RegisterPage() {
   }, [formData.dateOfBirth]);  // Se ejecuta cuando cambia el valor de `date`
 
   const validateForm = () => {
-    const newErrors = {};
 
     // Expresiones regulares de validación
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/;
@@ -122,7 +121,7 @@ export default function RegisterPage() {
     if (!validateForm()) return; // Realizar las validaciones del formulario
 
     const { name, lastName, dateOfBirth, email, password, confirmPassword, value } = e.target;
-    setFormData((prevState) => ({
+    setFormData((prevState) => ({ // Establecer un valor definido en caso de que algún campo se vuelva undefined, para el correcto funcionamiento de flatpickr
       ...prevState,
       [name]: value || '', // Si el valor es `undefined`, usa una cadena vacía ↓
       [lastName]: value || '',

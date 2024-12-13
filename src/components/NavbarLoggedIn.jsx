@@ -3,15 +3,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from "next/image";
-import { usePathname } from 'next/navigation';
 
 export default function NavbarLoggedIn() {
-
-    // const pathname = usePathname(); // Obtener la ruta actual
-    // console.log('Current Path:', pathname); // Verificar la ruta 
-
-    // const isLoginOrRegisterPage = pathname === "/login" || pathname === "/register";  // Validar si se encuentra en /login o /register
-    // // isLoginOrRegisterPage ? "trueCondition" : "falseCondition" ---> Es el condicional de la validación de la ruta
 
   return (
     <header className="h-[148px]">
@@ -47,7 +40,7 @@ export default function NavbarLoggedIn() {
 
             <ul className='flex items-center mr-5'>
                 <li>
-                    <Link href={"/user/profile"}>
+                    <Link href={`/user/profile/`}>
                         <div className='flex items-center gap-2'>
                             <p className='text-xl'>Username</p>
                             <Image 

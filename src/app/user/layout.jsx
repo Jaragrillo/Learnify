@@ -1,4 +1,3 @@
-import NavbarLoggedIn from "@/components/NavbarLoggedIn";
 import { Newsreader } from "next/font/google";
 
 // Configurar Newsreader
@@ -12,7 +11,6 @@ export default function UserLayout({ children }) {
     return (
       <>
         <div className={newsreader.variable}>
-          <NavbarLoggedIn />
           <main>{children}</main>
         </div>
       </>
