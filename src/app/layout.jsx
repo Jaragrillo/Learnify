@@ -24,31 +24,34 @@ export default function RootLayout({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      // Verificar si el token está presente en las cookies
-      const token = jsCookie.get('auth-token'); // Usar js-cookie para leer la cookie
+    const checkAuth = () => {
+      const token = jsCookie.get('auth-token');
 
       if (!token) {
         setIsLoggedIn(false);
         setRole(null);
-        return; // Si no hay token, no hay sesión
+        return;
       }
 
-      // Aquí se puede verificar si el token es válido sin necesidad de un endpoint de validación
-      // Por ejemplo, podrías usar un JWT decodificado para validar el contenido del token.
-      // Para propósitos de este ejemplo, asumimos que si el token está presente, la sesión es válida.
-      // Si el token ha expirado o es inválido, simplemente lo eliminamos.
-
-      const decodedToken = decodeJwt(token);  // Implementa tu función de decodificación JWT (en caso de usar JWT)
+      const decodedToken = decodeJwt(token);
       console.log(decodedToken);
       
-      if (!decodedToken) {
-        jsCookie.remove('auth-token');  // Si el token es inválido, eliminamos la cookie
+
+      if (!decodedToken || decodedToken.exp * 1000 < Date.now()) {
+        // Token inválido o expirado
+        jsCookie.remove('auth-token');
         setIsLoggedIn(false);
         setRole(null);
+
+        Swal.fire({
+          icon: 'warning',
+          title: 'Sesión expirada',
+          text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+        });
       } else {
+        // Token válido
         setIsLoggedIn(true);
-        setRole(decodedToken.role);  // Establece el rol basado en el token
+        setRole(decodedToken.role);
       }
     };
 
