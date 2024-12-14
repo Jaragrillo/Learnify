@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
-import Cookies from 'js-cookie' // Importar js-cookie
 
 export default function LoginPage() {
 
@@ -100,13 +99,6 @@ export default function LoginPage() {
       console.log(data);
 
       if (response.ok) {
-        // Guardar el token en la cookie usando js-cookie
-        // Cookies.set('auth-token', data.token, {
-        //   expires: 1, // El token expira en 1 día
-        //   secure: process.env.NODE_ENV === 'production', // Solo seguro en producción
-        //   sameSite: 'Strict', // Previene ataques CSRF
-        // });
-
         Swal.fire({
           icon: 'success',
           title: '¡Bienvenido a Learnify!',
@@ -117,7 +109,7 @@ export default function LoginPage() {
           },
           buttonsStyling: false,
         }).then(() => {
-          router.push('/user/home');
+          router.push('/user/home'); // Redirección al home del usuario logeado
         });
       } else {
         Swal.fire({

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
+import jsCookie from 'js-cookie'; 
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
@@ -15,7 +16,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     // Verificar si el usuario está autenticado
-    const token = localStorage.getItem('auth-token');
+    const token = jsCookie.get('auth-token');
     
     if (!token) {
       // Si no hay token, redirigir al inicio de sesión
@@ -54,7 +55,7 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     // Elimina el token y redirige a la página de inicio
-    localStorage.removeItem('auth-token');
+    jsCookie.remove('auth-token');
     router.push('/');
   };
 
@@ -83,7 +84,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Si el usuario quiere cambiar su información */}
-          <button
+          <button   
             onClick={() => router.push('/user/edit')}
             className="text-blue-500 hover:underline"
           >

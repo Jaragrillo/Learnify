@@ -34,10 +34,9 @@ export async function POST(req) {
         SECRET_KEY,
         { expiresIn: '1h' }
     );
-
-    // Configurar la cookie sin HttpOnly
-    const response = NextResponse.json({ message: 'Inicio de sesión exitoso.' });
     
+    // Configurar la cookie 
+    const response = NextResponse.json({ message: 'Inicio de sesión exitoso.' });
     response.cookies.set('auth-token', token, {
       secure: process.env.NODE_ENV === 'production', // Solo asegurado en producción
       sameSite: 'strict',

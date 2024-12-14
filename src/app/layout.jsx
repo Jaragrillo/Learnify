@@ -7,10 +7,11 @@ import NavbarLoggedIn from "@/components/NavbarLoggedIn";
 import NavbarDashboard from "@/components/NavbarDashboard";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation'; // Importar useRouter
+import { useRouter } from 'next/navigation'; 
 import Swal from 'sweetalert2';
-import jsCookie from 'js-cookie';  // Importar js-cookie
+import jsCookie from 'js-cookie'; 
 
+// Configurar Poppins
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], // Pesos de la fuente
