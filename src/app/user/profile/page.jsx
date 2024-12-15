@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
-import jsCookie from 'js-cookie'; 
+import jsCookie from 'js-cookie';
+import Image from "next/image";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
@@ -17,7 +19,7 @@ export default function ProfilePage() {
   useEffect(() => {
     // Verificar si el usuario está autenticado
     const token = jsCookie.get('auth-token');
-    
+
     if (!token) {
       // Si no hay token, redirigir al inicio de sesión
       router.push('/login');
@@ -39,17 +41,17 @@ export default function ProfilePage() {
   // Función para obtener los datos del perfil desde el backend
   const fetchUserData = async (userId) => {
     try {
-        const response = await fetch(`/api/user/${userId}`); // Llamada al API usando el id
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos del usuario");
-        }
-        const data = await response.json(); // Procesa la respuesta
-        setUserData(data); // Guarda los datos del usuario
-        setIsLoading(false);
+      const response = await fetch(`/api/user/${userId}`); // Llamada al API usando el id
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos del usuario");
+      }
+      const data = await response.json(); // Procesa la respuesta
+      setUserData(data); // Guarda los datos del usuario
+      setIsLoading(false);
     } catch (error) {
-        console.error("Error al obtener datos del perfil:", error);
-        setError("No se pudo cargar el perfil.");
-        setIsLoading(false);
+      console.error("Error al obtener datos del perfil:", error);
+      setError("No se pudo cargar el perfil.");
+      setIsLoading(false);
     }
   };
 
@@ -68,38 +70,164 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-4">Mi Perfil</h1>
+    <>
+      <main>
+        <section className="container mx-auto">
+        <h2 className='text-4xl text-[#0D1D5F] m-10'>Bienvenid@, {userData.nombre} {userData.apellidos}</h2>
 
-      {userData && (
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <div className="mb-4">
-            <strong>Nombre:</strong> {userData.nombre}
-          </div>
-          <div className="mb-4">
-            <strong>Correo electrónico:</strong> {userData.correo}
-          </div>
-          <div className="mb-4">
-            <strong>Rol:</strong> {role === 1 ? "Administrador" : "Usuario"}
-          </div>
+          {userData && (
+            <div className="bg-gradient-to-bl from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-10">
+              <div className="mb-10 flex items-center gap-5">
+                <Image 
+                    src="/images/benefits/testimony1.png" 
+                    alt="testimony-1-image" 
+                    width={150} 
+                    height={150} 
+                    className=""
+                />
+                <div>
+                  <p className="text-3xl text-white">{userData.nombre} {userData.apellidos}</p>
+                  <p className="text-2xl text-white/60 font-light">{userData.correo}</p>
+                </div>
+              </div>
 
-          {/* Si el usuario quiere cambiar su información */}
-          <button   
-            onClick={() => router.push('/user/edit')}
-            className="text-blue-500 hover:underline"
-          >
-            Editar perfil
-          </button>
+              <form action="" className="flex flex-wrap gap-y-10 gap-x-32">
+                <div className="w-2/5">
+                  <label htmlFor="name" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/name.svg" 
+                        alt="name-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Nombre
+                    </div>
+                  </label>
+                  <input type="text" name="name" id="name" value={`${userData.nombre}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                </div>
+                <div className="w-2/5">
+                  <label htmlFor="lastName" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/name.svg" 
+                        alt="name-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Apellidos
+                    </div>
+                  </label>
+                  <input type="text" name="lastName" id="lastName" value={`${userData.apellidos}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                </div>
+                <div className="w-2/5">
+                  <label htmlFor="dateOfBirth" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/calendar.svg" 
+                        alt="calendar-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Fecha de nacimiento
+                    </div>
+                  </label>
+                  <input type="text" name="dateOfBirth" id="dateOfBirth" value={`${userData.fecha_nacimiento}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                </div>
+                <div className="w-2/5">
+                  <label htmlFor="email" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/emailWhite.svg" 
+                        alt="emailWhite-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Correo electrónico
+                    </div>
+                  </label>
+                  <input type="text" name="email" id="email" value={`${userData.correo}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                </div>
+                <div className="w-2/5">
+                  <label htmlFor="createdCourses" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/classWhite.svg" 
+                        alt="classWhite-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Cursos creados
+                    </div>
+                  </label>
+                  <input type="text" name="createdCourses" id="createdCourses" value={`${userData.nombre}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                  <Link href={'/user/myCourses'} className="text-white/60 hover:text-white/100 w-fit mt-1 block">Ver cursos creados →</Link>
+                </div>
+                <div className="w-2/5">
+                  <label htmlFor="purchasedCourses" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/moneyWhite.svg" 
+                        alt="moneyWhite-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Cursos comprados
+                    </div>
+                  </label>
+                  <input type="text" name="purchasedCourses" id="purchasedCourses" value={`${userData.nombre}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                  <Link href={'/user/purchasedCourses'} className="text-white/60 hover:text-white/100 w-fit mt-1 block">Ver cursos comprados →</Link>
+                </div>
+                {/* <div className="w-2/5">
+                  <label htmlFor="password" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/password.svg" 
+                        alt="password-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Contraseña
+                    </div>
+                  </label>
+                  <input type="text" name="password" id="password" value={`${userData.contraseña}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                </div> */}
+              </form>
 
-          {/* Botón para cerrar sesión */}
-          <button
-            onClick={handleLogout}
-            className="mt-4 bg-red-500 text-white p-2 rounded"
-          >
-            Cerrar sesión
-          </button>
-        </div>
-      )}
-    </div>
+              {/* Si el usuario quiere cambiar su información */}
+              <Link href={'/user/profile/edit'} className="flex items-center gap-2 text-white text-2xl font-light mt-10 w-fit">
+                <Image 
+                  src="/svg/edit.svg" 
+                  alt="edit-svg" 
+                  width={35} 
+                  height={35} 
+                  className=""
+                />
+                <p className="hover:underline">Editar perfil</p>
+              </Link>
+
+              {/* Botón para cerrar sesión */}
+              <button onClick={handleLogout} className="mt-4 text-2xl font-light text-white flex items-center gap-2">
+                <Image 
+                  src="/svg/exit.svg" 
+                  alt="exit-svg" 
+                  width={35} 
+                  height={35} 
+                  className=""
+                />
+                <p className="hover:underline">Cerrar sesión</p>
+              </button>
+            </div>
+          )}
+        </section>
+      </main>
+    </>
   );
 }
