@@ -30,32 +30,32 @@ export default function NavbarLoggedOut() {
 
             <ul className='flex items-center'>
                 <li className={`${isLoginOrRegisterPage ? "block p-5 text-lg" : "hidden"}`}>
-                    <Link href={"/"} className='px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500'>
+                    <Link href={"/"} className={`px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500`}>
                         Home
                     </Link>
                 </li>
                 <li className='p-5 text-lg'>
-                    <Link href={"/benefits"} className='px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500'>
+                    <Link href={"/benefits"} className={`px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500 ${pathname === '/benefits' ? 'bg-white/10' : ''}`}>
                         Beneficios
                     </Link>
                 </li>
                 <li className='p-5 text-lg'>
-                    <Link href={"/about"} className='px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500'>
+                    <Link href={"/about"} className={`px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500 ${pathname === '/about' ? 'bg-white/10' : ''}`}>
                         Sobre nosotros
                     </Link>
                 </li>
                 <li className='p-5 text-lg'>
-                    <Link href={"/contact"} className='px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500'>
+                    <Link href={"/contact"} className={`px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500 ${pathname === '/contact' ? 'bg-white/10' : ''}`}>
                         Contacto
                     </Link>
                 </li>
                 <li className='p-5 text-lg'>
-                    <Link href={"/register"} className='px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500'>
+                    <Link href={"/register"} className={`px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500 ${pathname === '/register' ? 'bg-white/10' : ''}`}>
                         Regístrarse
                     </Link>
                 </li>
                 <li className='p-5 text-lg'>
-                    <Link href={"/login"} className='px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500'>
+                    <Link href={"/login"} className={`px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500 ${pathname === '/login' ? 'bg-white/10' : ''}`}>
                         Iniciar sesión
                     </Link>
                 </li>

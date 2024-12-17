@@ -1,7 +1,7 @@
 import User from "@/models/User.js";
 
 export async function GET(request, { params }) {
-  const { id } = params; // Obtenemos el ID desde los parámetros de la URL
+  const { id } = await params; // Obtenemos el ID desde los parámetros de la URL
 
   if (!id) {
     return new Response(JSON.stringify({ message: "ID de usuario no proporcionado" }), { status: 400 });

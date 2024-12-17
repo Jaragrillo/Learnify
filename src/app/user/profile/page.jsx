@@ -2,18 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
+import { jwtDecode } from 'jwt-decode'; 
 import jsCookie from 'js-cookie';
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function ProfilePage() {
+  const { logout } = useAuth(); // Obtén logout y el estado del usuario desde el contexto
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState(null);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -58,6 +59,7 @@ export default function ProfilePage() {
   const handleLogout = () => {
     // Elimina el token y redirige a la página de inicio
     jsCookie.remove('auth-token');
+    logout();  // Llama al logout del contexto para actualizar el estado
     router.push('/');
   };
 
