@@ -7,6 +7,7 @@ import jsCookie from 'js-cookie';
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 
 export default function ProfilePage() {
   const { logout } = useAuth(); // Obtén logout y el estado del usuario desde el contexto
@@ -64,7 +65,7 @@ export default function ProfilePage() {
   };
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return <ProfileSkeleton />;
   }
 
   if (error) {
