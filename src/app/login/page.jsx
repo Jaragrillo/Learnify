@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function LoginPage() {
 
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false); // useState para mostrar el campo de la contraseña
   const router = useRouter();
+  const { login } = useAuth(); // Obtener la función de actualización del contexto
 
   const validateForm = () => {
 
@@ -99,6 +101,9 @@ export default function LoginPage() {
       console.log(data);
 
       if (response.ok) {
+        // Guardar los datos de autenticación en el contexto global
+        login(data);
+
         Swal.fire({
           icon: 'success',
           title: '¡Bienvenido a Learnify!',

@@ -1,10 +1,54 @@
-'use client' // Se requiere al usar ciertos hooks como el 'usePathname'
+'use client' 
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from "next/image";
+import jsCookie from 'js-cookie';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function NavbarLoggedIn() {
+
+    const [nickname, setNickname] = useState('');
+    const [error, setError] = useState(null);
+    const router = useRouter();
+    const pathname = usePathname();
+  
+    useEffect(() => {
+      const token = jsCookie.get('auth-token');
+  
+      if (!token) {
+        // Si no hay token, redirigir al login
+        router.push('/login');
+        return;
+      }
+  
+      const fetchUserData = async () => {
+        try {
+          const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del token
+          const userId = decodedToken.id;
+  
+          const response = await fetch(`/api/user/${userId}`);
+          if (!response.ok) {
+            throw new Error('Error al obtener los datos del usuario');
+          }
+  
+          const userData = await response.json();
+          const nombre = userData.nombre?.split(' ')[0] || ''; // Primera palabra del nombre
+          const apellido = userData.apellidos?.charAt(0) || ''; // Primera letra del apellido
+  
+          setNickname(`${nombre} ${apellido}.`); // Ejemplo: "Juan P."
+        } catch (error) {
+          console.error('Error al obtener los datos del usuario:', error);
+          setError('Error al cargar el nickname');
+        }
+      };
+  
+      fetchUserData();
+    }, [router]);
+  
+    if (error) {
+      return <p className="text-red-500">{error}</p>;
+    }
 
   return (
     <header className="h-[148px]">
@@ -42,7 +86,7 @@ export default function NavbarLoggedIn() {
                 <li>
                     <Link href={`/user/profile/`}>
                         <div className='flex items-center gap-2'>
-                            <p className='text-xl'>Username</p>
+                            <p className='text-xl'>{nickname || 'Cargando...'}</p>
                             <Image 
                                 src="/images/benefits/testimony1.png" 
                                 alt="testimony-1-image" 
@@ -58,37 +102,37 @@ export default function NavbarLoggedIn() {
         <nav className='bg-[#cee4f1] text-black/60 fixed w-full z-40 mt-[100px]'>
             <ul className='flex items-center'>
                 <li className='p-3'>
-                    <Link href={"/user/home"} className='hover:text-black/100'>Home</Link>
+                    <Link href={"/user/home"} className={`hover:text-black/100 ${pathname === '/user/home' ? 'text-black/100' : ''}`}>Home</Link>
                 </li>
                 <li>
                     <p>|</p>
                 </li>
                 <li className='p-3'>
-                    <Link href={"/user/courses"} className='hover:text-black/100'>Cursos</Link>
+                    <Link href={"/user/courses"} className={`hover:text-black/100 ${pathname === '/user/courses' ? 'text-black/100' : ''}`}>Cursos</Link>
                 </li>
                 <li>
                     <p>|</p>
                 </li>
                 <li className='p-3'>
-                    <Link href={"/user/categories"} className='hover:text-black/100'>Categorías</Link>
+                    <Link href={"/user/categories"} className={`hover:text-black/100 ${pathname === '/user/categories' ? 'text-black/100' : ''}`}>Categorías</Link>
                 </li>
                 <li>
                     <p>|</p>
                 </li>
                 <li className='p-3'>
-                    <Link href={"/user/purchasedCourses"} className='hover:text-black/100'>Cursos comprados</Link>
+                    <Link href={"/user/purchasedCourses"} className={`hover:text-black/100 ${pathname === '/user/purchasedCourses' ? 'text-black/100' : ''}`}>Cursos comprados</Link>
                 </li>
                 <li>
                     <p>|</p>
                 </li>
                 <li className='p-3'>
-                    <Link href={"/user/myCourses"} className='hover:text-black/100'>Cursos creados</Link>
+                    <Link href={"/user/myCourses"} className={`hover:text-black/100 ${pathname === '/user/myCourses' ? 'text-black/100' : ''}`}>Cursos creados</Link>
                 </li>
                 <li>
                     <p>|</p>
                 </li>
                 <li className='p-3'>
-                    <Link href={"/user/community"} className='hover:text-black/100'>Comunidad</Link>
+                    <Link href={"/user/community"} className={`hover:text-black/100 ${pathname === '/user/community' ? 'text-black/100' : ''}`}>Comunidad</Link>
                 </li>
             </ul>
         </nav>
