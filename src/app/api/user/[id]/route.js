@@ -20,6 +20,7 @@ export async function GET(request, { params }) {
         correo: user.correo,
         fecha_nacimiento: user.fecha_nacimiento,
         contraseña: user.contraseña,
+        foto_perfil: user.foto_perfil,
       }),
       { status: 200 }
     );
