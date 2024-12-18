@@ -37,6 +37,11 @@ const User = sequelize.define('User', {
       },
       defaultValue: 2, // Establece por defecto el rol de Usuario común
     },
+    foto_perfil: {
+      type: DataTypes.STRING, 
+      allowNull: true,        
+      defaultValue: null,    
+    },
   }, {
     tableName: 'usuarios',
     timestamps: false,

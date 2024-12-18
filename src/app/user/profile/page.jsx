@@ -82,8 +82,8 @@ export default function ProfilePage() {
             <div className="bg-gradient-to-bl from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-10">
               <div className="mb-10 flex items-center gap-5">
                 <Image 
-                    src="/images/benefits/testimony1.png" 
-                    alt="testimony-1-image" 
+                    src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
+                    alt={`${userData.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`}
                     width={150} 
                     height={150} 
                     className=""
@@ -200,7 +200,7 @@ export default function ProfilePage() {
                       Contraseña
                     </div>
                   </label>
-                  <input type="text" name="password" id="password" value={`${userData.contraseña}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                  <input type="text" name="password" id="password" value={${userData.contraseña}} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div> */}
               </form>
 

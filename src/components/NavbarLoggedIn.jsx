@@ -8,7 +8,9 @@ import { usePathname, useRouter } from 'next/navigation';
 
 export default function NavbarLoggedIn() {
 
-    const [nickname, setNickname] = useState('');
+    const [nickname, setNickname] = useState(''); // Estado para crear y manejar le nickname del usuario
+    const [userData, setUserData] = useState(null); // Estado para manejar la foto de perfil
+    const [isLoading, setIsLoading] = useState(true); // Estado para manejar el skeleton en el loading
     const [error, setError] = useState(null);
     const router = useRouter();
     const pathname = usePathname();
@@ -32,14 +34,18 @@ export default function NavbarLoggedIn() {
             throw new Error('Error al obtener los datos del usuario');
           }
   
-          const userData = await response.json();
-          const nombre = userData.nombre?.split(' ')[0] || ''; // Primera palabra del nombre
-          const apellido = userData.apellidos?.charAt(0) || ''; // Primera letra del apellido
+          const userDataResponse = await response.json();
+          setUserData(userDataResponse); // Guardar toda la información del usuario
+
+          const nombre = userDataResponse.nombre?.split(' ')[0] || ''; // Primera palabra del nombre
+          const apellido = userDataResponse.apellidos?.charAt(0) || ''; // Primera letra del apellido
   
           setNickname(`${nombre} ${apellido}.`); // Ejemplo: "Juan P."
         } catch (error) {
           console.error('Error al obtener los datos del usuario:', error);
           setError('Error al cargar el nickname');
+        } finally {
+            setIsLoading(false); // Dejar de mostrar el skeleton
         }
       };
   
@@ -51,7 +57,8 @@ export default function NavbarLoggedIn() {
     }
 
   return (
-    <header className="h-[148px]">
+    <>
+            <header className="h-[148px]">
         <nav className="text-white bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] flex items-center justify-between fixed w-full z-40">
             <div className="block">
                 <Link href={"/user/home"}>
@@ -86,14 +93,23 @@ export default function NavbarLoggedIn() {
                 <li>
                     <Link href={`/user/profile/`}>
                         <div className='flex items-center gap-2'>
-                            <p className='text-xl'>{nickname || 'Cargando...'}</p>
-                            <Image 
-                                src="/images/benefits/testimony1.png" 
-                                alt="testimony-1-image" 
-                                width={68} 
-                                height={68} 
-                                className="m-auto"
-                            />
+                            {isLoading ? (
+                                <div className="animate-pulse flex items-center space-x-2">
+                                    <div className="h-7 w-24 bg-gray-300 rounded"></div> {/* Skeleton para el nickname */}
+                                    <div className="h-[68px] w-[68px] bg-gray-300 rounded-full"></div> {/* Skeleton para la imagen */}
+                                </div>
+                            ) : (
+                                <>
+                                    <p className='text-xl'>{nickname}</p>
+                                    <Image 
+                                        src={userData?.foto_perfil ?? '/images/userDefaultImage.png'} 
+                                        alt={`${userData?.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`} 
+                                        width={68} 
+                                        height={68} 
+                                        className="m-auto"
+                                    />
+                                </>
+                            )}
                         </div>
                     </Link>
                 </li>
@@ -137,5 +153,6 @@ export default function NavbarLoggedIn() {
             </ul>
         </nav>
     </header>
+    </>
   )
 }
