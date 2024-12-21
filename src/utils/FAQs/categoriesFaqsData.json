@@ -1,0 +1,16 @@
+{
+    "categories": [
+        {
+            "question": "¿Cómo elijo la categoría adecuada para mí?",
+            "answer": "Considera tus intereses, objetivos profesionales y habilidades que deseas desarrollar. También puedes explorar cursos introductorios en diferentes categorías para descubrir qué te apasiona más."
+        },
+        {
+            "question": "¿Puedo estudiar cursos de diferentes categorías?",
+            "answer": "¡Absolutamente! Te animamos a explorar diversas áreas de conocimiento. Muchas habilidades son transferibles entre categorías y la diversidad en tu aprendizaje puede ser muy beneficiosa."
+        },
+        {
+            "question": "¿Con qué frecuencia se añaden nuevas categorías?",
+            "answer": "Estamos constantemente evaluando nuevas áreas de estudio para añadir a nuestra plataforma. Regularmente introducimos nuevas categorías basadas en las tendencias del mercado y las solicitudes de nuestros estudiantes y educadores."
+        }
+    ]
+}

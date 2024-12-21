@@ -1,0 +1,20 @@
+{
+    "creations": [
+        {
+            "question": "¿Quién puede convertirse en instructor en Learnify?",
+            "answer": "Cualquier persona con conocimientos en un área específica puede convertirse en instructor. Solo necesitas crear una cuenta y completar el proceso de verificación de instructor."
+        },
+        {
+            "question": "¿Cómo protegen los derechos de autor de los cursos que creo?",
+            "answer": "En Learnify tomamos muy en serio la protección de los derechos de autor. Todo el contenido cargado está protegido por nuestras políticas de uso y no puede ser distribuido sin tu autorización."
+        },
+        {
+            "question": "¿Puedo fijar el precio de mis cursos?",
+            "answer": "Sí, como instructor tienes la libertad de establecer el precio de tus cursos. También puedes elegir ofrecer descuentos o promociones."
+        },
+        {
+            "question": "¿Cómo recibo mis ingresos como instructor?",
+            "answer": "Tus ingresos se transfieren a tu cuenta bancaria o método de pago elegido una vez que alcanzas el mínimo requerido. Esto puede variar según tu región."
+        }
+    ]
+}

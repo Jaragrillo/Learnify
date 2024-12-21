@@ -1,0 +1,20 @@
+{
+    "community": [
+        {
+            "question": "¿Puedo interactuar con otros estudiantes en los cursos?",
+            "answer": "Sí, Learnify ofrece una sección de comunidad donde puedes discutir temas del curso, compartir ideas y aprender de otros estudiantes."
+        },
+        {
+            "question": "¿Hay alguna manera de hacer preguntas al instructor?",
+            "answer": "Sí, puedes hacer preguntas directamente al instructor desde la plataforma. El tiempo de respuesta puede variar según el instructor."
+        },
+        {
+            "question": "¿Cómo funcionan las valoraciones y comentarios de los cursos?",
+            "answer": "Al completar un curso, puedes dejar una valoración del 1 al 5 y agregar comentarios sobre tu experiencia. Estas valoraciones ayudan a otros usuarios a elegir cursos de calidad."
+        },
+        {
+            "question": "¿Qué debo hacer si veo contenido inapropiado o erróneo en un curso?",
+            "answer": "Puedes reportar contenido inapropiado o erróneo a través del botón de 'Reportar' en el curso. Nuestro equipo lo revisará y tomará las medidas necesarias."
+        }
+    ]
+}

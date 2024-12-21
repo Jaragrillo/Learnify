@@ -1,0 +1,20 @@
+{
+    "purchases": [
+        {
+            "question": "¿Cómo realizo el pago de un curso?",
+            "answer": "Puedes realizar el pago de un curso a través de los métodos disponibles, como tarjetas de crédito/débito, PSE u otros métodos compatibles con tu región."
+        },
+        {
+            "question": "¿Existen descuentos o promociones en los cursos?",
+            "answer": "Sí, Learnify ofrece descuentos y promociones frecuentes. Te recomendamos suscribirte a nuestro boletín y seguirnos en redes sociales para estar al tanto de las ofertas."
+        },
+        {
+            "question": "¿Puedo reembolsar un curso si no cumple con mis expectativas?",
+            "answer": "No, Learnify tiene no cuenta con una política de reembolsos. Te recomendamos que selecciones tu curso de manera selectiiva y detallada, considerando cada aspecto que pueda influir en tu desición."
+        },
+        {
+            "question": "¿Qué métodos de pago aceptan?",
+            "answer": "Aceptamos una amplia variedad de métodos de pago, incluidos tarjetas de crédito/débito, PSE y transferencias bancarias dependiendo de tu ubicación."
+        }
+    ]
+}

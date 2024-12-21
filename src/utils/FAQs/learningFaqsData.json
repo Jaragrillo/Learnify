@@ -1,0 +1,20 @@
+{
+    "learning": [
+        {
+            "question": "¿Los cursos tienen una duración definida o puedo completarlos a mi ritmo?",
+            "answer": "Todos los cursos en Learnify están diseñados para completarse a tu propio ritmo. Puedes estudiar cuando quieras, ya que tendrás acceso ilimitado al contenido una vez que lo hayas adquirido."
+        },
+        {
+            "question": "¿Puedo obtener un certificado al completar un curso?",
+            "answer": "Sí, muchos cursos ofrecen certificados al completarlos. Estos certificados pueden descargarse y compartirse como evidencia de tu aprendizaje. Sin embargo, esto depende del instructor del curso."
+        },
+        {
+            "question": "¿Qué sucede si no entiendo un tema del curso?",
+            "answer": "En caso de dudas, puedes interactuar con el instructor a través de la sección de preguntas y respuestas del curso. Además, también puedes buscar apoyo en la comunidad de estudiantes."
+        },
+        {
+            "question": "¿Puedo descargar los materiales de los cursos para estudiarlos sin conexión?",
+            "answer": "Algunos materiales pueden ser descargables, dependiendo del curso y del instructor. Sin embargo, los videos solo están disponibles para reproducir en línea para proteger los derechos de autor."
+        }
+    ]
+}
