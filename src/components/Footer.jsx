@@ -20,7 +20,7 @@ export default function Footer()  {
                     <ul>
                         <li className='mb-1'><Link href={"/contact"} className='hover:text-[#34ADDA]'>Centro de ayuda</Link></li>
                         <li className='mb-1'><Link href={"/benefits#testimonials"} className='hover:text-[#34ADDA]'>Testimonios</Link></li>
-                        <li className='mb-1'><Link href={"#"} className='hover:text-[#34ADDA]'>FAQs</Link></li>
+                        <li className='mb-1'><Link href={"/FAQs/learning"} className='hover:text-[#34ADDA]'>FAQs</Link></li>
                     </ul>
                 </div>
                 <div>

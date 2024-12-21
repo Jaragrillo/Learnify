@@ -1,0 +1,20 @@
+{
+    "settings": [
+        {
+            "question": "¿Puedo cambiar mi categoría de usuario entre aprendiz e instructor?",
+            "answer": "No es necesario, en Learnify constantemente tienes la opción de aprender y de crear contenido, por lo que no tendrás que preocuparte por cambiar de rol dentro del aplicativo web."
+        },
+        {
+            "question": "¿Cómo recupero mi cuenta si olvido mi contraseña?",
+            "answer": "Puedes usar la opción de '¿Olvidaste tu contraseña?' en la pantalla de inicio de sesión. Recibirás un correo electrónico con instrucciones para restablecer tu contraseña."
+        },
+        {
+            "question": "¿Qué tipo de información personal necesito proporcionar para registrarme?",
+            "answer": "Necesitarás proporcionar tu nombre completo, fecha de nacimiento, correo electrónico y una contraseña para crear una cuenta. Los instructores deberán completar información adicional para el proceso de verificación."
+        },
+        {
+            "question": "¿Puedo eliminar mi cuenta y qué sucede con mis cursos comprados si lo hago?",
+            "answer": "Sí, puedes eliminar tu cuenta en cualquier momento. Sin embargo, perderás acceso a todos los cursos comprados, y esta acción es irreversible."
+        }
+    ]
+}
