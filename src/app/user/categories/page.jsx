@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState } from 'react'
 import categoriesData from '@/utils/categoriesData.json'
 import categoriesFaqs from '@/utils/FAQs/categoriesFaqsData.json'
