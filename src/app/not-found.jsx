@@ -12,7 +12,7 @@ export default function NotFound() {
         ? "/"
         : role === 1
         ? "/manage/dashboard"
-        : "user/home"
+        : "/user/home"
     ;
     
     return (
