@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import data from '@/utils/motivationalData.json'
+import Link from 'next/link';
 
 export default function page() {
 
@@ -89,196 +90,212 @@ export default function page() {
                 <section className='px-10 py-24'>
                     <h2 className='text-4xl text-[#0D1D5F] text-center'>Categorías principales</h2>
                     <div className='flex flex-wrap justify-between'>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/design.svg"
-                                    alt="design-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div>
-                                    <div className='flex items-center mb-2 gap-2'>
-                                        <Image
-                                            src="/svg/design.svg"
-                                            alt="design-svg"
-                                            width={50}
-                                            height={50}
-                                        />
-                                        <h3 className='text-3xl hover:cursor-default'>Diseño</h3>
+                    <Link href={"/user/categories/programmation"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
+                                    <Image
+                                        src="/svg/programming.svg"
+                                        alt="programming-svg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                                    <div>
+                                        <div className='flex items-center mb-2 gap-2'>
+                                            <Image
+                                                src="/svg/programming.svg"
+                                                alt="programming-svg"
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <h3 className='text-3xl hover:cursor-default'>Programación</h3>
+                                        </div>
+                                        <p className='text-justify font-light hover:cursor-default'>Aprende programación, desarrollo web y móvil, y lenguajes como JavaScript y Python. Cursos virtuales de expertos para construir soluciones innovadoras.</p>
                                     </div>
-                                    <p className='text-justify font-light hover:cursor-default'>Cursos virtuales de diseño gráfico, interiores y UX/UI, impartidos por profesionales de la industria. Desarrolla tu creatividad y habilidades visuales.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/programming.svg"
-                                    alt="programming-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div>
-                                    <div className='flex items-center mb-2 gap-2'>
-                                        <Image
-                                            src="/svg/programming.svg"
-                                            alt="programming-svg"
-                                            width={50}
-                                            height={50}
-                                        />
-                                        <h3 className='text-3xl hover:cursor-default'>Programación</h3>
+                        </Link>
+                        <Link href={"/user/categories/design"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
+                                    <Image
+                                        src="/svg/design.svg"
+                                        alt="design-svg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                                    <div>
+                                        <div className='flex items-center mb-2 gap-2'>
+                                            <Image
+                                                src="/svg/design.svg"
+                                                alt="design-svg"
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <h3 className='text-3xl hover:cursor-default'>Diseño</h3>
+                                        </div>
+                                        <p className='text-justify font-light hover:cursor-default'>Cursos virtuales de diseño gráfico, interiores y UX/UI, impartidos por profesionales de la industria. Desarrolla tu creatividad y habilidades visuales.</p>
                                     </div>
-                                    <p className='text-justify font-light hover:cursor-default'>Aprende programación, desarrollo web y móvil, y lenguajes como JavaScript y Python. Cursos virtuales de expertos para construir soluciones innovadoras.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/marketing.svg"
-                                    alt="marketing-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div>
-                                    <div className='flex items-center mb-2 gap-2'>
-                                        <Image
-                                            src="/svg/marketing.svg"
-                                            alt="marketing-svg"
-                                            width={50}
-                                            height={50}
-                                        />
-                                        <h3 className='text-3xl hover:cursor-default'>Marketing</h3>
+                        </Link>
+                        <Link href={"/user/categories/marketing"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
+                                    <Image
+                                        src="/svg/marketing.svg"
+                                        alt="marketing-svg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                                    <div>
+                                        <div className='flex items-center mb-2 gap-2'>
+                                            <Image
+                                                src="/svg/marketing.svg"
+                                                alt="marketing-svg"
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <h3 className='text-3xl hover:cursor-default'>Marketing</h3>
+                                        </div>
+                                        <p className='text-justify font-light hover:cursor-default'>Domina estrategias efectivas de marketing digital, redes sociales, SEO y análisis de datos. Profesionales te enseñan a atraer y retener clientes.</p>
                                     </div>
-                                    <p className='text-justify font-light hover:cursor-default'>Domina estrategias efectivas de marketing digital, redes sociales, SEO y análisis de datos. Profesionales te enseñan a atraer y retener clientes.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/informatics.svg"
-                                    alt="informatics-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div>
-                                    <div className='flex items-center mb-2 gap-2'>
-                                        <Image
-                                            src="/svg/informatics.svg"
-                                            alt="informatics-svg"
-                                            width={50}
-                                            height={50}
-                                        />
-                                        <h3 className='text-3xl hover:cursor-default'>Informática</h3>
+                        </Link>
+                        <Link href={"/user/categories/informatic"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
+                                    <Image
+                                        src="/svg/informatics.svg"
+                                        alt="informatics-svg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                                    <div>
+                                        <div className='flex items-center mb-2 gap-2'>
+                                            <Image
+                                                src="/svg/informatics.svg"
+                                                alt="informatics-svg"
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <h3 className='text-3xl hover:cursor-default'>Informática</h3>
+                                        </div>
+                                        <p className='text-justify font-light hover:cursor-default'>Cursos virtuales sobre sistemas operativos, bases de datos y herramientas clave. Expertos te enseñan a utilizar tecnologías que optimizarán tu trabajo.</p>
                                     </div>
-                                    <p className='text-justify font-light hover:cursor-default'>Cursos virtuales sobre sistemas operativos, bases de datos y herramientas clave. Expertos te enseñan a utilizar tecnologías que optimizarán tu trabajo.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/personalDevelopment.svg"
-                                    alt="personalDevelopment-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div className='flex items-center mb-2 gap-2'>
+                        </Link>
+                        <Link href={"/user/categories/personalDevelopment"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
                                     <Image
                                         src="/svg/personalDevelopment.svg"
                                         alt="personalDevelopment-svg"
-                                        width={75}
-                                        height={75}
+                                        width={100}
+                                        height={100}
                                     />
-                                    <h3 className='text-3xl hover:cursor-default leading-6'>Desarrollo personal</h3>
                                 </div>
-                                <p className='text-justify font-light hover:cursor-default'>Mejora tus habilidades de comunicación, gestión del tiempo y liderazgo. Cursos virtuales para crecer profesional y personalmente.</p>
-                            </div>
-                        </div>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/business.svg"
-                                    alt="business-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
                                     <div className='flex items-center mb-2 gap-2'>
                                         <Image
-                                            src="/svg/business.svg"
-                                            alt="business-svg"
-                                            width={50}
-                                            height={50}
+                                            src="/svg/personalDevelopment.svg"
+                                            alt="personalDevelopment-svg"
+                                            width={75}
+                                            height={75}
                                         />
-                                        <h3 className='text-3xl hover:cursor-default'>Negocios</h3>
+                                        <h3 className='text-3xl hover:cursor-default leading-6'>Desarrollo personal</h3>
                                     </div>
-                                    <p className='text-justify font-light hover:cursor-default'>Aprende gestión empresarial y emprendimiento. Desarrolla estrategias efectivas y administra recursos con éxito. Profesionales te guían.</p>
+                                    <p className='text-justify font-light hover:cursor-default'>Mejora tus habilidades de comunicación, gestión del tiempo y liderazgo. Cursos virtuales para crecer profesional y personalmente.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/photography.svg"
-                                    alt="photography-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div>
-                                    <div className='flex items-center mb-2 gap-2'>
-                                        <Image
-                                            src="/svg/photography.svg"
-                                            alt="photography-svg"
-                                            width={50}
-                                            height={50}
-                                        />
-                                        <h3 className='text-3xl hover:cursor-default'>Fotografía</h3>
+                        </Link>
+                        <Link href={"/user/categories/business"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
+                                    <Image
+                                        src="/svg/business.svg"
+                                        alt="business-svg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                                    <div>
+                                        <div className='flex items-center mb-2 gap-2'>
+                                            <Image
+                                                src="/svg/business.svg"
+                                                alt="business-svg"
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <h3 className='text-3xl hover:cursor-default'>Negocios</h3>
+                                        </div>
+                                        <p className='text-justify font-light hover:cursor-default'>Aprende gestión empresarial y emprendimiento. Desarrolla estrategias efectivas y administra recursos con éxito. Profesionales te guían.</p>
                                     </div>
-                                    <p className='text-justify font-light hover:cursor-default'>Desde básicos hasta técnicas avanzadas. Fotógrafos profesionales te enseñan a capturar imágenes impresionantes y dominar cámaras y editores.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                            <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
-                                <Image
-                                    src="/svg/music.svg"
-                                    alt="music-svg"
-                                    width={100}
-                                    height={100}
-                                />
-                            </div>
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div>
-                                    <div className='flex items-center mb-2 gap-2'>
-                                        <Image
-                                            src="/svg/music.svg"
-                                            alt="music-svg"
-                                            width={50}
-                                            height={50}
-                                        />
-                                        <h3 className='text-3xl hover:cursor-default'>Música</h3>
+                        </Link>
+                        <Link href={"/user/categories/photography"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
+                                    <Image
+                                        src="/svg/photography.svg"
+                                        alt="photography-svg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                                    <div>
+                                        <div className='flex items-center mb-2 gap-2'>
+                                            <Image
+                                                src="/svg/photography.svg"
+                                                alt="photography-svg"
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <h3 className='text-3xl hover:cursor-default'>Fotografía</h3>
+                                        </div>
+                                        <p className='text-justify font-light hover:cursor-default'>Desde básicos hasta técnicas avanzadas. Fotógrafos profesionales te enseñan a capturar imágenes impresionantes y dominar cámaras y editores.</p>
                                     </div>
-                                    <p className='text-justify font-light hover:cursor-default'>Teoría musical y clases prácticas de instrumentos. Cursos virtuales para todos los niveles, impartidos por músicos experimentados. Desarrolla tus habilidades y creatividad.</p>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
+                        <Link href={"/user/categories/music"} className='hover:cursor-default'>
+                            <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+                                <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
+                                    <Image
+                                        src="/svg/music.svg"
+                                        alt="music-svg"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </div>
+                                <div className='absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#34ADDA] via-30% via-[#1E88C6] to-purple-500 text-white px-4 py-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                                    <div>
+                                        <div className='flex items-center mb-2 gap-2'>
+                                            <Image
+                                                src="/svg/music.svg"
+                                                alt="music-svg"
+                                                width={50}
+                                                height={50}
+                                            />
+                                            <h3 className='text-3xl hover:cursor-default'>Música</h3>
+                                        </div>
+                                        <p className='text-justify font-light hover:cursor-default'>Teoría musical y clases prácticas de instrumentos. Cursos virtuales para todos los niveles, impartidos por músicos experimentados. Desarrolla tus habilidades y creatividad.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
                     </div>
                 </section>
                 <div className='w-full bg-[#0B78B8] h-40 flex items-center justify-center p-2'>
