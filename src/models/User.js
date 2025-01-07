@@ -42,6 +42,11 @@ const User = sequelize.define('User', {
       allowNull: true,        
       defaultValue: null,    
     },
+    biografia: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: null,
+    },
   }, {
     tableName: 'usuarios',
     timestamps: false,

@@ -155,6 +155,21 @@ export default function ProfilePage() {
                   </label>
                   <input type="text" name="email" id="email" value={`${userData.correo}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div>
+                <div className="w-[89%]">
+                  <label htmlFor="biography" className="block text-2xl text-white">
+                    <div className="flex items-center gap-1">
+                      <Image 
+                        src="/svg/description.svg" 
+                        alt="description-svg" 
+                        width={35} 
+                        height={35} 
+                        className=""
+                      />
+                      Biografía
+                    </div>
+                  </label>
+                  <input type="text" name="biography" id="biography" value={userData.biografia ? userData.biografia : "Añade una biografía..."} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                </div>
                 <div className="w-2/5">
                   <label htmlFor="createdCourses" className="block text-2xl text-white">
                     <div className="flex items-center gap-1">
