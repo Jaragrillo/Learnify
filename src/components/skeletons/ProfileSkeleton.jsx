@@ -5,7 +5,7 @@ const ProfileSkeleton = (props) => (
     <ContentLoader
         speed={2}
         width="100%"
-        height={800}
+        height={1000}
         backgroundColor="#ededed"
         foregroundColor="#d6d6d6"
         {...props}
@@ -37,19 +37,23 @@ const ProfileSkeleton = (props) => (
         <rect x="740" y="450" rx="4" ry="4" width="320" height="20" />
         <rect x="740" y="480" rx="4" ry="4" width="575" height="48" />
 
+        {/* Descripcion */}
+        <rect x="40" y="560" rx="4" ry="4" width="320" height="20" />
+        <rect x="40" y="590" rx="4" ry="4" width="1280" height="48" />
+
         {/* Cursos creados */}
-        <rect x="40" y="550" rx="4" ry="4" width="320" height="20" />
-        <rect x="40" y="580" rx="4" ry="4" width="575" height="48" />
-        <rect x="40" y="640" rx="4" ry="4" width="200" height="20" />
+        <rect x="40" y="670" rx="4" ry="4" width="320" height="20" />
+        <rect x="40" y="700" rx="4" ry="4" width="575" height="48" />
+        <rect x="40" y="755" rx="4" ry="4" width="200" height="20" />
 
         {/* Cursos comprados */}
-        <rect x="740" y="550" rx="4" ry="4" width="320" height="20" />
-        <rect x="740" y="580" rx="4" ry="4" width="575" height="48" />
-        <rect x="740" y="640" rx="4" ry="4" width="200" height="20" />
+        <rect x="740" y="670" rx="4" ry="4" width="320" height="20" />
+        <rect x="740" y="700" rx="4" ry="4" width="575" height="48" />
+        <rect x="740" y="755" rx="4" ry="4" width="200" height="20" />
 
         {/* Botones Editar perfil y Cerrar sesión */}
-        <rect x="40" y="730" rx="4" ry="4" width="200" height="32" />
-        <rect x="40" y="690" rx="4" ry="4" width="200" height="32" />
+        <rect x="40" y="840" rx="4" ry="4" width="200" height="32" />
+        <rect x="40" y="900" rx="4" ry="4" width="200" height="32" />
     </ContentLoader>
 );
 

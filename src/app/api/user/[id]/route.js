@@ -21,6 +21,7 @@ export async function GET(request, { params }) {
         fecha_nacimiento: user.fecha_nacimiento,
         contraseña: user.contraseña,
         foto_perfil: user.foto_perfil,
+        biografia: user.biografia,
       }),
       { status: 200 }
     );
