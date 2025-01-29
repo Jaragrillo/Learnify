@@ -6,7 +6,7 @@
           "description" : "Domina los lenguajes y herramientas que están moldeando el futuro. Desde fundamentos en HTML, CSS y JavaScript hasta inteligencia artificial, desarrollo móvil y blockchain, aprende habilidades prácticas para construir soluciones digitales innovadoras.",
           "link" : "/user/categories/programmation",
           "importance" : "La programación es el motor de la transformación digital y la innovación. Es una herramienta que permite a las personas crear soluciones tecnológicas para problemas cotidianos y empresariales. Además, es una puerta de entrada a carreras de alta demanda en un mercado globalizado y cada vez más interconectado.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/programmationImage.jpg",
           "skills" : [
             {
               "skill" : "Resolución de problemas",
@@ -28,7 +28,7 @@
           "description" : "Libera tu creatividad aprendiendo desde diseño gráfico y UX/UI hasta ilustración digital y modelado 3D. Descubre cómo transmitir ideas visualmente y diseñar experiencias que marquen la diferencia.",
           "link" : "/user/categories/design",
           "importance" : "El diseño no solo es un aspecto estético, sino una herramienta poderosa para resolver problemas, mejorar la usabilidad y transmitir mensajes. Es esencial para crear productos y servicios que conecten emocionalmente con los usuarios y satisfagan sus necesidades.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/designImage.jpg",
           "skills" : [
             {
               "skill" : "Creatividad",
@@ -45,12 +45,100 @@
           ] 
         },
         {
+          "categorieSlug" : "marketing",
+          "categorie" : "Marketing",
+          "description" : "Desarrolla estrategias efectivas para conectar con audiencias, aumentar la visibilidad de marcas y crear campañas publicitarias que conviertan prospectos en clientes leales. ",
+          "link" : "/user/categories/marketing",
+          "importance" : "El marketing es esencial en el mundo actual, donde la competencia es feroz y las empresas luchan por diferenciarse. Con conocimientos de marketing, puedes impulsar tu negocio, entender mejor a los consumidores y aprovechar las plataformas digitales para llegar a mercados globales. Además, dominar esta área te permite adaptarte rápidamente a las tendencias y aprovechar nuevas oportunidades de crecimiento.",
+          "categoryImage" : "/images/categories/marketingImage.jpg",
+          "skills" : [
+            {
+              "skill" : "Gestión de campañas publicitarias",
+              "skillDescription" : "Aprende a planificar, ejecutar y medir campañas que alcancen a tu público objetivo de manera efectiva."
+            },
+            {
+              "skill" : "Analítica de datos",
+              "skillDescription" : "Descubre cómo interpretar métricas clave para optimizar estrategias y mejorar el rendimiento de tus esfuerzos de marketing."
+            },
+            {
+              "skill" : "Estrategias de contenido",
+              "skillDescription" : "Desarrolla contenido relevante que atraiga y fidelice a tu audiencia en diversos canales."
+            }
+          ] 
+        },
+        {
+          "categorieSlug" : "personalDevelopment",
+          "categorie" : "Desarrollo personal",
+          "description" : "Explorar esta categoría te permitirá aprender habilidades para establecer metas claras, superar obstáculos, y potenciar tu crecimiento personal y profesional. También incluye herramientas prácticas para manejar el estrés, mejorar tu autoestima y construir una mentalidad positiva.",
+          "link" : "/user/categories/personalDevelopment",
+          "importance" : "El desarrollo personal es una inversión en ti mismo. Te ayuda a ser más resiliente ante los desafíos, fomenta la autoexploración y te prepara para aprovechar oportunidades. En un entorno laboral, estas habilidades te convierten en un profesional más competente, mientras que en tu vida personal promueven bienestar y equilibrio emocional. Es un paso clave para quienes buscan un cambio transformador y sostenible en su calidad de vida.",
+          "categoryImage" : "/images/categories/personalDevelopmentImage.jpg",
+          "skills" : [
+            {
+              "skill" : "Gestión del tiempo",
+              "skillDescription" : "Aprende a priorizar y planificar para alcanzar metas de forma más eficiente."
+            },
+            {
+              "skill" : "Comunicación efectiva",
+              "skillDescription" : "Mejora tus interacciones interpersonales y profesionales para expresar tus ideas con claridad."
+            },
+            {
+              "skill" : "Inteligencia emocional",
+              "skillDescription" : "Desarrolla habilidades para reconocer y manejar emociones, mejorando tus relaciones y decisiones."
+            }
+          ] 
+        },
+        {
+          "categorieSlug" : "tradingAndInvestments",
+          "categorie" : "Trading e inversiones",
+          "description" : "Domina herramientas y técnicas para analizar mercados financieros, identificar oportunidades y construir estrategias de inversión adapatadas a tus objetivos económicos.",
+          "link" : "/user/categories/tradingAndInvestments",
+          "importance" : "En un mundo donde la independencia financiera es cada vez más valorada, el conocimiento en trading e inversiones es una herramienta poderosa. Esta categoría te ayuda a proteger tu capital, generar ingresos adicionales y construir un portafolio sólido para el futuro. Además, te permite entender cómo funcionan los mercados financieros y aprovechar su potencial, minimizando riesgos y maximizando beneficios.",
+          "categoryImage" : "/images/categories/tradingAndInvestmentsImage.jpg",
+          "skills" : [
+            {
+              "skill" : "Análisis técnico",
+              "skillDescription" : "Aprende a interpretar gráficos, tendencias y patrones en los mercados financieros."
+            },
+            {
+              "skill" : "Gestión del riesgo",
+              "skillDescription" : "Domina técnicas para equilibrar pérdidas y ganancias de forma estratégica."
+            },
+            {
+              "skill" : "Carteras de inversión",
+              "skillDescription" : "Aprende a diversificar activos y administrar tu portafolio para alcanzar metas financieras a largo plazo."
+            }
+          ] 
+        },
+        {
+          "categorieSlug" : "contentCreation",
+          "categorie" : "Creación de contenido",
+          "description" : "En esta categoría aprenderás a conceptualizar, producir y optimizar contenido digital que sea atractivo y relevante para diferentes audiencias. Esto incluye habilidades técnicas como edición de video, escritura creativa y manejo de plataformas sociales.",
+          "link" : "/user/categories/contentCreation",
+          "importance" : "La creación de contenido es fundamental en la era digital, donde las marcas y las personas compiten por captar la atención de las audiencias. Con estas habilidades, puedes construir una presencia en línea, impulsar proyectos personales o profesionales y abrirte camino en la economía creativa. Además, el contenido bien diseñado puede generar conexiones emocionales y fidelizar seguidores o clientes.",
+          "categoryImage" : "/images/categories/contentCreationImage.jpg",
+          "skills" : [
+            {
+              "skill" : "Edición de video",
+              "skillDescription" : "Domina herramientas para crear contenido audiovisual de alta calidad."
+            },
+            {
+              "skill" : "Estrategia en redes sociales",
+              "skillDescription" : "Aprende a optimizar publicaciones y generar interacción en plataformas como Instagram, YouTube y TikTok."
+            },
+            {
+              "skill" : "Narrativa digital",
+              "skillDescription" : "Perfecciona tu capacidad para contar historias que capturen y mantengan la atención de tus espectadores."
+            }
+          ] 
+        },
+        {
           "categorieSlug" : "mathematics",
           "categorie" : "Matemáticas",
           "description" : "Desentraña el lenguaje universal del universo. Desde álgebra y cálculo hasta estadística y matemáticas aplicadas, adquiere el conocimiento que impulsa las ciencias, la tecnología y la economía.",
           "link" : "/user/categories/mathematics",
           "importance" : "Las matemáticas son la base del progreso científico y tecnológico. Proporcionan herramientas fundamentales para analizar, comprender y predecir fenómenos en el mundo físico y social, permitiendo el avance de disciplinas como la ingeniería, la economía y la informática.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/mathematicsImage.jpg",
           "skills" : [
             {
               "skill" : "Pensamiento crítico",
@@ -72,7 +160,7 @@
           "description" : "Conecta con el mundo aprendiendo nuevos idiomas. Mejora tus habilidades de comunicación en inglés, español, francés, alemán y más, con cursos que se adaptan a todos los niveles.",
           "link" : "/user/categories/languages",
           "importance" : "Los idiomas son un puente hacia otras culturas y mercados. Hablar varios idiomas amplía las posibilidades laborales, fomenta la empatía y mejora las relaciones personales y profesionales en un mundo globalizado.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/languagesImage.jpg",
           "skills" : [
             {
               "skill" : "Comunicación efectiva",
@@ -94,7 +182,7 @@
           "description" : "Explora el arte de los sonidos y las melodías. Aprende a tocar instrumentos, teoría musical, producción y composición, o mejora tu técnica vocal con cursos diseñados para todos los niveles.",
           "link" : "/user/categories/music",
           "importance" : "La música fomenta la autoexpresión, mejora el bienestar emocional y estimula habilidades cognitivas. Además, es un medio universal de comunicación que conecta a las personas a nivel global.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/musicImage.jpg",
           "skills" : [
             {
               "skill" : "Interpretación instrumental",
@@ -116,7 +204,7 @@
           "description" : "Ponte en forma y cuida de tu salud física. Desde rutinas de ejercicio en casa hasta yoga, entrenamiento funcional y nutrición, accede a conocimientos que te ayudarán a mantener un estilo de vida saludable.",
           "link" : "/user/categories/fitness",
           "importance" : "El fitness no solo mejora la salud física, sino que también fortalece la salud mental, reduce el estrés y aumenta la longevidad. Promueve un estilo de vida equilibrado que es esencial para el bienestar integral.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/fitnessImage.jpg",
           "skills" : [
             {
               "skill" : "Nutrición",
@@ -138,7 +226,7 @@
           "description" : "Explora el funcionamiento del universo con cursos de biología, química, física, y ciencias ambientales. Aprende con contenido actualizado que explica desde principios básicos hasta los últimos avances científicos.",
           "link" : "/user/categories/sciences",
           "importance" : "Las ciencias son fundamentales para entender el mundo que nos rodea y para innovar en áreas como la salud, la tecnología y el medio ambiente. Fomentan una mentalidad de curiosidad y resolución de problemas esenciales para enfrentar los desafíos globales.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/sciencesImage.jpg",
           "skills" : [
             {
               "skill" : "Método científico",
@@ -160,7 +248,7 @@
           "description" : "Sumérgete en el mundo de las palabras. Mejora tu escritura creativa, analiza obras literarias clásicas y contemporáneas, o aprende a contar historias con impacto.",
           "link" : "/user/categories/literature",
           "importance" : "La literatura nos conecta con la historia, la cultura y las emociones humanas. Amplía la perspectiva del lector y fomenta la empatía al explorar diferentes experiencias y puntos de vista.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/literatureImage.jpg",
           "skills" : [
             {
               "skill" : "Análisis crítico",
@@ -182,7 +270,7 @@
           "description" : "Captura momentos inolvidables aprendiendo técnicas de fotografía, edición, iluminación y composición. Desde fotografía básica hasta retratos, paisajes y fotografía profesional.",
           "link" : "/user/categories/photography",
           "importance" : "La fotografía es una forma de arte que permite preservar recuerdos, contar historias y expresar creatividad. Además, es una herramienta poderosa en medios digitales y publicidad.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/photographyImage.jpg",
           "skills" : [
             {
               "skill" : "Composición visual",
@@ -204,7 +292,7 @@
           "description" : "Impulsa tus habilidades empresariales. Aprende sobre emprendimiento, liderazgo, marketing digital, gestión de proyectos y estrategias para crecer en el mundo de los negocios.",
           "link" : "/user/categories/business",
           "importance" : "Los negocios son el motor de la economía global, y aprender sobre ellos es clave para emprender, generar empleo y crear soluciones innovadoras.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/businessImage.jpg",
           "skills" : [
             {
               "skill" : "Gestión financiera",
@@ -226,7 +314,7 @@
           "description" : "Conviértete en un chef desde la comodidad de tu hogar. Aprende técnicas culinarias, cocina internacional, pastelería, y tips para preparar platos deliciosos y saludables.",
           "link" : "/user/categories/gastronomy",
           "importance" : "La gastronomía es una forma de arte que conecta a las personas a través de los sentidos. Además, promueve el bienestar al educar sobre alimentación saludable y sostenible.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/gastronomyImage.jpg",
           "skills" : [
             {
               "skill" : "Técnicas culinarias",
@@ -248,7 +336,7 @@
           "description" : "Descubre cómo viajar mejor y disfrutar al máximo cada destino. Aprende sobre planificación de itinerarios, fotografía de viajes, consejos de seguridad y culturas del mundo.",
           "link" : "/user/categories/travels",
           "importance" : "Viajar abre la mente, fomenta la tolerancia y enriquece la vida al descubrir nuevas culturas, paisajes y formas de pensar.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/travelsImage.jpg",
           "skills" : [
             {
               "skill" : "Planificación logística",
@@ -270,7 +358,7 @@
           "description" : "Invierte en tu bienestar con cursos de nutrición, meditación, cuidado emocional y hábitos saludables. Todo lo que necesitas para alcanzar el equilibrio entre mente y cuerpo.",
           "link" : "/user/categories/health",
           "importance" : "La salud es el pilar de una vida plena. Aprender sobre ella ayuda a prevenir enfermedades, aumentar la longevidad y mantener un equilibrio mental y emocional.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/healthImage.jpg",
           "skills" : [
             {
               "skill" : "Educación sanitaria",
@@ -292,7 +380,7 @@
           "description" : "Explora el arte de contar historias a través del cine. Aprende guionismo, dirección, producción, edición y análisis cinematográfico para crear tus propias obras maestras.",
           "link" : "/user/categories/cinema",
           "importance" : "El cine es una forma poderosa de arte y comunicación que impacta a nivel cultural, emocional y educativo. Es una industria en constante evolución con infinitas posibilidades creativas.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/cinemaImage.jpg",
           "skills" : [
             {
               "skill" : "Narrativa visual",
@@ -314,7 +402,7 @@
           "description" : "Descubre el placer de cultivar. Aprende a cuidar plantas, diseñar jardines, manejar cultivos sostenibles y mantener espacios verdes en cualquier entorno.",
           "link" : "/user/categories/gardening",
           "importance" : "La jardinería no solo embellece espacios, sino que también reduce el estrés, mejora la calidad del aire y fomenta la conexión con la naturaleza.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/gardeningImage.jpg",
           "skills" : [
             {
               "skill" : "Diseño de jardines",
@@ -336,7 +424,7 @@
           "description" : "Mejora tu relación con el dinero. Aprende a gestionar tus finanzas personales, inversiones, ahorros y estrategias para lograr estabilidad y éxito económico.",
           "link" : "/user/categories/finances",
           "importance" : "Las finanzas personales y profesionales son esenciales para el éxito y la seguridad. Entenderlas permite tomar decisiones informadas y aprovechar oportunidades de crecimiento económico.",
-          "categoryImage" : "",
+          "categoryImage" : "/images/categories/financesImage.jpg",
           "skills" : [
             {
               "skill" : "Gestión del dinero",

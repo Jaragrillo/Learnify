@@ -11,6 +11,8 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function EditProfilePage() {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showCurrentlyPassword, setShowCurrentlyPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const router = useRouter();
 
@@ -149,7 +151,7 @@ export default function EditProfilePage() {
                 type="text" 
                 value={userData.nombre} 
                 onChange={(e) => setUserData({ ...userData, nombre: e.target.value })} 
-                className="w-full px-2 py-3"
+                className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
               />
             </div>
             {/* Apellidos */}
@@ -170,11 +172,11 @@ export default function EditProfilePage() {
                 type="text" 
                 value={userData.apellidos} 
                 onChange={(e) => setUserData({ ...userData, apellidos: e.target.value })} 
-                className="w-full px-2 py-3"
+                className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
               />
             </div>
             
-            {/* Correo */}
+            {/* Fecha de nacimiento */}
             <div className="w-2/5">
               <label htmlFor="dateOfBirth" className="block text-2xl text-white">
                 <div className="flex items-center gap-1">
@@ -192,11 +194,11 @@ export default function EditProfilePage() {
                 type="date" 
                 value={userData.fecha_nacimiento} 
                 onChange={(e) => setUserData({ ...userData, fecha_nacimiento: e.target.value })} 
-                className="w-full px-2 py-3"
+                className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
               />
             </div>
 
-            {/* Fecha de Nacimiento */}
+            {/* Correo */}
             <div className="w-2/5">
               <label htmlFor="email" className="block text-2xl text-white">
                 <div className="flex items-center gap-1">
@@ -214,9 +216,10 @@ export default function EditProfilePage() {
                 type="email" 
                 value={userData.correo} 
                 onChange={(e) => setUserData({ ...userData, correo: e.target.value })} 
-                className="w-full px-2 py-3"
+                className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
                />
             </div>
+
             {/* Biografía */}
             <div className="w-full">
               <label htmlFor="description" className="block text-2xl text-white">
@@ -235,13 +238,104 @@ export default function EditProfilePage() {
                 value={userData.bio} 
                 placeholder="Añade una biografía..."
                 onChange={(e) => setUserData({ ...userData, bio: e.target.value })} 
-                className="w-full px-2 py-3 h-32"
+                className="w-[89%] resize-none min-h-24 max-h-24 px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300 h-32"
               />
+            </div>
+
+            {/* Contraseña actual */}
+            <div className="w-2/5">
+              <label htmlFor="currentlyPassword" className="block text-2xl text-white">
+                <div className="flex items-center gap-1">
+                  <Image 
+                    src="/svg/password.svg" 
+                    alt="password-svg" 
+                    width={35} 
+                    height={35} 
+                    className=""
+                  />
+                  Contraseña actual
+                </div>
+              </label>
+              <div className="relative">
+                <input 
+                  type={showCurrentlyPassword ? "text" : "password"}
+                  placeholder="Ingresa tu contraseña actual..." 
+                  // onChange={(e) => setUserData({ ...userData, correo: e.target.value })} 
+                  className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowCurrentlyPassword(!showCurrentlyPassword)}
+                >
+                  <Image
+                    src={showCurrentlyPassword ? "/svg/passwordEyeOn.svg" : "/svg/passwordEyeOff.svg"}
+                    alt="password-Eye-svg"
+                    width={24}
+                    height={24}
+                    className="absolute top-0 bottom-0 right-3 m-auto"
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* Nueva contraseña */}
+            <div className="w-2/5">
+              <label htmlFor="email" className="block text-2xl text-white">
+                <div className="flex items-center gap-1">
+                  <Image 
+                    src="/svg/password.svg" 
+                    alt="password-svg" 
+                    width={35} 
+                    height={35} 
+                    className=""
+                  />
+                  Nueva contraseña
+                </div>
+              </label>
+              <div className="relative">
+                <input 
+                  type={showNewPassword ? "text" : "password"}
+                  placeholder="Ingresa tu nueva contraseña..."
+                  // onChange={(e) => setUserData({ ...userData, correo: e.target.value })} 
+                  className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                >
+                  <Image
+                    src={showNewPassword ? "/svg/passwordEyeOn.svg" : "/svg/passwordEyeOff.svg"}
+                    alt="password-Eye-svg"
+                    width={24}
+                    height={24}
+                    className="absolute top-0 bottom-0 right-3 m-auto"
+                  />
+                </button>
+              </div>
             </div>
           </form>
 
-          <button onClick={handleSaveChanges} className="btn-primary mt-10">Guardar cambios</button>
-          <button onClick={() => router.push("/user/profile")} className="btn-secondary mt-4">Volver</button>
+          <button onClick={handleSaveChanges} className="flex items-center gap-2 text-white text-2xl font-light mt-10 w-fit">
+            <Image 
+              src="/svg/edit.svg" 
+              alt="edit-svg" 
+              width={35} 
+              height={35} 
+              className=""
+            />
+            <p className="hover:underline">Guardar cambios</p>
+          </button>
+
+          <button onClick={() => router.push("/user/profile")} className="mt-4 text-2xl font-light text-white flex items-center gap-2">
+            <Image 
+              src="/svg/exit.svg" 
+              alt="exit-svg" 
+              width={35} 
+              height={35} 
+              className=""
+            />
+            <p className="hover:underline">Volver</p>
+          </button>
         </div>
       </section>
     </main>
