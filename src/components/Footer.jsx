@@ -42,7 +42,7 @@ export default function Footer()  {
                 </div>
             </div>
             <div className='border-t border-white/30'>
-                <p className='text-center text-xl mt-10'>@2024 Learnify | Todos los derechos reservados.</p>
+                <p className='text-center text-xl mt-10'>@2025 Learnify | Todos los derechos reservados.</p>
             </div>
         </footer> 
     </>

@@ -168,12 +168,12 @@ export default function page() {
                                 </div>
                             </div>
                         </Link>
-                        <Link href={"/user/categories/informatic"} className='hover:cursor-default'>
+                        <Link href={"/user/categories/personalDevelopment"} className='hover:cursor-default'>
                             <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
                                 <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
                                     <Image
-                                        src="/svg/informatics.svg"
-                                        alt="informatics-svg"
+                                        src="/svg/clapperboard.svg"
+                                        alt="clapperboard-svg"
                                         width={100}
                                         height={100}
                                     />
@@ -182,14 +182,14 @@ export default function page() {
                                     <div>
                                         <div className='flex items-center mb-2 gap-2'>
                                             <Image
-                                                src="/svg/informatics.svg"
-                                                alt="informatics-svg"
-                                                width={50}
-                                                height={50}
+                                                src="/svg/clapperboard.svg"
+                                                alt="clapperboard-svg"
+                                                width={75}
+                                                height={75}
                                             />
-                                            <h3 className='text-3xl hover:cursor-default'>Informática</h3>
+                                            <h3 className='text-3xl hover:cursor-default'>Creación de contenido</h3>
                                         </div>
-                                        <p className='text-justify font-light hover:cursor-default'>Cursos virtuales sobre sistemas operativos, bases de datos y herramientas clave. Expertos te enseñan a utilizar tecnologías que optimizarán tu trabajo.</p>
+                                        <p className='text-justify font-light hover:cursor-default'>Cursos virtuales sobre creación de contenido, edición y filmación. Creadores de contenido expertos te enseñan las claves para crecer en las redes sociales.</p>
                                     </div>
                                 </div>
                             </div>
@@ -301,7 +301,10 @@ export default function page() {
                 <div className='w-full bg-[#0B78B8] h-40 flex items-center justify-center p-2'>
                     <div className='text-center'>
                         {motivationalContent && motivationalContent.type === 'tip' && ( // Contenido para un Tip
-                            <p className='text-xl italic text-white'>{motivationalContent.tipContent}</p>
+                            <div>
+                                <p className='text-xl italic text-white'>{motivationalContent.tipContent}</p>
+                                <p className='text-lg italic text-white/80 text-right'>- Tip de estudio</p>
+                            </div>
                         )}
                         {motivationalContent && motivationalContent.type === 'phrase' && ( // Contenido para una Frase Motivacional
                             <div>

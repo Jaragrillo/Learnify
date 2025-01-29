@@ -40,19 +40,19 @@ export default async function CategoryPage({ params }) {
           </div>
         </section>
 
-        <section className='px-10 py-20 flex items-center bg-[#cee4f1]'>
+        <section className='px-10 py-20 flex items-center justify-between bg-[#cee4f1]'>
           <div>
             <h2 className='text-4xl text-[#0D1D5F] mb-3'>¿Por qué aprender sobre {categoryInfo.categorie}?</h2>
             <p className='text-xl font-light text-[#0D1D5F] text-justify max-w-[750px]'>{categoryInfo.importance}</p>
           </div>
           {categoryInfo.categoryImage && (
-            <div>
+            <div className='h-[380px] w-[434px]'>
               <Image
                 src={categoryInfo.categoryImage}
                 alt={`${categoryInfo.categorie}-image`}
                 width={434}
                 height={380}
-                className=""
+                className="w-full h-full shadow-lg shadow-black/60"
               />
             </div>
           )}
