@@ -1,11 +1,14 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from 'jwt-decode'; 
 import jsCookie from 'js-cookie';
 import Image from "next/image";
 import Swal from 'sweetalert2';
+import flatpickr from 'flatpickr'
+import 'flatpickr/dist/flatpickr.min.css'
+import { Spanish } from 'flatpickr/dist/l10n/es' // Importamos el idioma español
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function EditProfilePage() {
@@ -14,6 +17,8 @@ export default function EditProfilePage() {
   const [showCurrentlyPassword, setShowCurrentlyPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const datePickerRef = useRef(null);
+  const flatpickrInstance = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,6 +39,32 @@ export default function EditProfilePage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (datePickerRef.current && !flatpickrInstance.current && userData) {
+      flatpickrInstance.current = flatpickr(datePickerRef.current, {
+        defaultDate: userData.fecha_nacimiento, 
+        onChange: (selectedDates) => {
+          setUserData((prevState) => ({
+            ...prevState,
+            fecha_nacimiento: selectedDates[0] || '',
+          }));
+        },
+        maxDate: "2009-12-12",
+        altInputPlaceholder: 'Fecha de Nacimiento',
+        altFormat: 'F j, Y',
+        dateFormat: 'Y-m-d',
+        locale: Spanish,
+      });
+    }
+
+    return () => {
+      if (flatpickrInstance.current) {
+        flatpickrInstance.current.destroy();
+        flatpickrInstance.current = null;
+      }
+    };
+  }, [userData]);
+
   const fetchUserData = async (userId) => {
     try {
       const response = await fetch(`/api/user/${userId}`);
@@ -53,7 +84,7 @@ export default function EditProfilePage() {
     setSelectedFile(e.target.files[0]);
   };
 
-  const uploadImage = async () => {
+  const uploadImage = async () => { 
     if (!selectedFile) return userData.foto_perfil;
 
     const formData = new FormData();
@@ -81,8 +112,13 @@ export default function EditProfilePage() {
       return;
     }
 
+    console.log("Datos enviados al backend:", {
+      ...userData,
+      foto_perfil: imageUrl,
+    });
+
     try {
-      const response = await fetch(`/api/user/${userData.id_usuario}`, {
+      const response = await fetch(`/api/user/${userData.id_usuario}/updateProfile`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...userData, foto_perfil: imageUrl }),
@@ -191,10 +227,13 @@ export default function EditProfilePage() {
                 </div>
               </label>
               <input 
-                type="date" 
+                ref={datePickerRef}
+                type="text"
                 value={userData.fecha_nacimiento} 
                 onChange={(e) => setUserData({ ...userData, fecha_nacimiento: e.target.value })} 
+                placeholder='Fecha de Nacimiento'
                 className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
+                readOnly
               />
             </div>
 
@@ -235,9 +274,9 @@ export default function EditProfilePage() {
                 </div>
               </label>
               <textarea 
-                value={userData.bio} 
+                value={userData.biografia} 
                 placeholder="Añade una biografía..."
-                onChange={(e) => setUserData({ ...userData, bio: e.target.value })} 
+                onChange={(e) => setUserData({ ...userData, biografia: e.target.value })} 
                 className="w-[89%] resize-none min-h-24 max-h-24 px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300 h-32"
               />
             </div>
@@ -265,7 +304,7 @@ export default function EditProfilePage() {
                 />
                 <button
                   type='button'
-                  onClick={() => setShowCurrentlyPassword(!showCurrentlyPassword)}
+                  onClick={(e) => {e.preventDefault(); setShowCurrentlyPassword(!showCurrentlyPassword)}}
                 >
                   <Image
                     src={showCurrentlyPassword ? "/svg/passwordEyeOn.svg" : "/svg/passwordEyeOff.svg"}
@@ -301,7 +340,7 @@ export default function EditProfilePage() {
                 />
                 <button
                   type='button'
-                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  onClick={(e) => {e.preventDefault(); setShowNewPassword(!showNewPassword)}}
                 >
                   <Image
                     src={showNewPassword ? "/svg/passwordEyeOn.svg" : "/svg/passwordEyeOff.svg"}

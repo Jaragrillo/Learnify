@@ -15,6 +15,7 @@ export async function GET(request, { params }) {
     
     return new Response(
       JSON.stringify({
+        id_usuario: user.id_usuario,
         nombre: user.nombre,
         apellidos: user.apellidos,
         correo: user.correo,
