@@ -9,9 +9,10 @@ import Swal from 'sweetalert2';
 import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
 import { Spanish } from 'flatpickr/dist/l10n/es' // Importamos el idioma español
-import { useAuth } from "@/contexts/AuthContext";
+import EditProfileSkeleton from "@/components/skeletons/EditProfileSkeleton";
 
 export default function EditProfilePage() {
+  const [originalData, setOriginalData] = useState(null); // Guardamos los datos originales
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCurrentlyPassword, setShowCurrentlyPassword] = useState(false);
@@ -72,6 +73,7 @@ export default function EditProfilePage() {
         throw new Error("Error al obtener los datos del usuario");
       }
       const data = await response.json();
+      setOriginalData(data);
       setUserData(data);
       setIsLoading(false);
     } catch (error) {
@@ -105,38 +107,147 @@ export default function EditProfilePage() {
   };
 
   const handleSaveChanges = async () => {
-    const imageUrl = await uploadImage();
+    // Diccionario para mostrar nombres más amigables en la alerta
+    const fieldNames = {
+      nombre: "Nombre",
+      apellidos: "Apellidos",
+      correo: "Correo",
+      biografia: "Biografía",
+      fecha_nacimiento: "Fecha de nacimiento"
+    };
 
-    if (!userData.nombre || !userData.apellidos || !userData.correo || !userData.fecha_nacimiento) {
-      Swal.fire("Error", "Por favor, completa todos los campos obligatorios.", "error");
+    // Crear una copia limpia del userData sin las contraseñas para comparar cambios reales
+    const { currentlyPassword, newPassword, ...cleanUserData } = userData;
+    const { currentlyPassword: oldCurrentlyPassword, newPassword: oldNewPassword, ...cleanOriginalData } = originalData;
+
+    // Verificar si hay cambios en los demás campos (sin contar contraseñas)
+    const fieldsChanged = Object.keys(cleanUserData).filter(
+      (key) => cleanUserData[key] !== cleanOriginalData[key]
+    );
+
+    // Verificar cambios en la nueva contraseña
+    const newPasswordChanged = newPassword && newPassword !== oldNewPassword;
+
+    if (fieldsChanged.length === 0 && !newPasswordChanged) {
+      Swal.fire("Sin cambios", "Debes realizar algún cambio antes de guardar.", "info");
       return;
     }
 
-    console.log("Datos enviados al backend:", {
-      ...userData,
-      foto_perfil: imageUrl,
-    });
+    // Mapear los cambios usando el diccionario de nombres
+    const changesMessage = [
+      ...fieldsChanged.map((field) => `• ${fieldNames[field] || field}`), // Usar el diccionario o el nombre original
+      newPasswordChanged ? "• Nueva Contraseña" : "",
+    ]
+    .filter(Boolean) // Filtrar valores vacíos
+    .join("\n"); 
 
-    try {
-      const response = await fetch(`/api/user/${userData.id_usuario}/updateProfile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...userData, foto_perfil: imageUrl }),
-      });
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: `Estás realizando cambios en los siguientes campos: \n${changesMessage}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Guardar cambios",
+      cancelButtonText: "Cancelar",
+      cancelButtonColor: "red",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const imageUrl = await uploadImage();
 
-      if (response.ok) {
-        Swal.fire("Éxito", "Perfil actualizado correctamente.", "success");
-        router.push("/user/profile");
-      } else {
-        throw new Error("Error al guardar los cambios");
+        if (!userData.nombre || !userData.apellidos || !userData.correo || !userData.fecha_nacimiento) {
+          Swal.fire("Error", "Los campos Nombre, Apellidos, Correo y Fecha de Nacimiento son obligatorios.", "error");
+          return;
+        }
+
+        try {
+          // Mostrar el loader mientras se procesa la solicitud en el servidor
+          Swal.fire({
+            title: 'Procesando...',
+            text: 'Guardando los cambios realizados.',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(), // Activa el loader
+          });
+
+          const response = await fetch(`/api/user/${userData.id_usuario}/updateProfile`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...userData, foto_perfil: imageUrl }),
+          });
+    
+          if (response.ok) {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Éxito!',
+              text: 'Perfil actualizado correctamente.',
+              confirmButtonText: 'Aceptar',
+              customClass: {
+                confirmButton: 'bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded',
+              },
+              buttonsStyling: false,
+            }).then(() => {
+              router.push('/user/profile'); // Redirigir después de confirmar
+            });
+          } else {
+            // Parsear el mensaje de error desde el servidor si es posible
+            const errorData = await response.json().catch(() => ({
+              message: 'Error desconocido al guardar los cambios.',
+            }));
+
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al guardar',
+              text: errorData.error || 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.',
+              confirmButtonText: 'Reintentar',
+              customClass: {
+                confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded',
+              },
+              buttonsStyling: false,
+            });
+
+            return ; // Detener el flujo en caso de error
+          }
+        } catch (error) {
+          console.error('Error:', error);
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Error del servidor',
+            text: 'Ha ocurrido un problema al procesar tu solicitud. Por favor, inténtalo más tarde.',
+            confirmButtonText: 'Entendido',
+            customClass: {
+              confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded',
+            },
+            buttonsStyling: false,
+          });
+        }
       }
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
+    })
+
+    // Verificar envío de datos al backend
+    // console.log("Datos enviados al backend:", {
+    //   ...userData,
+    //   foto_perfil: imageUrl,
+    // });
+
   };
 
+  const handleGoBack = () => {
+    Swal.fire({
+      title: "¿Estás seguro de volver?",
+      text: "Los cambios realizados no se guardarán si vuelves.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Volver",
+      cancelButtonText: "Cancelar",
+      cancelButtonColor: "red",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push("/user/profile");
+      }
+    })
+  }
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <EditProfileSkeleton />;
   }
 
   return (
@@ -299,7 +410,7 @@ export default function EditProfilePage() {
                 <input 
                   type={showCurrentlyPassword ? "text" : "password"}
                   placeholder="Ingresa tu contraseña actual..." 
-                  // onChange={(e) => setUserData({ ...userData, correo: e.target.value })} 
+                  onChange={(e) => setUserData({ ...userData, currentlyPassword: e.target.value })} 
                   className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
                 />
                 <button
@@ -335,7 +446,7 @@ export default function EditProfilePage() {
                 <input 
                   type={showNewPassword ? "text" : "password"}
                   placeholder="Ingresa tu nueva contraseña..."
-                  // onChange={(e) => setUserData({ ...userData, correo: e.target.value })} 
+                  onChange={(e) => setUserData({ ...userData, newPassword: e.target.value })} 
                   className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
                 />
                 <button
@@ -365,7 +476,7 @@ export default function EditProfilePage() {
             <p className="hover:underline">Guardar cambios</p>
           </button>
 
-          <button onClick={() => router.push("/user/profile")} className="mt-4 text-2xl font-light text-white flex items-center gap-2">
+          <button onClick={handleGoBack} className="mt-4 text-2xl font-light text-white flex items-center gap-2">
             <Image 
               src="/svg/exit.svg" 
               alt="exit-svg" 

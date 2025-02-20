@@ -11,7 +11,7 @@ const ProfileSkeleton = (props) => (
         {...props}
     >
         {/* Título Bienvenido */}
-        <rect x="40" y="30" rx="4" ry="4" width="50%" height="40" />
+        <rect x="40" y="30" rx="4" ry="4" width="13%" height="40" />
 
         {/* Imagen de perfil */}
         <circle cx="110" cy="240" r="70" />
@@ -39,17 +39,15 @@ const ProfileSkeleton = (props) => (
 
         {/* Biografía */}
         <rect x="40" y="560" rx="4" ry="4" width="320" height="20" />
-        <rect x="40" y="590" rx="4" ry="4" width="1280" height="48" />
+        <rect x="40" y="590" rx="4" ry="4" width="1280" height="96" />
 
-        {/* Cursos creados */}
-        <rect x="40" y="670" rx="4" ry="4" width="320" height="20" />
-        <rect x="40" y="700" rx="4" ry="4" width="575" height="48" />
-        <rect x="40" y="755" rx="4" ry="4" width="200" height="20" />
+        {/* Contraseña actual */}
+        <rect x="40" y="718" rx="4" ry="4" width="320" height="20" />
+        <rect x="40" y="748" rx="4" ry="4" width="575" height="48" />
 
-        {/* Cursos comprados */}
-        <rect x="740" y="670" rx="4" ry="4" width="320" height="20" />
-        <rect x="740" y="700" rx="4" ry="4" width="575" height="48" />
-        <rect x="740" y="755" rx="4" ry="4" width="200" height="20" />
+        {/* Contraseña nueva */}
+        <rect x="740" y="718" rx="4" ry="4" width="320" height="20" />
+        <rect x="740" y="748" rx="4" ry="4" width="575" height="48" />
 
         {/* Botones Editar perfil y Cerrar sesión */}
         <rect x="40" y="840" rx="4" ry="4" width="200" height="32" />
