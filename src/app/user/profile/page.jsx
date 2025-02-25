@@ -7,6 +7,7 @@ import jsCookie from 'js-cookie';
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import Swal from 'sweetalert2';
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 
 export default function ProfilePage() {
@@ -58,10 +59,28 @@ export default function ProfilePage() {
   };
 
   const handleLogout = () => {
-    // Elimina el token y redirige a la página de inicio
-    jsCookie.remove('auth-token');
-    logout();  // Llama al logout del contexto para actualizar el estado
-    router.push('/');
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Se cerrará tu sesión actual.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Elimina el token y redirige a la página de inicio
+        jsCookie.remove('auth-token');
+        logout();
+        router.push('/');
+        Swal.fire(
+          'Sesión cerrada',
+          'Tu sesión se ha cerrado exitosamente.',
+          'success'
+        );
+      }
+    });
   };
 
   if (isLoading) {
@@ -81,13 +100,15 @@ export default function ProfilePage() {
           {userData && (
             <div className="bg-gradient-to-bl from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-10">
               <div className="mb-10 flex items-center gap-5">
-                <Image 
-                    src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
-                    alt={`${userData.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`}
-                    width={150} 
-                    height={150} 
-                    className=""
-                />
+                <div className="w-[150px] h-[150px] overflow-hidden rounded-full">
+                  <Image 
+                      src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
+                      alt={`${userData.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`}
+                      width={150} 
+                      height={150} 
+                      className="rounded-full object-cover"
+                  />
+                </div>
                 <div>
                   <p className="text-3xl text-white">{userData.nombre} {userData.apellidos}</p>
                   <p className="text-2xl text-white/60 font-light">{userData.correo}</p>
