@@ -27,6 +27,14 @@ export const AuthProvider = ({ children }) => {
     setRole(null);
   };
 
+  // Función para actualizar la foto de perfil
+  const refreshNav = () => {
+    setIsLoggedIn(false);
+    setTimeout(() => {
+      setIsLoggedIn(true);
+    }, 1);
+  };
+
   // Efecto para verificar la autenticación al cargar el contexto
   useEffect(() => {
     const checkAuth = () => {
@@ -61,7 +69,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userData, role, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userData, role, login, logout, refreshNav }}>
       {children}
     </AuthContext.Provider>
   );

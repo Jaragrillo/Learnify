@@ -101,13 +101,15 @@ export default function NavbarLoggedIn() {
                                     ) : (
                                         <>
                                             <p className='text-xl'>{nickname}</p>
-                                            <Image
-                                                src={userData?.foto_perfil ?? '/images/userDefaultImage.png'}
-                                                alt={`${userData?.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`}
-                                                width={68}
-                                                height={68}
-                                                className="m-auto"
-                                            />
+                                            <div className="w-[68px] h-[68px] overflow-hidden rounded-full">
+                                                <Image
+                                                    src={userData?.foto_perfil ?? '/images/userDefaultImage.png'}
+                                                    alt={`${userData?.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`}
+                                                    width={68}
+                                                    height={68}
+                                                    className="m-auto rounded-full object-cover"
+                                                />
+                                            </div>
                                         </>
                                     )}
                                 </div>

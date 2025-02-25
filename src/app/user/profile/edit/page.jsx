@@ -10,8 +10,10 @@ import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
 import { Spanish } from 'flatpickr/dist/l10n/es' // Importamos el idioma español
 import EditProfileSkeleton from "@/components/skeletons/EditProfileSkeleton";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function EditProfilePage() {
+  const { refreshNav } = useAuth(); // Obtén refreshNav y el estado del usuario desde el contexto para actualizar la foto en el nav
   const [originalData, setOriginalData] = useState(null); // Guardamos los datos originales
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +85,34 @@ export default function EditProfilePage() {
   };
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    const file = e.target.files[0];
+    
+    if (!file) return; // Si no hay archivo seleccionado, salir
+    
+    // Validar el tipo de archivo (aceptar solo imágenes)
+    if (!file.type.startsWith("image/")) {
+      Swal.fire("Error", "Por favor, selecciona un archivo de imagen válido.", "error");
+      return;
+    }
+  
+    // Validar tamaño del archivo (máximo 5 MB)
+    const maxSize = 5 * 1024 * 1024; // 5 MB
+    if (file.size > maxSize) {
+      Swal.fire("Error", "La imagen no debe superar los 5 MB.", "error");
+      return;
+    }
+  
+    // Mostrar vista previa de la imagen seleccionada
+    const reader = new FileReader();
+    reader.onload = () => {
+      setUserData((prevState) => ({
+        ...prevState,
+        foto_perfil: reader.result, // Actualizamos la vista previa con la URL del archivo local
+      }));
+    };
+    reader.readAsDataURL(file);
+  
+    setSelectedFile(file); // Guardar el archivo para subirlo después
   };
 
   const uploadImage = async () => { 
@@ -99,6 +128,7 @@ export default function EditProfilePage() {
         body: formData,
       });
       const data = await response.json();
+      refreshNav(); // Actualizamos el navbar
       return data.secure_url;
     } catch (error) {
       console.error("Error al subir la imagen:", error);
@@ -113,7 +143,8 @@ export default function EditProfilePage() {
       apellidos: "Apellidos",
       correo: "Correo",
       biografia: "Biografía",
-      fecha_nacimiento: "Fecha de nacimiento"
+      fecha_nacimiento: "Fecha de nacimiento",
+      foto_perfil: "Foto de perfil"
     };
 
     // Crear una copia limpia del userData sin las contraseñas para comparar cambios reales
@@ -258,13 +289,15 @@ export default function EditProfilePage() {
         <div className="bg-gradient-to-bl from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-10">
           <div className="mb-10 flex items-center gap-5">
             <label htmlFor="profileImage">
-              <Image 
-                src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
-                alt="profile-image"
-                width={150} 
-                height={150} 
-                className="cursor-pointer"
-              />
+              <div className="w-[150px] h-[150px] overflow-hidden rounded-full">
+                <Image 
+                  src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
+                  alt="profile-image"
+                  width={150} 
+                  height={150} 
+                  className="cursor-pointer rounded-full object-cover"
+                />  
+              </div>
               <input 
                 type="file" 
                 id="profileImage" 
