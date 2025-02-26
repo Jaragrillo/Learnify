@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { sequelize } from '../../../../lib/db.js'; 
 import User from '@/models/User.js'; 
 import bcrypt from 'bcryptjs'
 

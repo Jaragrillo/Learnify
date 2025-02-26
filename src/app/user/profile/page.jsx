@@ -223,21 +223,6 @@ export default function ProfilePage() {
                   <input type="text" name="purchasedCourses" id="purchasedCourses" value={`${userData.nombre}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                   <Link href={'/user/purchasedCourses'} className="text-white/60 hover:text-white/100 w-fit mt-1 block">Ver cursos comprados →</Link>
                 </div>
-                {/* <div className="w-2/5">
-                  <label htmlFor="password" className="block text-2xl text-white">
-                    <div className="flex items-center gap-1">
-                      <Image 
-                        src="/svg/password.svg" 
-                        alt="password-svg" 
-                        width={35} 
-                        height={35} 
-                        className=""
-                      />
-                      Contraseña
-                    </div>
-                  </label>
-                  <input type="text" name="password" id="password" value={${userData.contraseña}} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
-                </div> */}
               </form>
 
               {/* Si el usuario quiere cambiar su información */}

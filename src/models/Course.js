@@ -34,6 +34,13 @@ const Course = sequelize.define('Course', {
         key: 'id_usuario',
       },
     },
+    id_categoria: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Categorias',
+        key: 'id_categoria',
+      },
+    },
   }, {
     tableName: 'cursos',
     timestamps: false,

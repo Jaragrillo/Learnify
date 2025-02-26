@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from '@/models/User.js';
 
-const SECRET_KEY = '%$3CR3T_K3Y_L34RN1FY@2024@S3N4%';
+export const SECRET_KEY = '%$3CR3T_K3Y_L34RN1FY@2024@S3N4%';
 
 export async function POST(req) {
   try {
