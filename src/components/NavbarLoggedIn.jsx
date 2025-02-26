@@ -126,7 +126,7 @@ export default function NavbarLoggedIn() {
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/courses"} className={`hover:text-black/100 ${pathname === '/user/courses' ? 'text-black/100' : ''}`}>Cursos</Link>
+                            <Link href={"/user/courses"} className={`hover:text-black/100 ${pathname.includes('courses') ? 'text-black/100' : ''}`}>Cursos</Link>
                         </li>
                         <li>
                             <p>|</p>
@@ -138,19 +138,19 @@ export default function NavbarLoggedIn() {
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/purchasedCourses"} className={`hover:text-black/100 ${pathname === '/user/purchasedCourses' ? 'text-black/100' : ''}`}>Cursos comprados</Link>
+                            <Link href={"/user/purchasedCourses"} className={`hover:text-black/100 ${pathname.includes('purchasedCourses') ? 'text-black/100' : ''}`}>Cursos comprados</Link>
                         </li>
                         <li>
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/myCourses"} className={`hover:text-black/100 ${pathname === '/user/myCourses' ? 'text-black/100' : ''}`}>Cursos creados</Link>
+                            <Link href={"/user/myCourses"} className={`hover:text-black/100 ${pathname.includes('myCourses') ? 'text-black/100' : ''}`}>Cursos creados</Link>
                         </li>
                         <li>
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/community"} className={`hover:text-black/100 ${pathname === '/user/community' ? 'text-black/100' : ''}`}>Comunidad</Link>
+                            <Link href={"/user/community"} className={`hover:text-black/100 ${pathname.includes('community') ? 'text-black/100' : ''}`}>Comunidad</Link>
                         </li>
                     </ul>
                 </nav>
