@@ -16,7 +16,7 @@ const Course = sequelize.define('Course', {
       allowNull: false,
     },
     img_portada: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     precio: {
