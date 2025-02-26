@@ -14,16 +14,6 @@ export default function coursesPage() {
                     <div className="flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
                         <p className="text-white text-xl">Todos los cursos</p>
                         <div className="relative">
-                            <input type="text" placeholder="Buscar cursos..." name="purchasedCoursesQuery" id="purchasedCoursesQuery" className="px-3 py-2 w-96 focus:outline-none bg-transparent border border-white text-white placeholder:text-white/80"/>
-                            <Image 
-                                src="/svg/searchWhite.svg" 
-                                alt="searchWhite-svg" 
-                                width={24} 
-                                height={24} 
-                                className="absolute right-5 top-0 bottom-0 my-auto opacity-80"
-                            />
-                        </div>
-                        <div className="relative">
                             <select name="purchasedCoursesSelect" id="purchasedCoursesSelect" className="bg-transparent border border-white px-3 py-2 text-white appearance-none focus:outline-none">
                                 <option className="text-black" value="all">Todos</option>
                                 <option className="text-black" value="uninitiated">No iniciados</option>

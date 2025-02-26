@@ -92,57 +92,89 @@ export default function NewCourse() {
         if (!formData.category) return 'La Categoría es obligatoria.';
         if (!formData.price.trim() || parseFloat(formData.price) <= 0) return 'El Precio debe ser mayor a 0.';
         if (!formData.coverImage) return 'La Portada es obligatoria.';
-        return true;
+        return null;
       };
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      const error = validateForm();
-      if (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error de Validación',
-          text: error,
-          confirmButtonText: 'Entendido',
-        });
-        return;
-      }
+        e.preventDefault();
+        const error = validateForm();
+        if (error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error de Validación',
+              text: error,
+              confirmButtonText: 'Entendido',
+            });
+            return;
+        }
 
-      const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('category', formData.category);
-      formDataToSend.append('price', formData.price);
-      formDataToSend.append('coverImage', formData.coverImage);
-
-      try {
-        Swal.fire({
-          title: 'Procesando...',
-          text: 'Creando el curso.',
-          allowOutsideClick: false,
-          didOpen: () => Swal.showLoading(),
+        const confirmation = await Swal.fire({
+          title: 'Confirmación',
+          text: `¿Seguro que quieres crear el curso "${formData.title}"?`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, crear',
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: "red",
         });
+    
+        if (!confirmation.isConfirmed) {
+            return; // Si el usuario cancela, no se continúa con la creación del curso
+        }
 
-        const response = await fetch('/api/course', {
-          method: 'POST',
-          body: formDataToSend,
-        });
+        try {
+          Swal.fire({
+            title: 'Procesando...',
+            text: 'Creando el curso.',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+          });
 
-        if (!response.ok) throw new Error('Error al crear el curso');
-        
-        Swal.fire({
-          icon: 'success',
-          title: '¡Curso creado!',
-          text: 'Tu curso se ha creado correctamente.',
-        }).then(() => router.push('/user/myCourses'));
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error del Servidor',
-          text: 'Hubo un problema al crear tu curso. Inténtalo más tarde.',
-        });
-      }
+          const coverImageUrl = await uploadImage();
+
+          const formDataToSend = new FormData();
+          formDataToSend.append('title', formData.title);
+          formDataToSend.append('description', formData.description);
+          formDataToSend.append('category', formData.category);
+          formDataToSend.append('price', formData.price);
+          formDataToSend.append('coverImage', coverImageUrl);
+
+          const response = await fetch('/api/courses/course', {
+            method: 'POST',
+            body: formDataToSend,
+          });
+
+          if (!response.ok) throw new Error('Error al crear el curso');
+
+          Swal.fire({
+            icon: 'success',
+            title: '¡Curso creado!',
+            text: 'Tu curso se ha creado correctamente.',
+          }).then(() => router.push('/user/myCourses'));
+        } catch (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error del Servidor',
+            text: 'Hubo un problema al crear tu curso. Inténtalo más tarde.',
+          });
+        }
     };
+
+    const handleGoBack = () => {
+      Swal.fire({
+        title: "¿Estás seguro de volver?",
+        text: "Los cambios realizados no se guardarán si vuelves.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Volver",
+        cancelButtonText: "Cancelar",
+        cancelButtonColor: "red",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push("/user/myCourses");
+        }
+      })
+    }
 
     return(
         <>
@@ -204,11 +236,11 @@ export default function NewCourse() {
                                         id="category" 
                                         value={formData.category} 
                                         onChange={(e) => setFormData({ ...formData, category: e.target.value })} 
-                                        className='bg-transparent border border-white px-2 py-3 text-white focus:outline-none w-full'
+                                        className='bg-transparent border border-white px-2 py-3 text-white focus:outline-none w-full focus:text-black'
                                     >
                                         <option value="">Selecciona la categoría del curso</option>
                                         {categories.map((category) => (
-                                            <option key={category.id} value={category.id}>
+                                            <option key={category.id_categoria} value={category.id_categoria}>
                                                 {category.categoria}
                                             </option>
                                         ))}
@@ -246,7 +278,18 @@ export default function NewCourse() {
                             <div className='h-3/5'>
                                 <label htmlFor="coverImage" className='text-4xl font-light text-white mb-2 block'>Portada</label>
                                 <div className='h-full relative'>
-                                    <label htmlFor="coverImage" className='w-full h-full bg-transparent border focus:outline-none border-white text-white/60 block px-2 py-3 relative z-10 cursor-pointer'>Sube la imagen de portada del curso</label>
+                                    <label htmlFor="coverImage" className='w-full h-full bg-transparent border focus:outline-none border-white text-white/60 block px-2 py-3 relative z-10 cursor-pointer'>
+                                        Sube la imagen de portada del curso
+                                        {formData.coverImage && (
+                                            <Image
+                                                src={formData.coverImage}
+                                                alt="Vista previa de la portada"
+                                                width={100} 
+                                                height={100}
+                                                className="w-full h-full object-cover absolute top-0 left-0 z-0"
+                                            />
+                                        )}
+                                    </label>
                                     <input 
                                         type="file" 
                                         name='coverImage'
@@ -255,6 +298,7 @@ export default function NewCourse() {
                                         accept='image/*'
                                         className='hidden'
                                     />
+
                                     <Image 
                                       src="/svg/image.svg" 
                                       alt="image-svg" 
@@ -267,7 +311,13 @@ export default function NewCourse() {
 
                             <div className='h-2/5 relative'>
                                 <div className='absolute bottom-0 right-0 flex flex-col flex-wrap-reverse'>
-                                    <Link href={'/user/myCourses'} className='w-fit text-2xl font-light text-white flex items-center gap-2'>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleGoBack();
+                                        }} 
+                                        className='w-fit text-2xl font-light text-white flex items-center gap-2'
+                                    >
                                         Volver
                                         <Image 
                                         src="/svg/exit.svg" 
@@ -276,7 +326,7 @@ export default function NewCourse() {
                                         height={35} 
                                         className=""
                                         />
-                                    </Link>
+                                    </button>
                                     <button 
                                         className='w-fit text-2xl font-light text-white flex items-center gap-2'
                                         onClick={handleSubmit}
