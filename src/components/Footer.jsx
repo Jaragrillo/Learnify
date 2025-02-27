@@ -28,7 +28,7 @@ export default function Footer()  {
                     <ul>
                         <li className='mb-1'><Link href={"/user/community/forums"} className='hover:text-[#34ADDA]'>Foros</Link></li>
                         <li className='mb-1'><Link href={"/user/community/events"} className='hover:text-[#34ADDA]'>Eventos</Link></li>
-                        <li className='mb-1'><Link href={"/user/community/articles"} className='hover:text-[#34ADDA]'>Patrocinadores</Link></li>
+                        <li className='mb-1'><Link href={"/user/community/articles"} className='hover:text-[#34ADDA]'>Artículos</Link></li>
                     </ul>
                 </div>
                 <div>
