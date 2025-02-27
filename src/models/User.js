@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../lib/db.js';
-import Role from './Role.js'
 
 const User = sequelize.define('User', {
     id_usuario: {
@@ -32,7 +31,7 @@ const User = sequelize.define('User', {
     id_rol: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Roles',
+        model: 'roles',
         key: 'id_rol',
       },
       defaultValue: 2, // Establece por defecto el rol de Usuario común
@@ -51,9 +50,5 @@ const User = sequelize.define('User', {
     tableName: 'usuarios',
     timestamps: false,
 });
-
-// Definición de las relaciones
-User.belongsTo(Role, { foreignKey: 'id_rol', as: 'rol' });
-Role.hasMany(User, { foreignKey: 'id_rol' });
   
 export default User;

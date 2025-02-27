@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../lib/db.js';
+import User from './User.js';
+import CourseContent from './CourseContent.js';
 
 const Course = sequelize.define('Course', {
     id_curso: {
@@ -30,14 +32,14 @@ const Course = sequelize.define('Course', {
     id_autor: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Usuarios',
+        model: 'usuarios',
         key: 'id_usuario',
       },
     },
     id_categoria: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Categorias',
+        model: 'categorias',
         key: 'id_categoria',
       },
     },
@@ -45,5 +47,9 @@ const Course = sequelize.define('Course', {
     tableName: 'cursos',
     timestamps: false,
   });
+
+  Course.belongsTo(User, { as: 'autor', foreignKey: 'id_autor' });
+  Course.hasMany(CourseContent, { as: 'clases', foreignKey: 'id_curso' });
+
   
 export default Course;  

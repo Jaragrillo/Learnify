@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import Course from '@/models/Course'; // Ajusta la ruta según tu estructura
 import { SECRET_KEY } from '../auth/login/route';
+import User from '@/models/User';
+import CourseContent from '@/models/CourseContent';
 
 // Consulta de todos los cursos
 export async function GET(request) {
@@ -35,9 +37,39 @@ export async function GET(request) {
             // Filtrar cursos por categoría
             const categoryCourses = await Course.findAll({
                 where: { id_categoria: categoryId },
+                include: [
+                    {
+                        model: User,
+                        as: 'autor',
+                        attributes: ['id_usuario', 'nombre', 'apellidos']
+                    },
+                    {
+                        model: CourseContent,
+                        as: 'clases',
+                        attributes: ['id_clase']
+                    }
+                ]
             });
 
-            return NextResponse.json(categoryCourses);
+            // Mapear resultados para agregar el conteo de clases
+            const cursosConDetalles = categoryCourses.map(curso => ({
+                id: curso.id,
+                titulo: curso.titulo,
+                img_portada: curso.img_portada,
+                descripcion: curso.descripcion,
+                precio: curso.precio,
+                estudiantes: curso.estudiantes,
+                autor: {
+                    id_autor: curso.autor.id_usuario,
+                    nombre_completo: `${curso.autor.nombre} ${curso.autor.apellidos}` || "autor desconocido",
+                },
+                totalClases: curso.clases.length // Contar las clases
+            }));
+
+            return new Response(JSON.stringify(cursosConDetalles), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });            
         }
 
         // Consulta de todos los cursos
