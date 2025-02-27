@@ -1,12 +1,16 @@
-// 'use client';
+'use client'
 
 import Image from 'next/image';
 import categoriesData from '@/utils/categoriesData.json'; 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
+import CategoryCoursesSkeleton from '@/components/skeletons/CategoryCoursesSkeleton'
+import Link from 'next/link';
 
-export default async function CategoryPage({ params }) {
-  const { categorySlug } = params;
+export default function CategoryPage({ params }) {
+  // Desempaquetar los params correctamente usando React.use()
+  const resolvedParams = React.use(params);
+  const { categorySlug } = resolvedParams;
 
   // Buscar la información de la categoría en el JSON
   const categoryInfo = categoriesData.categories.find(
@@ -17,6 +21,38 @@ export default async function CategoryPage({ params }) {
   if (!categoryInfo) {
     notFound(); // Redirige a la página not-found automáticamente
   }
+
+  const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCoursesByCategory = async () => {
+      try {
+        // Buscar el id_categoria en la base de datos usando categoryInfo.categorie
+        const categoryResponse = await fetch(`/api/categories/courses?name=${categoryInfo.categorie}`);
+        const categoryData = await categoryResponse.json();
+
+        if (!categoryData || !categoryData.id_categoria) {
+          console.error('Categoría no encontrada en la base de datos.');
+          return;
+        }
+
+        const categoryId = categoryData.id_categoria;
+
+        // Buscar los cursos relacionados con la categoría
+        const coursesResponse = await fetch(`/api/courses?category=${categoryId}`);
+        const coursesData = await coursesResponse.json();
+
+        setCourses(coursesData);
+      } catch (error) {
+        console.error('Error al cargar los cursos:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCoursesByCategory();
+  }, [categoryInfo.categorie]);
 
   return (
     <>
@@ -59,8 +95,74 @@ export default async function CategoryPage({ params }) {
         </section>
 
         <section className='p-10'>
-          <h2 className='text-4xl text-center text-[#0D1D5F]'>Explora los cursos sobre {categoryInfo.categorie}</h2>
-          {/* Aquí irán los cursos relacionados con la categoría */}
+          <h2 className='text-4xl text-center text-[#0D1D5F] mb-10'>Explora los cursos sobre {categoryInfo.categorie}</h2>
+          {isLoading ? (
+            <CategoryCoursesSkeleton />
+          ) : courses.length > 0 ? (
+            <div className='flex flex-wrap justify-between gap-6'>
+              {courses.map((course) => (
+                <div key={course.id_curso} className='shadow-lg shadow-black/60 w-[400px]'>
+                  <div className="w-full h-40">
+                    <Image
+                      src={course.img_portada}
+                      alt={`Portada de ${course.titulo}`}
+                      width={300}
+                      height={160}
+                      className="w-full h-full "
+                    />
+                  </div>
+                  <div className="mt-4 p-2">
+                    <h3 className="text-2xl font-medium">{course.titulo}</h3>
+                    <p className='text-lg font-medium text-[#070E2B]/80'>{course.autor.nombre_completo}</p>
+                    <div className="flex items-center gap-x-2 mt-2 text-gray-600">
+                      <div className="flex items-center gap-1">
+                        <Image 
+                            src="/svg/star.svg" 
+                            alt="star-svg" 
+                            width={24} 
+                            height={24} 
+                            className=""
+                        />
+                        {course.valoracion || 'El curso no ha sido valorado'}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Image 
+                            src="/svg/studentDarkBlue.svg" 
+                            alt="studentDarkBlue-svg" 
+                            width={24} 
+                            height={24} 
+                            className=""
+                        />
+                        {course.estudiantes}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Image 
+                            src="/svg/class.svg" 
+                            alt="class-svg" 
+                            width={24} 
+                            height={24} 
+                            className=""
+                        />
+                        {course.totalClases || 0}
+                      </div>
+                    </div>
+                    <p className="text-2xl mt-2"> {/* Formatear el precio para mostrarlo más agradable al usuario en COP ↓ */}
+                        ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP 
+                    </p>
+                    <Link 
+                      href={'/user/courses/course'} 
+                      className="w-full flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
+                      Más información
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className='text-center text-xl text-[#0D1D5F]'>
+              No hay cursos disponibles en esta categoría.
+            </p>
+          )}
         </section>
       </main>
     </>

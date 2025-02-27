@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import MyCoursesSkeleton from '@/components/skeletons/MyCoursesSkeleton';
 
 export default function createdCoursesPage() {
     const [courses, setCourses] = useState([]);
@@ -37,36 +38,36 @@ export default function createdCoursesPage() {
                 </section>
                 <section>
                     <div className="flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                        <p className="text-white text-xl">Todos los cursos</p>
-                        <Link href={'/user/myCourses/newCourse'} className="group flex items-center text-white gap-2 px-3 py-2 border border-white hover:bg-white hover:text-black transition-all duration-300 ease-linear">
+                        <p className="text-white text-3xl">Todos los cursos</p>
+                        <Link href={'/user/myCourses/newCourse'} className="group flex text-2xl items-center text-white gap-2 px-3 py-2 border border-white hover:bg-white hover:text-black transition-all duration-300 ease-linear">
                             Crear nuevo curso
                             <Image 
                                 src="/svg/addWhite.svg" 
                                 alt="addWhite-svg" 
-                                width={24} 
-                                height={24} 
+                                width={30} 
+                                height={30} 
                                 className="block group-hover:hidden"
                             />
                             <Image 
                                 src="/svg/add.svg" 
                                 alt="add-svg" 
-                                width={24} 
-                                height={24} 
+                                width={30} 
+                                height={30} 
                                 className="hidden group-hover:block"
                             />
                         </Link>
                     </div>
                     <div className="p-10">
                     {isLoading ? (
-                            <p>Cargando cursos...</p>
+                            <MyCoursesSkeleton />
                         ) : error ? (
                             <p className="text-red-500">Error: {error}</p>
                         ) : courses.length === 0 ? (
                             <p className="text-gray-500">No tienes cursos creados aún.</p>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="flex flex-wrap justify-between gap-6">
                                 {courses.map((course) => (
-                                    <div key={course.id_curso} className="shadow-lg shadow-black/60">
+                                    <div key={course.id_curso} className="shadow-lg shadow-black/60 w-[400px]">
                                         <div className="w-full h-40">
                                             <Image
                                                 src={course.img_portada}
@@ -91,8 +92,8 @@ export default function createdCoursesPage() {
                                                 </div>
                                                 <div className="flex items-center gap-1">
                                                     <Image 
-                                                        src="/svg/student.svg" 
-                                                        alt="student-svg" 
+                                                        src="/svg/studentDarkBlue.svg" 
+                                                        alt="studentDarkBlue-svg" 
                                                         width={24} 
                                                         height={24} 
                                                         className=""
@@ -100,8 +101,10 @@ export default function createdCoursesPage() {
                                                     {course.estudiantes}
                                                 </div>
                                             </div>
-                                            <p className="text-2xl mt-2">{course.precio}$ COP</p>
-                                            <Link href={'/user/myCourses/editCourse'} className="w-full flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4">
+                                            <p className="text-2xl mt-2"> {/* Formatear el precio para mostrarlo más agradable al usuario en COP ↓ */}
+                                                ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP 
+                                            </p>
+                                            <Link href={'/user/myCourses/editCourse'} className="w-full flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
                                                 <Image 
                                                     src="/svg/edit.svg" 
                                                     alt="edit-svg" 
