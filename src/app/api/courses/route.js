@@ -53,7 +53,7 @@ export async function GET(request) {
 
             // Mapear resultados para agregar el conteo de clases
             const cursosConDetalles = categoryCourses.map(curso => ({
-                id: curso.id,
+                id_curso: curso.id_curso,
                 titulo: curso.titulo,
                 img_portada: curso.img_portada,
                 descripcion: curso.descripcion,
