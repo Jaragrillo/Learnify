@@ -9,15 +9,15 @@ const Rating = sequelize.define('Rating', {
     },
     id_curso: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Cursos',
+      references: { 
+        model: 'cursos',
         key: 'id_curso',
       },
     },
     id_usuario: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Usuarios',
+        model: 'usuarios',
         key: 'id_usuario',
       },
     },
