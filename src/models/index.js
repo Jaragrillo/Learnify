@@ -15,6 +15,4 @@ CourseContent.belongsTo(Course, { foreignKey: 'id_curso' });
 Course.hasMany(Rating, { foreignKey: 'id_curso', as: 'valoraciones' });
 Rating.belongsTo(Course, { foreignKey: 'id_curso' });
 
-
-
 export { User, Role, Course, CourseContent, Rating };
