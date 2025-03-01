@@ -48,8 +48,4 @@ const Course = sequelize.define('Course', {
     timestamps: false,
   });
 
-  Course.belongsTo(User, { as: 'autor', foreignKey: 'id_autor' });
-  Course.hasMany(CourseContent, { as: 'clases', foreignKey: 'id_curso' });
-
-  
 export default Course;  

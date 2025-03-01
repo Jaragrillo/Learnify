@@ -2,10 +2,11 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { SECRET_KEY } from '../auth/login/route';
-import Course from '@/models/Course';
-import User from '@/models/User';
-import CourseContent from '@/models/CourseContent';
-import Rating from '@/models/Rating';
+// import Course from '@/models/index';
+// import User from '@/models/index';
+// import CourseContent from '@/models/index';
+// import Rating from '@/models/index';
+import { Course, User, CourseContent, Rating } from '@/models/index'
 
 // Consulta de todos los cursos
 export async function GET(request) {
@@ -112,6 +113,7 @@ export async function GET(request) {
                     titulo: curso.titulo,
                     img_portada: curso.img_portada,
                     descripcion: curso.descripcion,
+                    estudiantes: curso.estudiantes,
                     precio: curso.precio,
                     valoracion: promedio
                 };

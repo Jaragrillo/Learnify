@@ -71,13 +71,46 @@ export default function coursesPage() {
         fetchTopRatedCourses();
     }, []);
 
+    // Botones carrusel
+
+    const PrevArrow = ({ onClick }) => (
+        <button
+            onClick={onClick}
+            className="absolute left-[-30px] top-1/2 transform -translate-y-1/2 bg-[#070E2B] p-2 rounded-full shadow-md hover:bg-[#0D1D5F]"
+        >
+            <Image
+                src="/svg/rightArrow.svg"
+                alt="rightArrow-svg"
+                width={24}
+                height={24}
+                className="rotate-180"
+            />
+        </button>
+    );
+
+    const NextArrow = ({ onClick }) => (
+        <button
+            onClick={onClick}
+            className="absolute right-[-30px] top-1/2 transform -translate-y-1/2 bg-[#070E2B] p-2 rounded-full shadow-md hover:bg-[#0D1D5F]"
+        >
+            <Image
+                src="/svg/rightArrow.svg"
+                alt="rightArrow-svg"
+                width={24}
+                height={24}
+            />
+        </button>
+    );
+
     // Configuración del carrusel
     const carouselSettings = {
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 1,
         slidesToScroll: 1,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
         responsive: [
             {
                 breakpoint: 1024,
@@ -104,25 +137,23 @@ export default function coursesPage() {
                     <h2 className='text-4xl text-[#0D1D5F]'>Explora Nuestros Cursos</h2>
                     <p className='text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Descubre una amplia variedad de cursos impartidos por expertos en sus campos.</p>
 
-                    <h3 className="mt-10 text-2xl text-[#0D1D5F]">Cursos destacados</h3>
+                    <h3 className="mt-10 text-3xl text-[#0D1D5F]">Cursos destacados</h3>
                     <Slider {...carouselSettings}>
                         {topRatedCourses.map((course) => (
                             <div key={course.id_curso} className="p-4">
-                                <div className="shadow-lg shadow-black/60 w-[300px]">
+                                <div className="shadow-lg shadow-black/60 w-full">
                                     <div className="w-full h-40">
                                         <Image
                                             src={course.img_portada}
                                             alt={`Portada de ${course.titulo}`}
                                             width={300}
                                             height={160}
-                                            className="w-full h-full"
+                                            className="w-1/2 h-full m-auto"
                                         />
                                     </div>
                                     <div className="mt-4 p-2">
                                         <h3 className="text-2xl font-medium">{course.titulo}</h3>
-                                        <p className="text-lg font-medium text-[#070E2B]/80">
-                                            {course.autor.nombre_completo}
-                                        </p>
+                                        <p>{course.descripcion}</p>
                                         <div className="flex items-center gap-x-2 mt-2 text-gray-600">
                                             <div className="flex items-center gap-1">
                                                 <Image
@@ -143,9 +174,12 @@ export default function coursesPage() {
                                                 {course.estudiantes}
                                             </div>
                                         </div>
-                                        <p className="text-2xl mt-2">
-                                            ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
-                                        </p>
+                                        <div className="flex justify-between items-center">
+                                            <p className="text-2xl mt-2">
+                                                ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
+                                            </p>
+                                            <Link href={"/user/courses/course"} className="bg-[#070E2B] text-white hover:bg-[#0D1D5F] py-2 px-3">Mas informacion</Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
