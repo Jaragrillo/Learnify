@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CategoryCoursesSkeleton from '@/components/skeletons/CategoryCoursesSkeleton'
+import TopRatedCoursesSkeleton from '@/components/skeletons/TopRatedCoursesSkeleton'
 import Link from "next/link";
 import Swal from "sweetalert2";
 import "slick-carousel/slick/slick.css";
@@ -14,6 +15,7 @@ export default function coursesPage() {
     const [selectedCategory, setSelectedCategory] = useState("all"); // Estado para la categoría seleccionada
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // Estado para el skeleton loading
+    const [isSliderLoading, setIsSliderLoading] = useState(true) // Estado para el skeleton loading del carrusel
     const [topRatedCourses, setTopRatedCourses] = useState([]);
 
     // Obtenemos las categorías
@@ -58,6 +60,7 @@ export default function coursesPage() {
     useEffect(() => {
         const fetchTopRatedCourses = async () => {
             try {
+                setIsSliderLoading(true);
                 const response = await fetch('/api/courses?topRated=true');
                 if (!response.ok) throw new Error('Error al cargar los cursos mejor valorados');
                 const data = await response.json();
@@ -65,6 +68,8 @@ export default function coursesPage() {
             } catch (error) {
                 Swal.fire('Error', 'No se pudieron cargar los cursos destacados. Intenta más tarde.', 'error');
                 console.error(error);
+            } finally{
+                setIsSliderLoading(false);
             }
         };
     
@@ -72,7 +77,6 @@ export default function coursesPage() {
     }, []);
 
     // Botones carrusel
-
     const PrevArrow = ({ onClick }) => (
         <button
             onClick={onClick}
@@ -107,7 +111,7 @@ export default function coursesPage() {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 1,
+        slidesToShow: 2,
         slidesToScroll: 1,
         prevArrow: <PrevArrow />,
         nextArrow: <NextArrow />,
@@ -138,53 +142,57 @@ export default function coursesPage() {
                     <p className='text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Descubre una amplia variedad de cursos impartidos por expertos en sus campos.</p>
 
                     <h3 className="mt-10 text-3xl text-[#0D1D5F]">Cursos destacados</h3>
-                    <Slider {...carouselSettings}>
-                        {topRatedCourses.map((course) => (
-                            <div key={course.id_curso} className="p-4">
-                                <div className="shadow-lg shadow-black/60 w-full">
-                                    <div className="w-full h-40">
-                                        <Image
-                                            src={course.img_portada}
-                                            alt={`Portada de ${course.titulo}`}
-                                            width={300}
-                                            height={160}
-                                            className="w-1/2 h-full m-auto"
-                                        />
-                                    </div>
-                                    <div className="mt-4 p-2">
-                                        <h3 className="text-2xl font-medium">{course.titulo}</h3>
-                                        <p>{course.descripcion}</p>
-                                        <div className="flex items-center gap-x-2 mt-2 text-gray-600">
-                                            <div className="flex items-center gap-1">
-                                                <Image
-                                                    src="/svg/star.svg"
-                                                    alt="star-svg"
-                                                    width={24}
-                                                    height={24}
-                                                />
-                                                {course.valoracion.toFixed(1)}
-                                            </div>
-                                            <div className="flex items-center gap-1">
-                                                <Image
-                                                    src="/svg/studentDarkBlue.svg"
-                                                    alt="studentDarkBlue-svg"
-                                                    width={24}
-                                                    height={24}
-                                                />
-                                                {course.estudiantes}
-                                            </div>
+                    {isSliderLoading ? (
+                        <TopRatedCoursesSkeleton />
+                    ) : (
+                        <Slider {...carouselSettings}>
+                            {topRatedCourses.map((course) => (
+                                <div key={course.id_curso} className="p-4">
+                                    <div className="shadow-lg shadow-black/60 w-full">
+                                        <div className="w-full h-40">
+                                            <Image
+                                                src={course.img_portada}
+                                                alt={`Portada de ${course.titulo}`}
+                                                width={300}
+                                                height={160}
+                                                className="w-full h-full m-auto"
+                                            />
                                         </div>
-                                        <div className="flex justify-between items-center">
-                                            <p className="text-2xl mt-2">
-                                                ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
-                                            </p>
-                                            <Link href={"/user/courses/course"} className="bg-[#070E2B] text-white hover:bg-[#0D1D5F] py-2 px-3">Mas informacion</Link>
+                                        <div className="mt-4 p-2">
+                                            <h3 className="text-2xl font-medium">{course.titulo}</h3>
+                                            <p>{course.descripcion}</p>
+                                            <div className="flex items-center gap-x-2 mt-2 text-gray-600">
+                                                <div className="flex items-center gap-1">
+                                                    <Image
+                                                        src="/svg/star.svg"
+                                                        alt="star-svg"
+                                                        width={24}
+                                                        height={24}
+                                                    />
+                                                    {course.valoracion.toFixed(1)}
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <Image
+                                                        src="/svg/studentDarkBlue.svg"
+                                                        alt="studentDarkBlue-svg"
+                                                        width={24}
+                                                        height={24}
+                                                    />
+                                                    {course.estudiantes}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <p className="text-2xl mt-2">
+                                                    ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
+                                                </p>
+                                                <Link href={"/user/courses/course"} className="bg-[#070E2B] text-white hover:bg-[#0D1D5F] py-2 px-3">Mas informacion</Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </Slider>
+                            ))}
+                        </Slider>
+                    )}
                 </section>
                 <section>
                     <div className="flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">

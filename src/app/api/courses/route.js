@@ -172,7 +172,8 @@ export async function GET(request) {
                     nombre_completo: ` ${curso.autor.nombre} ${curso.autor.apellidos}` || "autor desconocido",
                 },
                 totalClases: curso.clases?.length || 0, // Contar las clases
-                valoracion: promedioValoracion ?? 'El curso no ha sido valorado' // Mostrar promedio o mensaje predeterminado
+                valoracion: promedioValoracion ?? 'El curso no ha sido valorado', // Mostrar promedio o mensaje predeterminado
+                totalValoraciones
             };
         }));
 

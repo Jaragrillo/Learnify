@@ -4,10 +4,15 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import data from '@/utils/motivationalData.json'
 import Link from 'next/link';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import Swal from 'sweetalert2';
+import HomeCoursesSkeleton from '@/components/skeletons/HomeCoursesSkeleton'
 
 export default function page() {
 
-    const [activeModal, setActiveModal] = useState(null); // Estado para controlar qué modal está activo
+    const [activeModal, setActiveModal] = useState(null); // Estado para controlar qué modal de los educadores está activo
 
     const educators = [ // Array con toda la información de los educadores destacados
         {
@@ -71,6 +76,118 @@ export default function page() {
         }
     }, []); // Ejecutar al cargar la vista
 
+    // Obtenemos todos los cursos para el carrusel
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+          try {
+            setLoading(true);
+            const response = await fetch("/api/courses");
+            const data = await response.json();
+            setCourses(data);
+          } catch (error) {
+            Swal.fire('Error', 'No se pudieron cargar los cursos. Intenta más tarde.', 'error');
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchCourses();
+    }, []);
+
+    // Obtenemos las estrellas de valoración
+    const renderStars = (rating, totalRatings) => {
+        const fullStars = Math.floor(rating) || 0;
+        const emptyStars = 5 - fullStars;
+    
+        return (
+            <div className="flex items-center">
+                {/* Estrellas llenas */}
+                {Array.from({ length: fullStars }, (_, index) => (
+                    <Image
+                        key={`full-${index}`}
+                        src="/svg/star.svg"
+                        alt="star-svg"
+                        width={24}
+                        height={24}
+                    />
+                ))}
+                {/* Estrellas vacías */}
+                {Array.from({ length: emptyStars }, (_, index) => (
+                    <Image
+                        key={`full-${index}`}
+                        src="/svg/emptyStar.svg"
+                        alt="emptyStar-svg"
+                        width={24}
+                        height={24}
+                    />
+                ))}
+                {/* Total de valoraciones */}
+                <span className="ml-2 text-sm text-gray-600">({totalRatings})</span>
+          </div>
+        );
+    };
+
+    // Botones personalizados para el carrusel
+    const PrevArrow = ({ onClick }) => (
+        <button
+          onClick={onClick}
+          className="absolute left-[-30px] top-1/2 transform -translate-y-1/2 bg-[#070E2B] p-2 rounded-full shadow-md hover:bg-[#0D1D5F]"
+        >
+            <Image
+                src="/svg/rightArrow.svg"
+                alt="rightArrow-svg"
+                width={24}
+                height={24}
+                className="rotate-180"
+            />
+        </button>
+    );
+  
+    const NextArrow = ({ onClick }) => (
+        <button
+          onClick={onClick}
+          className="absolute right-[-30px] top-1/2 transform -translate-y-1/2 bg-[#070E2B] p-2 rounded-full shadow-md hover:bg-[#0D1D5F]"
+        >
+        <Image
+          src="/svg/rightArrow.svg"
+          alt="rightArrow-svg"
+          width={24}
+          height={24}
+        />
+      </button>
+    );
+
+    // Configuración del carrusel
+    const carouselSettings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    };
+
+
     return (
         <>
             <main>
@@ -78,7 +195,43 @@ export default function page() {
                     <h2 className='text-4xl text-[#0D1D5F]'>Una amplia selección de cursos</h2>
                     <p className='text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Elige entre más de 5.000 cursos de vídeo en línea con nuevo contenido cada semana.</p>
                     <div>
-                        COURSES CARROUSEL
+                        {loading ? (
+                              <HomeCoursesSkeleton />
+                        ) : (
+                          <Slider {...carouselSettings}>
+                            {courses.map((course) => (
+                                <div key={course.id_curso}  className='px-4 py-6'>
+                                    <div className="bg-white shadow-lg shadow-black/60 w-full h-[384px] relative">
+                                        <div className="w-full h-40">
+                                            <Image
+                                                src={course.img_portada}
+                                                alt={`Portada de ${course.titulo}`}
+                                                width={300}
+                                                height={160}
+                                                className="w-full h-full m-auto"
+                                            />
+                                        </div>
+                                        <div className="p-2">
+                                            <h3 className="text-lg font-semibold">{course.titulo}</h3>
+                                            <p className="text-sm text-gray-600 mt-2">
+                                                Autor: {course.autor.nombre_completo}
+                                            </p>
+                                            <div className="mt-2">{renderStars(course.valoracion, course.totalValoraciones)}</div>
+                                            <p className="text-2xl font-light text-[#0D1D5F] mt-2">
+                                                ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
+                                            </p>
+                                            <Link
+                                                href={`/user/courses/${course.titulo}`}
+                                                className="bg-[#070E2B] w-11/12 absolute text-center bottom-2 left-0 right-0 m-auto text-white hover:bg-[#0D1D5F] py-2"
+                                            >
+                                                Más información
+                                            </Link>
+                                        </div>
+                                </div>
+                                </div>
+                            ))}
+                          </Slider>
+                        )}
                     </div>
                 </section>
                 <section className='w-full bg-[#070E2B] relative h-80'>
