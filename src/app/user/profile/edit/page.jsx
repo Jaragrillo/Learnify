@@ -252,13 +252,6 @@ export default function EditProfilePage() {
         }
       }
     })
-
-    // Verificar envío de datos al backend
-    // console.log("Datos enviados al backend:", {
-    //   ...userData,
-    //   foto_perfil: imageUrl,
-    // });
-
   };
 
   const handleGoBack = () => {
@@ -313,6 +306,7 @@ export default function EditProfilePage() {
           </div>
 
           <form className="flex flex-wrap gap-y-10 gap-x-32">
+
             {/* Nombre */}
             <div className="w-2/5">
               <label htmlFor="name" className="block text-2xl text-white">
@@ -322,7 +316,6 @@ export default function EditProfilePage() {
                     alt="name-svg" 
                     width={35} 
                     height={35} 
-                    className=""
                   />
                   Nombre
                 </div>
@@ -334,6 +327,7 @@ export default function EditProfilePage() {
                 className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
               />
             </div>
+
             {/* Apellidos */}
             <div className="w-2/5">
               <label htmlFor="lastName" className="block text-2xl text-white">
@@ -343,7 +337,6 @@ export default function EditProfilePage() {
                     alt="name-svg" 
                     width={35} 
                     height={35} 
-                    className=""
                   />
                   Apellidos
                 </div>
@@ -365,7 +358,6 @@ export default function EditProfilePage() {
                     alt="calendar-svg" 
                     width={35} 
                     height={35} 
-                    className=""
                   />
                   Fecha de nacimiento
                 </div>
@@ -390,7 +382,6 @@ export default function EditProfilePage() {
                     alt="emailWhite-svg" 
                     width={35} 
                     height={35} 
-                    className=""
                   />
                   Correo electrónico
                 </div>
@@ -412,7 +403,6 @@ export default function EditProfilePage() {
                     alt="description-svg" 
                     width={35} 
                     height={35} 
-                    className=""
                   />
                   Biografía
                 </div>
@@ -434,7 +424,6 @@ export default function EditProfilePage() {
                     alt="password-svg" 
                     width={35} 
                     height={35} 
-                    className=""
                   />
                   Contraseña actual
                 </div>
@@ -470,7 +459,6 @@ export default function EditProfilePage() {
                     alt="password-svg" 
                     width={35} 
                     height={35} 
-                    className=""
                   />
                   Nueva contraseña
                 </div>
@@ -504,7 +492,6 @@ export default function EditProfilePage() {
               alt="edit-svg" 
               width={35} 
               height={35} 
-              className=""
             />
             <p className="hover:underline">Guardar cambios</p>
           </button>
@@ -515,7 +502,6 @@ export default function EditProfilePage() {
               alt="exit-svg" 
               width={35} 
               height={35} 
-              className=""
             />
             <p className="hover:underline">Volver</p>
           </button>

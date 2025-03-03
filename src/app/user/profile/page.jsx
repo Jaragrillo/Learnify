@@ -124,7 +124,6 @@ export default function ProfilePage() {
                         alt="name-svg" 
                         width={35} 
                         height={35} 
-                        className=""
                       />
                       Nombre
                     </div>
@@ -139,7 +138,6 @@ export default function ProfilePage() {
                         alt="name-svg" 
                         width={35} 
                         height={35} 
-                        className=""
                       />
                       Apellidos
                     </div>
@@ -154,7 +152,6 @@ export default function ProfilePage() {
                         alt="calendar-svg" 
                         width={35} 
                         height={35} 
-                        className=""
                       />
                       Fecha de nacimiento
                     </div>
@@ -169,7 +166,6 @@ export default function ProfilePage() {
                         alt="emailWhite-svg" 
                         width={35} 
                         height={35} 
-                        className=""
                       />
                       Correo electrónico
                     </div>
@@ -184,7 +180,6 @@ export default function ProfilePage() {
                         alt="description-svg" 
                         width={35} 
                         height={35} 
-                        className=""
                       />
                       Biografía
                     </div>
@@ -199,7 +194,6 @@ export default function ProfilePage() {
                         alt="classWhite-svg" 
                         width={35} 
                         height={35} 
-                        className=""
                       />
                       Cursos creados
                     </div>
@@ -215,7 +209,6 @@ export default function ProfilePage() {
                         alt="moneyWhite-svg" 
                         width={35} 
                         height={35} 
-                        className=""
                       />
                       Cursos comprados
                     </div>
@@ -232,7 +225,6 @@ export default function ProfilePage() {
                   alt="edit-svg" 
                   width={35} 
                   height={35} 
-                  className=""
                 />
                 <p className="hover:underline">Editar perfil</p>
               </Link>
@@ -244,7 +236,6 @@ export default function ProfilePage() {
                   alt="exit-svg" 
                   width={35} 
                   height={35} 
-                  className=""
                 />
                 <p className="hover:underline">Cerrar sesión</p>
               </button>

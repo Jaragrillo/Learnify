@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2';
@@ -236,11 +235,11 @@ export default function NewCourse() {
                                         id="category" 
                                         value={formData.category} 
                                         onChange={(e) => setFormData({ ...formData, category: e.target.value })} 
-                                        className='bg-transparent border border-white px-2 py-3 text-white focus:outline-none w-full focus:text-black'
+                                        className='bg-transparent border border-white px-2 py-3 text-white focus:outline-none w-full'
                                     >
-                                        <option value="">Selecciona la categoría del curso</option>
+                                        <option value="" className='text-black'>Selecciona la categoría del curso</option>
                                         {categories.map((category) => (
-                                            <option key={category.id_categoria} value={category.id_categoria}>
+                                            <option key={category.id_categoria} value={category.id_categoria} className='text-black'>
                                                 {category.categoria}
                                             </option>
                                         ))}
@@ -318,26 +317,24 @@ export default function NewCourse() {
                                         }} 
                                         className='w-fit text-2xl font-light text-white flex items-center gap-2'
                                     >
-                                        Volver
+                                        <p className='hover:underline'>Volver</p>
                                         <Image 
                                         src="/svg/exit.svg" 
                                         alt="exit-svg" 
                                         width={35} 
                                         height={35} 
-                                        className=""
                                         />
                                     </button>
                                     <button 
                                         className='w-fit text-2xl font-light text-white flex items-center gap-2'
                                         onClick={handleSubmit}
                                     >
-                                        Crear curso
+                                        <p className='hover:underline'>Crear curso</p>
                                         <Image 
                                             src="/svg/addWhite.svg" 
                                             alt="addWhite-svg" 
                                             width={40} 
                                             height={40} 
-                                            className=""
                                         />
                                     </button>
                                 </div>

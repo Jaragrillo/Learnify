@@ -67,7 +67,7 @@ export default function createdCoursesPage() {
                         ) : (
                             <div className="flex flex-wrap justify-between gap-6">
                                 {courses.map((course) => (
-                                    <div key={course.id_curso} className="shadow-lg shadow-black/60 w-[400px]">
+                                    <div key={course.id_curso} className="shadow-lg shadow-black/60 relative w-[400px] h-[392px]">
                                         <div className="w-full h-40">
                                             <Image
                                                 src={course.img_portada}
@@ -86,7 +86,6 @@ export default function createdCoursesPage() {
                                                         alt="star-svg" 
                                                         width={24} 
                                                         height={24} 
-                                                        className=""
                                                     />
                                                     {course.valoracion || 'El curso no ha sido valorado'}
                                                 </div>
@@ -104,13 +103,12 @@ export default function createdCoursesPage() {
                                             <p className="text-2xl mt-2"> {/* Formatear el precio para mostrarlo más agradable al usuario en COP ↓ */}
                                                 ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP 
                                             </p>
-                                            <Link href={'/user/myCourses/editCourse'} className="w-full flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
+                                            <Link href={`/user/myCourses/editCourse/${course.id_curso}`} className="w-11/12 flex items-center justify-center absolute bottom-2 left-0 right-0 m-auto py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
                                                 <Image 
                                                     src="/svg/edit.svg" 
                                                     alt="edit-svg" 
                                                     width={24} 
                                                     height={24} 
-                                                    className=""
                                                 />
                                                 Editar curso
                                             </Link>

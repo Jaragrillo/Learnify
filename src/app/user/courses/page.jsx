@@ -185,7 +185,7 @@ export default function coursesPage() {
                                                 <p className="text-2xl mt-2">
                                                     ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
                                                 </p>
-                                                <Link href={"/user/courses/course"} className="bg-[#070E2B] text-white hover:bg-[#0D1D5F] py-2 px-3">Mas informacion</Link>
+                                                <Link href={"/user/courses/course"} className="bg-[#070E2B] text-white hover:bg-[#0D1D5F] py-2 px-3">Más información</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -228,7 +228,7 @@ export default function coursesPage() {
                         ) : courses.length > 0 ? (
                             <div className='flex flex-wrap justify-between gap-6'>
                                 {courses.map((course) => (
-                                    <div key={course.id_curso} className='shadow-lg shadow-black/60 w-[400px]'>
+                                    <div key={course.id_curso} className='shadow-lg shadow-black/60 relative w-[400px] h-[420px]'>
                                         <div className="w-full h-40">
                                             <Image
                                                 src={course.img_portada}
@@ -258,7 +258,6 @@ export default function coursesPage() {
                                                         alt="studentDarkBlue-svg"
                                                         width={24}
                                                         height={24}
-                                                        className=""
                                                     />
                                                     {course.estudiantes}
                                                 </div>
@@ -268,7 +267,6 @@ export default function coursesPage() {
                                                         alt="class-svg"
                                                         width={24}
                                                         height={24}
-                                                        className=""
                                                     />
                                                     {course.totalClases || 0}
                                                 </div>
@@ -278,7 +276,7 @@ export default function coursesPage() {
                                             </p>
                                             <Link
                                                 href={'/user/courses/course'}
-                                                className="w-full flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
+                                                className="flex items-center justify-center absolute  w-11/12 bottom-2 left-0 right-0 m-auto py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
                                                 Más información
                                             </Link>
                                         </div>
