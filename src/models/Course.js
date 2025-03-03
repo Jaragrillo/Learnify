@@ -1,7 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../lib/db.js';
-import User from './User.js';
-import CourseContent from './CourseContent.js';
 
 const Course = sequelize.define('Course', {
     id_curso: {

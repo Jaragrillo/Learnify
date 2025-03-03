@@ -22,6 +22,10 @@ const CourseContent = sequelize.define('CourseContent', {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    descripcion: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
     tableName: 'contenido_curso',
     timestamps: false,

@@ -101,7 +101,7 @@ export default function CategoryPage({ params }) {
           ) : courses.length > 0 ? (
             <div className='flex flex-wrap justify-between gap-6'>
               {courses.map((course) => (
-                <div key={course.id_curso} className='shadow-lg shadow-black/60 w-[400px]'>
+                <div key={course.id_curso} className='shadow-lg shadow-black/60 relative w-[400px] h-[420px]'>
                   <div className="w-full h-40">
                     <Image
                       src={course.img_portada}
@@ -121,7 +121,6 @@ export default function CategoryPage({ params }) {
                             alt="star-svg" 
                             width={24} 
                             height={24} 
-                            className=""
                         />
                         {course.valoracion || 'El curso no ha sido valorado'}
                       </div>
@@ -131,7 +130,6 @@ export default function CategoryPage({ params }) {
                             alt="studentDarkBlue-svg" 
                             width={24} 
                             height={24} 
-                            className=""
                         />
                         {course.estudiantes}
                       </div>
@@ -151,7 +149,7 @@ export default function CategoryPage({ params }) {
                     </p>
                     <Link 
                       href={'/user/courses/course'} 
-                      className="w-full flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
+                      className="w-11/12 absolute bottom-2 left-0 right-0 m-auto flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
                       Más información
                     </Link>
                   </div>
