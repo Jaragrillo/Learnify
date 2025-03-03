@@ -2,10 +2,6 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { SECRET_KEY } from '../auth/login/route';
-// import Course from '@/models/index';
-// import User from '@/models/index';
-// import CourseContent from '@/models/index';
-// import Rating from '@/models/index';
 import { Course, User, CourseContent, Rating } from '@/models/index'
 
 // Consulta de todos los cursos
@@ -18,8 +14,8 @@ export async function GET(request) {
     try {
         if (createdByUser) {
             // Autenticación del usuario
-            const cookieStore = cookies();
-            const token = await cookieStore.get('auth-token')?.value;
+            const cookieStore = await cookies();
+            const token = cookieStore.get('auth-token')?.value;
 
             if (!token) {
                 return NextResponse.json({ message: 'No autenticado.' }, { status: 401 });

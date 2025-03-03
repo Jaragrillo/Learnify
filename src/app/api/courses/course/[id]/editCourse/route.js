@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { Course } from '@/models/index';
+import { cookies } from 'next/headers';
+import { SECRET_KEY } from '@/app/api/auth/login/route';
+import jwt from 'jsonwebtoken';
 
 export async function PUT(req, { params }) {
     try {
@@ -17,6 +20,22 @@ export async function PUT(req, { params }) {
         const course = await Course.findByPk(id);
         if (!course) {
             return NextResponse.json({ error: "Curso no encontrado." }, { status: 404 });
+        }
+
+        // Validar que el usuario actual sea el creador del curso
+        const cookieStore = await cookies();
+        const token =  cookieStore.get('auth-token')?.value;
+
+        if (!token) {
+            return NextResponse.json({ message: 'No autenticado.' }, { status: 401 });
+        }
+
+        const decodedToken = jwt.verify(token, SECRET_KEY);
+        const currentUserId = decodedToken.id;
+        const courseAuthorId = course.id_autor
+
+        if (currentUserId !== courseAuthorId) {
+            return NextResponse.json({ error: "No tienes permiso para modificar este curso." }, { status: 403 });
         }
 
         course.titulo = titulo;

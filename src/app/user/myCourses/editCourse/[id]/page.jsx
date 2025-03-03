@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2';
 import EditCourseSkeleton from '@/components/skeletons/EditCourseSkeleton'
+import { jwtDecode } from 'jwt-decode'
+import jsCookie from 'js-cookie';
 
 export default function EditCourse({ params: { id } }) {
     const [categories, setCategories] = useState([]);
@@ -33,7 +35,7 @@ export default function EditCourse({ params: { id } }) {
     });
     const [originalCourseData, setOriginalCourseData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [currentUserId, setCurrentUserId] = useState(null); // Estado para almacenar el ID del usuario actual
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -64,7 +66,41 @@ export default function EditCourse({ params: { id } }) {
 
         fetchCategories();
         fetchCourseData();
+
+        const token = jsCookie.get('auth-token');
+
+        if (!token) {
+            router.push('/login');
+            return;
+        }
+
+        try {
+            const decodedToken = jwtDecode(token);
+            const userId = decodedToken.id;
+            setCurrentUserId(userId); // Almacenar el ID del usuario actual
+        } catch (error) {
+            console.error("Error al decodificar el token:", error);
+            jsCookie.remove('auth-token');
+            router.push('/login');
+        }
     }, []);
+
+    const validateUserIsAuthor = () => {
+        try {
+            const courseAuthorId = courseData.autor.id_autor;
+
+            if (currentUserId !== courseAuthorId) {
+                Swal.fire('Error', 'No tienes permiso para modificar este curso.', 'error');
+                router.push('/user/myCourses')
+                return false;
+            }
+
+            return true;
+        } catch (error) {
+            Swal.fire('Error', 'Error de validación.', 'error');
+            return false;
+        }
+    };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -128,6 +164,11 @@ export default function EditCourse({ params: { id } }) {
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
+
+        if (!validateUserIsAuthor()) {
+            return; // Detener la función si la validación falla
+        }
+
         try {
             const fieldNames = {
                 titulo: "Título",
@@ -193,7 +234,11 @@ export default function EditCourse({ params: { id } }) {
                         }),
                     });
 
-                    if (!response.ok) throw new Error('Error al editar el curso');
+                    if (!response.ok) {
+                        // Manejar errores de la API
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Error al editar el curso');
+                    }
 
                     Swal.fire({
                         icon: 'success',
