@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 export default function CoursePage() {
     const pathname = usePathname();
@@ -30,6 +33,7 @@ export default function CoursePage() {
         nombreCategoria: '',
     });
     const [isLoading, setIsLoading] = useState(true);
+    const [sliderRef, setSliderRef] = useState(null);
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -51,6 +55,68 @@ export default function CoursePage() {
     if (isLoading) {
         return <div>Cargando...</div>
     }
+
+    // Botones del carrusel
+    const PrevArrow = ({ onClick }) => (
+        <button
+            onClick={onClick}
+            className="absolute left-[-30px] top-1/2 transform -translate-y-1/2 bg-[#070E2B] p-2 rounded-full shadow-md hover:bg-[#0D1D5F]"
+        >
+            <Image
+                src="/svg/rightArrow.svg"
+                alt="rightArrow-svg"
+                width={24}
+                height={24}
+                className="rotate-180"
+            />
+        </button>
+    );
+
+    const NextArrow = ({ onClick }) => (
+        <button
+            onClick={onClick}
+            className="absolute right-[-30px] top-1/2 transform -translate-y-1/2 bg-[#070E2B] p-2 rounded-full shadow-md hover:bg-[#0D1D5F]"
+        >
+            <Image
+                src="/svg/rightArrow.svg"
+                alt="rightArrow-svg"
+                width={24}
+                height={24}
+            />
+        </button>
+    );
+
+    // Configuración del carrusel
+    const carouselSettings = {
+        dots: false,
+        infinite: false, // Cambiado a false para que no sea infinito
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+        beforeChange: (current, next) => {
+            if (next === 0) {
+                sliderRef.slickGoTo(0); // Vuelve al inicio si es el primer slide
+            }
+        },
+    };
 
     return (
         <>
@@ -144,23 +210,29 @@ export default function CoursePage() {
                 </section>
                 <section className="h-screen p-10  bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
                     <h3 className="text-3xl text-white mb-10">Clases del curso</h3>
-                    <div>
-                        {courseData.clases.map((clase) => (
-                            <div key={clase.id_clase}>
-                                <h4>{clase.titulo}</h4>
-                                <p>{clase.descripcion}</p>
-                                {clase.duracion && <p>Duración: {clase.duracion} segundos</p>}
-                                {clase.url_video && (
-                                    <Image
-                                        src={`https://res.cloudinary.com/<cloud_name>/video/upload/so_0/e_preview:${clase.url_video.split('/').pop().split('.')[0]}.jpg`}
-                                        alt={`Portada de ${clase.titulo}`}
-                                        width={320}
-                                        height={180}
-                                    />
-                                )}
-                            </div>
-                        ))}
-                    </div>
+                    <div className="relative">
+                        <div className="absolute top-1/2 transform -translate-y-1/2 w-full h-[1px] bg-white z-0"></div> {/* Línea horizontal */}
+                            <Slider {...carouselSettings} ref={setSliderRef} className={`z-10`}>
+                                {courseData.clases.map((clase, index) => (
+                                    <div key={clase.id_clase} className="px-10">
+                                        <div className="p-4 bg-white shadow-md shadow-black/60 mx-2 relative">
+                                            <Image
+                                                src={clase.previewUrl}
+                                                alt={`Portada de ${clase.titulo}`}
+                                                width={320}
+                                                height={180}
+                                                className="mb-4 w-full shadow-md shadow-black/25"
+                                            />
+                                            <h4 className="text-xl font-semibold mb-2">{clase.titulo}</h4>
+                                            <p className="text-gray-700 line-clamp-3">{clase.descripcion}</p>
+                                            <div className="absolute bg-[#cee4f1] size-14 flex justify-center items-center -top-5 -right-5 rounded-full text-xl">
+                                                <p>#{index+1}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </Slider>
+                        </div>
                     <Link href={'/user/courses'}>¡Compra el curso ahora!</Link>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">

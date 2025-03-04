@@ -62,10 +62,12 @@ export default function NewCourse() {
             body: videoData,
           });
           const data = await response.json();
-          return data.secure_url;
+          const videoUrl = data.secure_url;
+          const previewUrl = videoUrl.replace(/\.[\w]+$/, '.jpg'); // Obtener la URL de la imagen de vista previa
+          return { videoUrl, previewUrl };
         } catch (error) {
-          console.error("Error al subir la imagen:", error);
-          return formData.videoPreview;
+          console.error("Error al subir el video:", error);
+          return { videoUrl: formData.videoPreview, previewUrl: formData.videoPreview };
         }
     };
 
@@ -111,7 +113,12 @@ export default function NewCourse() {
             didOpen: () => Swal.showLoading(),
           });
 
-          const videoUrl = await uploadVideo();
+          const { videoUrl, previewUrl } = await uploadVideo();
+
+          setFormData((prevState) => ({
+            ...prevState,
+            videoPreview: previewUrl,
+          }))
 
           const formDataToSend = new FormData();
           formDataToSend.append('title', formData.title);
