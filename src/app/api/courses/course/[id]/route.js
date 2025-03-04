@@ -1,6 +1,14 @@
 // src/app/api/courses/course/[id]/route.js
 import { NextResponse } from 'next/server';
 import { Course, User, CourseContent, Rating, Comment, Category } from '@/models/index';
+import cloudinary from 'cloudinary';
+
+// Configura Cloudinary con tus credenciales
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function GET(request, { params }) {
     const { id } = await params;
@@ -65,9 +73,28 @@ export async function GET(request, { params }) {
                 foto_perfil: course.autor.foto_perfil,
                 biografia: course.autor.biografia,
             },
-            clases: course.clases,
+            clases: await Promise.all(course.clases.map(async (clase) => {
+                if (clase.url_video) {
+                    try {
+                        const publicId = clase.url_video.split('/').pop().split('.')[0];
+                        const videoDetails = await cloudinary.v2.api.resource(publicId, {
+                            resource_type: 'video',
+                        });
+                        console.log(videoDetails); // Inspecciona la respuesta de Cloudinary
+                        return {
+                            ...clase.toJSON(),
+                            duracion: videoDetails.duration,
+                            previewUrl: videoDetails.secure_url.replace(/\.[\w]+$/, '.jpg'), // Obtener la URL de la vista previa
+                        };
+                    } catch (cloudinaryError) {
+                        console.error('Error al obtener detalles del video de Cloudinary:', cloudinaryError);
+                        return clase.toJSON(); // Devuelve la clase sin la duración en caso de error
+                    }
+                }
+                return clase.toJSON();
+            })),
             comentarios: course.comentarios,
-            valoracion: promedioValoracion ?? 'El curso no ha sido valorado',
+            valoracion: promedioValoracion ?? 0,
             totalValoraciones,
             categoria: course.categoria ? course.categoria.id_categoria : null, // Incluir id de la categoria
             nombreCategoria: course.categoria ? course.categoria.categoria : null, // Incluir nombre de la categoría

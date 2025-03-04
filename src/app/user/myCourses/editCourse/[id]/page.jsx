@@ -3,13 +3,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Swal from 'sweetalert2';
 import EditCourseSkeleton from '@/components/skeletons/EditCourseSkeleton'
 import { jwtDecode } from 'jwt-decode'
 import jsCookie from 'js-cookie';
 
-export default function EditCourse({ params: { id } }) {
+export default function EditCourse() {
+    const pathname = usePathname();
+    const id = pathname.split('/').pop(); // Obtener el ID del curso de la ruta
+
     const [categories, setCategories] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const router = useRouter();
@@ -426,7 +429,7 @@ export default function EditCourse({ params: { id } }) {
                                             />
                                         </button>
                                         <Link
-                                            href={"/user/myCourses/myCourse/courseClasses"}
+                                            href={`/user/myCourses/editCourse/${id}/courseClasses`}
                                             className='w-fit text-2xl font-light text-white flex items-center gap-2'
                                         >
                                             <p className='hover:underline'>Clases</p>
