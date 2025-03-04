@@ -185,7 +185,7 @@ export default function coursesPage() {
                                                 <p className="text-2xl mt-2">
                                                     ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
                                                 </p>
-                                                <Link href={"/user/courses/course"} className="bg-[#070E2B] text-white hover:bg-[#0D1D5F] py-2 px-3">Más información</Link>
+                                                <Link href={`/user/courses/${course.id_curso}`} className="bg-[#070E2B] text-white hover:bg-[#0D1D5F] py-2 px-3">Más información</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -275,7 +275,7 @@ export default function coursesPage() {
                                                 ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
                                             </p>
                                             <Link
-                                                href={'/user/courses/course'}
+                                                href={`/user/courses/${course.id_curso}`}
                                                 className="flex items-center justify-center absolute  w-11/12 bottom-2 left-0 right-0 m-auto py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
                                                 Más información
                                             </Link>

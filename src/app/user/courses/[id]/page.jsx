@@ -2,29 +2,33 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react"
 
-export default function CoursePage({ params: { id } }) {
-        const [courseData, setCourseData] = useState({
-            id_curso: '',
-            titulo: '',
-            img_portada: '',
-            descripcion: '',
-            precio: '',
-            estudiantes: 0,
-            autor: {
-                id_autor: null,
-                nombre_completo: '',
-                foto_perfil: '',
-                biografia: '',
-            },
-            clases: [],
-            comentarios: [],
-            valoracion: 'El curso no ha sido valorado',
-            totalValoraciones: 0,
-            categoria: '',
-            nombreCategoria: '',
-        });
+export default function CoursePage() {
+    const pathname = usePathname();
+    const id = pathname.split('/').pop(); // Obtener el ID de la ruta
+
+    const [courseData, setCourseData] = useState({
+        id_curso: '',
+        titulo: '',
+        img_portada: '',
+        descripcion: '',
+        precio: '',
+        estudiantes: 0,
+        autor: {
+            id_autor: null,
+            nombre_completo: '',
+            foto_perfil: '',
+            biografia: '',
+        },
+        clases: [],
+        comentarios: [],
+        valoracion: 'El curso no ha sido valorado',
+        totalValoraciones: 0,
+        categoria: '',
+        nombreCategoria: '',
+    });
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -42,7 +46,11 @@ export default function CoursePage({ params: { id } }) {
         }
     
         fetchCourseData();
-    }, []);
+    }, [id]);
+
+    if (isLoading) {
+        return <div>Cargando...</div>
+    }
 
     return (
         <>
@@ -64,7 +72,12 @@ export default function CoursePage({ params: { id } }) {
                                 className="block m-auto mb-3"
                             />
                             <p className="text-2xl text-[#0D1D5F] font-medium mb-3">{courseData.valoracion}</p>
-                            <p className="text-[#0D1D5F]">{courseData.totalValoraciones} estudiantes votaron</p>
+                            <p className="text-[#0D1D5F]">  
+                                {courseData.totalValoraciones === 0
+                                    ? "El curso aún no ha sido valorado"
+                                    : `${courseData.totalValoraciones} estudiantes votaron`
+                                }
+                            </p>
                         </div>
                         <div className="bg-white w-[265px] h-[315px] text-center py-10 shadow-lg shadow-black/50">
                             <h4 className="text-3xl mb-3 text-[#0D1D5F]">Estudiantes</h4>
@@ -76,7 +89,12 @@ export default function CoursePage({ params: { id } }) {
                                 className="block m-auto mb-3"
                             />
                             <p className="text-2xl text-[#0D1D5F] font-medium mb-3">{courseData.estudiantes}</p>
-                            <p className="text-[#0D1D5F]">{courseData.estudiantes} estudiantes activos</p>
+                            <p className="text-[#0D1D5F]">
+                                {courseData.estudiantes === 0
+                                    ? "El curso aún no cuenta con estudiantes activos"
+                                    : `${courseData.estudiantes} estudiantes activos`
+                                }
+                            </p>
                         </div>
                         <div className="bg-white w-[265px] h-[315px] text-center py-10 shadow-lg shadow-black/50">
                             <h4 className="text-3xl mb-3 text-[#0D1D5F]">Categoría</h4>
@@ -107,7 +125,7 @@ export default function CoursePage({ params: { id } }) {
                     </div>
                 </section>
                 <section className="p-10">
-                    <h3 className="text-2xl text-[#0D1D5F] mb-10">¡Conoce al creador del curso!</h3>
+                    <h3 className="text-3xl text-[#0D1D5F] mb-10">¡Conoce al creador del curso!</h3>
                     <div className="p-10 flex items-center shadow-lg shadow-black/50 mx-auto w-3/4 h-[400px]">
                         <div className="w-[200px] h-[200px] overflow-hidden rounded-full">
                             <Image
@@ -124,32 +142,52 @@ export default function CoursePage({ params: { id } }) {
                         </div>
                     </div>
                 </section>
-                <section className="h-screen bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                    <h3>Clases del curso</h3>
-                    <div>CARRUSEL CLASES</div>
+                <section className="h-screen p-10  bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
+                    <h3 className="text-3xl text-white mb-10">Clases del curso</h3>
+                    <div>
+                        {courseData.clases.map((clase) => (
+                            <div key={clase.id_clase}>
+                                <h4>{clase.titulo}</h4>
+                                <p>{clase.descripcion}</p>
+                                {clase.duracion && <p>Duración: {clase.duracion} segundos</p>}
+                                {clase.url_video && (
+                                    <Image
+                                        src={`https://res.cloudinary.com/<cloud_name>/video/upload/so_0/e_preview:${clase.url_video.split('/').pop().split('.')[0]}.jpg`}
+                                        alt={`Portada de ${clase.titulo}`}
+                                        width={320}
+                                        height={180}
+                                    />
+                                )}
+                            </div>
+                        ))}
+                    </div>
                     <Link href={'/user/courses'}>¡Compra el curso ahora!</Link>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
-                    <h3 className="text-2xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
+                    <h3 className="text-3xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
                     <div>
-                        {courseData.comentarios.map((comentario) => {
-                            <div key={comentario.id_comentario} className="bg-white p-5">
-                                <div className="w-[80px] h-[80px] overflow-hidden rounded-full">
-                                    <Image
-                                        src={comentario.usuario.foto_perfil}
-                                        alt={comentario.usuario.nombre_completo}
-                                        width={80}
-                                        height={80}
-                                        className="rounded full"
-                                    />
+                        {courseData.comentarios.length > 0 ? (
+                            courseData.comentarios.map((comentario) => {
+                                <div key={comentario.id_comentario} className="bg-white p-5 w-full">
+                                    <div className="w-[80px] h-[80px] overflow-hidden rounded-full">
+                                        <Image
+                                            src={comentario.usuario.foto_perfil}
+                                            alt={comentario.usuario.nombre_completo}
+                                            width={80}
+                                            height={80}
+                                            className="rounded full"
+                                        />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-2xl font-medium">{comentario.usuario.nombre_completo}</h4>
+                                        <p className="text-xl text-[#0D1D5F]">{comentario.comentario}</p>
+                                        <p className="text-[#0D1D5F]/60">{comentario.fecha_comentario}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 className="text-2xl font-medium">{comentario.usuario.nombre_completo}</h4>
-                                    <p className="text-xl text-[#0D1D5F]">{comentario.comentario}</p>
-                                    <p className="text-[#0D1D5F]/60">{comentario.fecha_comentario}</p>
-                                </div>
-                            </div>
-                        })}
+                            })
+                        ) : (
+                            <p className="text-gray-600">Aún no hay comentarios para este curso.</p>
+                        )}
                     </div>
                 </section>
                 <section className="p-20">

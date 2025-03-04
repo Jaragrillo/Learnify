@@ -148,7 +148,7 @@ export default function CategoryPage({ params }) {
                         ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP 
                     </p>
                     <Link 
-                      href={'/user/courses/course'} 
+                      href={`/user/courses/${course.id_curso}`} 
                       className="w-11/12 absolute bottom-2 left-0 right-0 m-auto flex items-center justify-center py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
                       Más información
                     </Link>

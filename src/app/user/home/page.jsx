@@ -221,7 +221,7 @@ export default function page() {
                                                 ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP
                                             </p>
                                             <Link
-                                                href={`/user/courses/${course.titulo}`}
+                                                href={`/user/courses/${course.id_curso}`}
                                                 className="bg-[#070E2B] w-11/12 absolute text-center bottom-2 left-0 right-0 m-auto text-white hover:bg-[#0D1D5F] py-2"
                                             >
                                                 Más información
