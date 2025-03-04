@@ -29,7 +29,34 @@ export async function GET(request) {
                 where: { id_autor: userId },
             });
 
-            return NextResponse.json(userCourses);
+            // Para cada curso, calculamos el promedio de valoraciones
+            const cursosCreadosConDetalles = await Promise.all(userCourses.map(async (curso) => {
+                const valoraciones = await Rating.findAll({
+                    where: { id_curso: curso.id_curso },
+                    attributes: ['puntuacion']
+                });
+            
+                // Calcular el promedio
+                const totalValoraciones = valoraciones.length;
+                const promedioValoracion = totalValoraciones > 0
+                    ? valoraciones.reduce((sum, val) => sum + val.puntuacion, 0) / totalValoraciones
+                    : null; // Si no hay valoraciones, dejamos null
+            
+                return {
+                    id_curso: curso.id_curso,
+                    titulo: curso.titulo,
+                    img_portada: curso.img_portada,
+                    descripcion: curso.descripcion,
+                    precio: curso.precio,
+                    estudiantes: curso.estudiantes,
+                    valoracion: promedioValoracion ?? 'El curso no ha sido valorado' // Mostrar promedio o mensaje predeterminado
+                };
+            }));
+
+            return new Response(JSON.stringify(cursosCreadosConDetalles), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });   
         }
 
         if (categoryId) {
