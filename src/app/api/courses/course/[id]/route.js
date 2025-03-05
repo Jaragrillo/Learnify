@@ -80,11 +80,12 @@ export async function GET(request, { params }) {
                         const videoDetails = await cloudinary.v2.api.resource(publicId, {
                             resource_type: 'video',
                         });
-                        console.log(videoDetails); // Inspecciona la respuesta de Cloudinary
+                        // console.log(videoDetails); // Inspecciona la respuesta de Cloudinary
                         return {
                             ...clase.toJSON(),
                             duracion: videoDetails.duration,
                             previewUrl: videoDetails.secure_url.replace(/\.[\w]+$/, '.jpg'), // Obtener la URL de la vista previa
+                            id_autor: course.autor.id_usuario,
                         };
                     } catch (cloudinaryError) {
                         console.error('Error al obtener detalles del video de Cloudinary:', cloudinaryError);
