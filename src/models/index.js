@@ -6,6 +6,7 @@ import CourseContent from './CourseContent.js';
 import Rating from './Rating.js';
 import Comment from './Comment.js';
 import Category from './Category.js';
+import Contact from './Contact.js'
 
 // Relación entre modelos
 User.belongsTo(Role, { foreignKey: 'id_rol', as: 'rol' });
@@ -23,4 +24,4 @@ Comment.belongsTo(User, { foreignKey: 'id_usuario', as: 'usuario' });
 Course.belongsTo(Category, { foreignKey: 'id_categoria', as: 'categoria' });
 Category.hasMany(Course, { foreignKey: 'id_categoria', as: 'cursos' });
 
-export { User, Role, Course, CourseContent, Rating, Comment, Category };
+export { User, Role, Course, CourseContent, Rating, Comment, Category, Contact };

@@ -50,6 +50,40 @@ export default function CoursePage() {
         fetchCourseData();
     }, [courseId]);
 
+    const handleDeleteClass = async (classId) => {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esta acción eliminará la clase permanentemente.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            cancelButtonColor: "#d33",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`/api/courses/course/class/${classId}/deleteClass`, {
+                        method: 'DELETE',
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Error al eliminar la clase');
+                    }
+
+                    Swal.fire('Eliminado', 'La clase ha sido eliminada.', 'success');
+                    // Recargar los datos del curso después de eliminar la clase.
+                    const responseNew = await fetch(`/api/courses/course/${courseId}`);
+                    const data = await responseNew.json();
+                    setCourseData(data);
+
+                } catch (error) {
+                    Swal.fire('Error', error.message, 'error');
+                }
+            }
+        });
+    };
+
     if (isLoading) {
         return <div>Cargando...</div>
     }
@@ -87,12 +121,13 @@ export default function CoursePage() {
                                         <h4 className="text-2xl text-white mb-5">Clase #{index +1}: {clase.titulo}</h4>
                                         <div className="flex items-center gap-5">
                                             <Link 
-                                                href={`/user/myCourses/editCourse/${courseId}/courseClasses/${clase.id_clase}/editClass`}
+                                                href={`/user/myCourses/editCourse/${courseId}/courseClasses/editClass/${clase.id_clase}`}
                                                 className="text-[#0D1D5F] font-medium px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
                                             >
                                                 Editar clase
                                             </Link>
                                             <button 
+                                                onClick={() => handleDeleteClass(clase.id_clase)} // Pasa el ID de la clase
                                                 className="text-red-700 font-medium px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
                                             >
                                                 Eliminar clase

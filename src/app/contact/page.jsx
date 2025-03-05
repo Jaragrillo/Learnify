@@ -1,8 +1,77 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
+import Swal from 'sweetalert2';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellidos: '',
+    correo: '',
+    tipo_consulta: '',
+    mensaje: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    // Expresión regular para validar el formato del correo
+    const emailRegex = /\S+@\S+\.\S+/;
+
+    if (!formData.nombre.trim()) return 'El Nombre es obligatorio.';
+    if (!formData.apellidos.trim()) return 'Los Apellidos son obligatorios.';
+    if (!formData.correo.trim()) return 'El Correo es obligatorio.';
+    if (!emailRegex.test(formData.correo)) return 'El Correo no es válido.'
+    if (!formData.tipo_consulta) return 'El Tipo de consulta es obligatorio.';
+    if (!formData.mensaje.trim()) return 'El Mensaje es obligatorio.';
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const error = validateForm();
+    if (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de Validación',
+          text: error,
+          confirmButtonText: 'Entendido',
+        });
+        return;
+    }
+
+    try {
+      const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Error al enviar el mensaje');
+      }
+
+      Swal.fire('Enviado', 'Tu mensaje ha sido enviado correctamente.', 'success');
+      setFormData({
+          nombre: '',
+          apellidos: '',
+          correo: '',
+          tipo_consulta: '',
+          mensaje: '',
+      }); // Limpia el formulario
+    } catch (error) {
+      Swal.fire('Error', error.message, 'error');
+    }
+  }
+
   return (
     <>
       <main>
@@ -14,10 +83,18 @@ export default function ContactPage() {
                 <h3 className='text-3xl mb-2'>Mandanos un mensaje</h3>
                 <p className='text-justify text-lg mb-8'>Estamos aquí para escucharte. Ya sea que tengas sugerencias, quejas, reclamos o si deseas presentar oportunidades o propuestas laborales, ¡no dudes en escribirnos! Tu opinión es importante para nosotros.</p>
               </div>
-              <form action="">
+              <form onSubmit={handleSubmit}>
                 <div className='flex gap-3'>
                   <div className='w-1/2 relative mb-10'>
-                    <input type="text" name="name" id="name" placeholder='Nombre' className='w-full placeholder-white text-white bg-transparent border-b border-white px-2 py-3 focus:outline-none focus:bg-white focus:shadow-lg focus:shadow-white/10 focus:text-black transition duration-200'/>
+                    <input 
+                      type="text" 
+                      name="nombre" 
+                      id="nombre" 
+                      value={formData.nombre}
+                      onChange={handleChange}
+                      placeholder='Nombre' 
+                      className='w-full placeholder-white text-white bg-transparent border-b border-white px-2 py-3 focus:outline-none focus:bg-white focus:shadow-lg focus:shadow-white/10 focus:text-black transition duration-200'
+                    />
                     <Image 
                       src="/svg/name.svg" 
                       alt="name-svg" 
@@ -27,7 +104,15 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className='w-1/2 relative mb-10'>
-                    <input type="text" name="lastName" id="lastName" placeholder='Apellidos' className='w-full placeholder-white text-white bg-transparent border-b border-white px-2 py-3 focus:outline-none focus:bg-white focus:shadow-lg focus:shadow-white/10 focus:text-black transition duration-200'/>
+                    <input 
+                      type="text" 
+                      name="apellidos" 
+                      id="apellidos" 
+                      value={formData.apellidos}
+                      onChange={handleChange}
+                      placeholder='Apellidos' 
+                      className='w-full placeholder-white text-white bg-transparent border-b border-white px-2 py-3 focus:outline-none focus:bg-white focus:shadow-lg focus:shadow-white/10 focus:text-black transition duration-200'
+                    />
                     <Image 
                       src="/svg/name.svg" 
                       alt="name-svg" 
@@ -38,7 +123,15 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className='w-full relative mb-10'>
-                  <input type="email" name="email" id="email" placeholder='Correo electrónico' className='w-full placeholder-white text-white bg-transparent border-b border-white px-2 py-3 focus:outline-none focus:bg-white focus:shadow-lg focus:shadow-white/10 focus:text-black transition duration-200'/>
+                  <input 
+                    type="email" 
+                    name="correo" 
+                    id="correo" 
+                    value={formData.correo}
+                    onChange={handleChange}
+                    placeholder='Correo electrónico' 
+                    className='w-full placeholder-white text-white bg-transparent border-b border-white px-2 py-3 focus:outline-none focus:bg-white focus:shadow-lg focus:shadow-white/10 focus:text-black transition duration-200'
+                  />
                   <Image 
                     src="/svg/emailWhite.svg" 
                     alt="emailWhite-svg" 
@@ -48,16 +141,29 @@ export default function ContactPage() {
                   />
                 </div>
                 <div className='w-full mb-10'>
-                  <select name="typeOfQuery" id="typeOfQuery" className='w-full bg-transparent text-white border-b border-white focus:outline-none px-2 py-3'>
+                  <select 
+                    name="tipo_consulta" 
+                    id="tipo_consulta" 
+                    value={formData.tipo_consulta}
+                    onChange={handleChange}
+                    className='w-full bg-transparent text-white border-b border-white focus:outline-none px-2 py-3'
+                  >
                     <option value="" className='bg-white text-black'>Tipo de consulta</option>  
-                    <option value="" className='bg-white text-black'>Soporte técnico</option>
-                    <option value="" className='bg-white text-black'>Pregunta sobre facturación</option>
-                    <option value="" className='bg-white text-black'>Propuesta laboral</option>
-                    <option value="" className='bg-white text-black'>Otro</option>
+                    <option value="Soporte técnico" className='bg-white text-black'>Soporte técnico</option>
+                    <option value="Pregunta sobre facturación" className='bg-white text-black'>Pregunta sobre facturación</option>
+                    <option value="Propuesta laboral" className='bg-white text-black'>Propuesta laboral</option>
+                    <option value="Otro" className='bg-white text-black'>Otro</option>
                   </select>
                 </div>
                 <div className='w-full relative mb-10'>
-                  <textarea name="message" id="message" placeholder='Tu mensaje...' className='resize-none w-full min-h-24 max-h-24 rounded-lg focus:outline-none px-2 py-3' />
+                  <textarea 
+                    name="mensaje" 
+                    id="mensaje" 
+                    value={formData.mensaje}
+                    onChange={handleChange}
+                    placeholder='Tu mensaje...' 
+                    className='resize-none w-full min-h-24 max-h-24 rounded-lg focus:outline-none px-2 py-3' 
+                  />
                   <Image 
                     src="/svg/message.svg" 
                     alt="message-svg" 

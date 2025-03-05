@@ -208,32 +208,34 @@ export default function CoursePage() {
                         </div>
                     </div>
                 </section>
-                <section className="h-screen p-10  bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
+                <section className="h-screen p-10 relative bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
                     <h3 className="text-3xl text-white mb-10">Clases del curso</h3>
                     <div className="relative">
                         <div className="absolute top-1/2 transform -translate-y-1/2 w-full h-[1px] bg-white z-0"></div> {/* Línea horizontal */}
-                            <Slider {...carouselSettings} ref={setSliderRef} className={`z-10`}>
-                                {courseData.clases.map((clase, index) => (
-                                    <div key={clase.id_clase} className="px-10">
-                                        <div className="p-4 bg-white shadow-md shadow-black/60 mx-2 relative">
-                                            <Image
-                                                src={clase.previewUrl}
-                                                alt={`Portada de ${clase.titulo}`}
-                                                width={320}
-                                                height={180}
-                                                className="mb-4 w-full shadow-md shadow-black/25"
-                                            />
-                                            <h4 className="text-xl font-semibold mb-2">{clase.titulo}</h4>
-                                            <p className="text-gray-700 line-clamp-3">{clase.descripcion}</p>
-                                            <div className="absolute bg-[#cee4f1] size-14 flex justify-center items-center -top-5 -right-5 rounded-full text-xl">
-                                                <p>#{index+1}</p>
-                                            </div>
+                        <Slider {...carouselSettings} ref={setSliderRef} className={`z-10`}>
+                            {courseData.clases.map((clase, index) => (
+                                <div key={clase.id_clase} className="px-10">
+                                    <div className="p-4 bg-white shadow-md shadow-black/60 mx-2 relative">
+                                        <Image
+                                            src={clase.previewUrl}
+                                            alt={`Portada de ${clase.titulo}`}
+                                            width={320}
+                                            height={180}
+                                            className="mb-4 w-full shadow-md shadow-black/25"
+                                        />
+                                        <h4 className="text-xl font-semibold mb-2">{clase.titulo}</h4>
+                                        <p className="text-gray-700 line-clamp-3">{clase.descripcion}</p>
+                                        <div className="absolute bg-[#cee4f1] size-14 flex justify-center items-center -top-5 -right-5 rounded-full text-xl">
+                                            <p>#{index+1}</p>
                                         </div>
                                     </div>
-                                ))}
-                            </Slider>
-                        </div>
-                    <Link href={'/user/courses'}>¡Compra el curso ahora!</Link>
+                                </div>
+                            ))}
+                        </Slider>
+                    </div>
+                    <div className="w-fit h-fit bg-white rounded-lg hover:scale-110 transition duration-500 absolute bottom-10 left-0 right-0 mx-auto">
+                        <Link href={'/user/courses'} className='text-3xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text px-5 py-1 shadow-lg shadow-black/60 rounded-lg block w-fit'>¡Compra el curso ahora!</Link>
+                    </div>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
                     <h3 className="text-3xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
