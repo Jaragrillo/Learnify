@@ -61,6 +61,17 @@ export default function CoursePage() {
             cancelButtonColor: "#d33",
         }).then(async (result) => {
             if (result.isConfirmed) {
+
+                Swal.fire({
+                    title: 'Procesando...',
+                    text: 'Eliminando la clase.',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                })
+
                 try {
                     const response = await fetch(`/api/courses/course/class/${classId}/deleteClass`, {
                         method: 'DELETE',
@@ -71,13 +82,16 @@ export default function CoursePage() {
                         throw new Error(errorData.error || 'Error al eliminar la clase');
                     }
 
+                    Swal.close();
                     Swal.fire('Eliminado', 'La clase ha sido eliminada.', 'success');
+
                     // Recargar los datos del curso después de eliminar la clase.
                     const responseNew = await fetch(`/api/courses/course/${courseId}`);
                     const data = await responseNew.json();
                     setCourseData(data);
 
                 } catch (error) {
+                    Swal.close();
                     Swal.fire('Error', error.message, 'error');
                 }
             }
