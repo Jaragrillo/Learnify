@@ -179,7 +179,6 @@ export default function ContactPage() {
                     alt="send-svg" 
                     width={24} 
                     height={24} 
-                    className=""
                   />
                 </button>
               </form>
@@ -204,7 +203,6 @@ export default function ContactPage() {
                       alt="phone-svg" 
                       width={24} 
                       height={24} 
-                      className=""
                     />
                     <p>+57 300 6648618</p>
                   </li>
@@ -214,7 +212,6 @@ export default function ContactPage() {
                       alt="location-svg" 
                       width={24} 
                       height={24} 
-                      className=""
                     />
                     <p>Cl. 63 #58B-03, Terranova, Itagüi, Antioquia</p>
                   </li>
@@ -224,7 +221,6 @@ export default function ContactPage() {
                       alt="time-svg" 
                       width={24} 
                       height={24} 
-                      className=""
                     />
                     <p>Lunes - Viernes: 9am - 5pm COT</p>
                   </li>
@@ -239,7 +235,6 @@ export default function ContactPage() {
                       alt="facebook-svg" 
                       width={32} 
                       height={32} 
-                      className=""
                     />
                     <Link href={"/"} className='hover:underline'>Learnify</Link>
                   </li>
@@ -249,7 +244,6 @@ export default function ContactPage() {
                       alt="linkedin-svg" 
                       width={32} 
                       height={32} 
-                      className=""
                     />
                     <Link href={"/"} className='hover:underline'>Learnify</Link>
                   </li>
@@ -259,7 +253,6 @@ export default function ContactPage() {
                       alt="instagram-svg" 
                       width={32} 
                       height={32} 
-                      className=""
                     />
                     <Link href={"/"} className='hover:underline'>@Learnify</Link>
                   </li>
@@ -269,7 +262,6 @@ export default function ContactPage() {
                       alt="twitter-svg" 
                       width={32} 
                       height={32} 
-                      className=""
                     />
                     <Link href={"/"} className='hover:underline'>@Learnify</Link>
                   </li>
