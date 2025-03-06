@@ -3,10 +3,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useState } from 'react';
 
 export default function NotFound() {
-
+    const [isClient, setIsClient] = useState(false);
     const { isLoggedIn, role } = useAuth();
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    if (!isClient) {
+        return null; // Evita la pre-renderización
+    }
 
     const  redirectTo = !isLoggedIn
         ? "/"
