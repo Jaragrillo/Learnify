@@ -38,7 +38,11 @@ export default function CoursePage() {
             try {
                 const response = await fetch(`/api/courses/course/${courseId}`);
                 const data = await response.json();
-                setCourseData(data);
+
+                // Ordenar las clases por id_clase
+                const clasesOrdenadas = data.clases.sort((a, b) => a.id_clase - b.id_clase);
+                setCourseData({ ...data, clases: clasesOrdenadas });
+                
                 setIsLoading(false);
             } catch (error) {
                 Swal.fire('Error', 'No se pudieron cargar los datos del curso. Intenta más tarde.', 'error');
