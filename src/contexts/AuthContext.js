@@ -37,35 +37,37 @@ export const AuthProvider = ({ children }) => {
 
   // Efecto para verificar la autenticación al cargar el contexto
   useEffect(() => {
-    const checkAuth = () => {
-      const token = jsCookie.get('auth-token');
+    if (typeof window !== 'undefined') { // Verificar si es el cliente
+      const checkAuth = () => {
+        const token = jsCookie.get('auth-token');
 
-      if (!token) {
-        setIsLoggedIn(false);
-        setRole(null);
-        return;
-      }
+        if (!token) {
+          setIsLoggedIn(false);
+          setRole(null);
+          return;
+        }
 
-      const decodedToken = decodeJwt(token);
+        const decodedToken = decodeJwt(token);
 
-      if (!decodedToken || decodedToken.exp * 1000 < Date.now()) {
-        jsCookie.remove('auth-token');
-        setIsLoggedIn(false);
-        setRole(null);
+        if (!decodedToken || decodedToken.exp * 1000 < Date.now()) {
+          jsCookie.remove('auth-token');
+          setIsLoggedIn(false);
+          setRole(null);
 
-        Swal.fire({
-          icon: 'warning',
-          title: 'Sesión expirada',
-          text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
-        });
-      } else {
-        setIsLoggedIn(true);
-        setRole(decodedToken.role);
-        login(decodedToken); // Actualizar contexto con el rol
-      }
-    };
+          Swal.fire({
+            icon: 'warning',
+            title: 'Sesión expirada',
+            text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+          });
+        } else {
+          setIsLoggedIn(true);
+          setRole(decodedToken.role);
+          login(decodedToken); // Actualizar contexto con el rol
+        }
+      };
 
-    checkAuth();
+      checkAuth();
+    }
   }, []);
 
   return (
