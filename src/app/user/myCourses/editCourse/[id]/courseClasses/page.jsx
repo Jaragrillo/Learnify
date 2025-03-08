@@ -1,5 +1,6 @@
 'use client'
 
+import CourseClassesSkeleton from "@/components/skeletons/CourseClassesSkeleton";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -103,7 +104,7 @@ export default function CoursePage() {
     };
 
     if (isLoading) {
-        return <div>Cargando...</div>
+        return <CourseClassesSkeleton />
     }
 
     return (

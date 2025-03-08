@@ -20,6 +20,10 @@ export default function RootLayout({ children }) {
   return (
     <AuthProvider>
       <html lang="en" className="scroll-smooth">
+        <head>
+          <link rel="icon" href="/icon.jpeg" sizes="any" />
+          <title>Learnify</title>
+        </head>
         <body className={`${poppins.variable} antialiased`}>
           <GlobalMiddlewareWrapper>
             <NavbarComponent />

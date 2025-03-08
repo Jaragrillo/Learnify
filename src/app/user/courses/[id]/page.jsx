@@ -10,10 +10,16 @@ import Slider from "react-slick";
 import categoriesData from '@/utils/categoriesData.json';
 import { jwtDecode } from 'jwt-decode';
 import jsCookie from 'js-cookie';
+import CoursePageSkeleton from "@/components/skeletons/CoursePageSkeleton";
+import PaymentButton from "@/components/PaymentButton";
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
+
 
 export default function CoursePage() {
     const pathname = usePathname();
     const id = pathname.split('/').pop(); // Obtener el ID de la ruta
+    const router = useRouter();
 
     const [courseData, setCourseData] = useState({
         id_curso: '',
@@ -39,6 +45,7 @@ export default function CoursePage() {
     const [sliderRef, setSliderRef] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null); // Estado para almacenar el ID del usuario actual
     const [isAuthor, setIsAuthor] = useState(false); // Estado para verificar si el usuario es el autor
+    const [preferenceId, setPreferenceId] = useState(null);    
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -87,7 +94,7 @@ export default function CoursePage() {
     )?.categorieSlug;
 
     if (isLoading) {
-        return <div>Cargando...</div>
+        return <CoursePageSkeleton />
     }
 
     // Botones del carrusel
@@ -150,6 +157,51 @@ export default function CoursePage() {
                 sliderRef.slickGoTo(0); // Vuelve al inicio si es el primer slide
             }
         },
+    };
+
+    // Manejo del pago
+    const handleCheckout = async () => {
+        Swal.fire({
+            title: 'Procesando...',
+            text: 'Realizando compra.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+    
+        try {
+            const response = await fetch('/api/mercadopago', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    courseId: courseData.id_curso,
+                    title: courseData.titulo,
+                    price: courseData.precio,
+                    currency: 'COP',
+                    currentUserId: currentUserId,
+                }),
+            });
+    
+            const data = await response.json();
+            Swal.close(); // Cierra el loader cuando se obtiene el preferenceId
+            setPreferenceId(data.preferenceId);
+    
+            Swal.fire({
+                title: '¡Compra exitosa!',
+                text: 'Tu compra se ha realizado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Ir a mis cursos',
+                allowOutsideClick: false,
+            }).then(() => {
+                router.push('/user/purchasedCourses');
+            });
+        } catch (error) {
+            console.error('Error al obtener preferenceId:', error);
+            Swal.fire('Error', 'No se pudo iniciar el pago. Intenta más tarde.', 'error');
+        }
     };
 
     return (
@@ -220,7 +272,16 @@ export default function CoursePage() {
                             <p className="text-2xl text-[#0D1D5F] font-medium mb-3">
                                 ${Number(courseData.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })}
                             </p>
-                            <Link href={'/user/courses'} className='text-xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'>¡Compra ahora!</Link>
+                            {preferenceId ? (
+                                <PaymentButton preferenceId={preferenceId} />
+                            ) : (
+                                <button
+                                    onClick={handleCheckout}
+                                    className='text-xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'
+                                >
+                                    ¡Compra ahora!
+                                </button>
+                            )}
                         </div>
                     </div>
                 </section>

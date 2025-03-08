@@ -7,6 +7,10 @@ import Rating from './Rating.js';
 import Comment from './Comment.js';
 import Category from './Category.js';
 import Contact from './Contact.js'
+import Invoice from './Invoice.js';
+import InvoiceDetail from './InvoiceDetail.js';
+import Sale from './Sale.js';
+import Payment from './Payment.js';
 
 // Relación entre modelos
 User.belongsTo(Role, { foreignKey: 'id_rol', as: 'rol' });
@@ -24,4 +28,14 @@ Comment.belongsTo(User, { foreignKey: 'id_usuario', as: 'usuario' });
 Course.belongsTo(Category, { foreignKey: 'id_categoria', as: 'categoria' });
 Category.hasMany(Course, { foreignKey: 'id_categoria', as: 'cursos' });
 
-export { User, Role, Course, CourseContent, Rating, Comment, Category, Contact };
+// Relaciones de los pagos
+Invoice.belongsTo(Course, { foreignKey: 'id_curso' });
+Invoice.hasMany(InvoiceDetail, { foreignKey: 'id_factura' });
+InvoiceDetail.belongsTo(Invoice, { foreignKey: 'id_factura' });
+InvoiceDetail.belongsTo(Course, { foreignKey: 'id_curso' });
+Sale.belongsTo(Course, { foreignKey: 'id_curso' });
+Sale.belongsTo(Course, { foreignKey: 'id_autor', as: 'Autor' });
+Sale.belongsTo(User, { foreignKey: 'id_cliente', as: 'Cliente' });
+Payment.belongsTo(Invoice, { foreignKey: 'id_factura' });
+
+export { User, Role, Course, CourseContent, Rating, Comment, Category, Contact, Invoice, InvoiceDetail, Sale, Payment };
