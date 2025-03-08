@@ -22,6 +22,17 @@ const Invoice = sequelize.define('Invoice', {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    total: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    id_cliente: {
+      type: DataTypes.INTEGER,
+      references: {
+          model: 'usuarios',
+          key: 'id_usuario',
+      },
+    }
   }, {
     tableName: 'facturas',
     timestamps: false,

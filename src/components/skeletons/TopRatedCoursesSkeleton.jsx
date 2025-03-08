@@ -2,7 +2,7 @@ import React from "react";
 import ContentLoader from "react-content-loader";
 
 const TopRatedCoursesSkeleton = () => {
-  const skeletonArray = Array(2).fill(0); // Generar 2 placeholders
+  const skeletonArray = Array(3).fill(0); // Generar 3 placeholders
 
   return (
     <div className="flex justify-between gap-4">
