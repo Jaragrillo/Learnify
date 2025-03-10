@@ -10,7 +10,7 @@ import Contact from './Contact.js'
 import Invoice from './Invoice.js';
 import InvoiceDetail from './InvoiceDetail.js';
 import Sale from './Sale.js';
-import Payment from './Payment.js';
+import Payments from './Payments.js';
 
 // Relación entre modelos
 User.belongsTo(Role, { foreignKey: 'id_rol', as: 'rol' });
@@ -36,6 +36,6 @@ InvoiceDetail.belongsTo(Course, { foreignKey: 'id_curso' });
 Sale.belongsTo(Course, { foreignKey: 'id_curso' });
 Sale.belongsTo(Course, { foreignKey: 'id_autor', as: 'Autor' });
 Sale.belongsTo(User, { foreignKey: 'id_cliente', as: 'Cliente' });
-Payment.belongsTo(Invoice, { foreignKey: 'id_factura' });
+Payments.belongsTo(Invoice, { foreignKey: 'id_factura' });
 
-export { User, Role, Course, CourseContent, Rating, Comment, Category, Contact, Invoice, InvoiceDetail, Sale, Payment };
+export { User, Role, Course, CourseContent, Rating, Comment, Category, Contact, Invoice, InvoiceDetail, Sale, Payments };

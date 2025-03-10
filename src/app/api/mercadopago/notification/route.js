@@ -1,4 +1,4 @@
-import { Sale, Invoice, InvoiceDetail, Course, Payment } from '@/models/index'; 
+import { Sale, Invoice, InvoiceDetail, Course, Payments } from '@/models/index'; 
 const { MercadoPagoConfig, Payment } = require('mercadopago');
 
 export async function POST(req, res) {
@@ -65,7 +65,7 @@ export async function POST(req, res) {
             };
             const metodoPagoAmigable = metodosPagoAmigables[paymentDetails.payment_type_id] || paymentDetails.payment_type_id;
 
-            await Payment.create({
+            await Payments.create({
                 id_factura: factura.id_factura,
                 metodo_pago: metodoPagoAmigable,
                 monto: paymentDetails.transaction_amount,
