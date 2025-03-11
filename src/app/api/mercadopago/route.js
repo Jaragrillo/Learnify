@@ -3,10 +3,7 @@ const { MercadoPagoConfig, Preference } = require("mercadopago");
 export async function POST(req, res) {
     try {
         // Configura las credenciales de Mercado Pago
-        const client = new MercadoPagoConfig({
-            accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN,
-        });
-        const preference = new Preference(client);
+        const mercadopago = new MercadoPagoConfig({ accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN });
 
         // Recibe los datos del curso o producto desde el frontend
         const { courseId, title, price, currency, currentUserId } = await req.json();
@@ -15,33 +12,31 @@ export async function POST(req, res) {
         const unitPrice = parseFloat(String(price).replace(/[^0-9.]/g, ''));
 
         // Crea la preferencia de pago
-        const preferenceData = {
-            items: [
-                {
-                    id: courseId,
-                    title: title,
-                    unit_price: unitPrice,
-                    currency_id: currency || "COP", // Moneda por defecto COP
-                    quantity: 1,
+        const preference = await new Preference(mercadopago).create({
+            body: {
+                items: [
+                    {
+                        id: courseId,
+                        title: title,
+                        unit_price: unitPrice,
+                        currency_id: currency || "COP", // Moneda por defecto COP
+                        quantity: 1,
+                    },
+                ],
+                metadata: {
+                    userId: Number(currentUserId),
                 },
-            ],
-            back_urls: {
-                success: `${process.env.NEXTAUTH_URL}/success`, // URL de éxito
-                failure: `${process.env.NEXTAUTH_URL}/failure`, // URL de fallo
-                pending: `${process.env.NEXTAUTH_URL}/pending`, // URL de pendiente
-            },
-            notification_url: `${process.env.NEXTAUTH_URL}/api/mercadopago/notification`, // URL de notificación
-            metadata: {
-                userId: Number(currentUserId),
-            },
-        };
+                back_urls: {
+                    success: `https://localhost:3000/user/courses/${courseId}?paymentStatus=succes`,
+                    failure: `https://localhost:3000/user/courses/${courseId}?paymentStatus=failure`,
+                    pending: `https://localhost:3000/user/courses/${courseId}?paymentStatus=pending`,
+                },
+                auto_return: "approved"
+            }
+        });
 
-        console.log("preferenceData:", preferenceData);
-        const preferenceResult = await preference.create(preferenceData);
-        console.log("preferenceResult:", preferenceResult);
-
-        // Envía el ID de la preferencia al frontend
-        return Response.json({ preferenceId: preferenceResult.id });
+        // Devolvemos el init point (url de pago) para que el usuario pueda pagar
+        return Response.json({ init_point: preference.init_point });
 
     } catch (error) {
         console.error(error);
