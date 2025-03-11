@@ -33,7 +33,9 @@ export async function POST(req, res) {
             },
         };
 
+        console.log("preferenceData:", preferenceData);
         const preferenceResult = await preference.create(preferenceData);
+        console.log("preferenceResult:", preferenceResult);
 
         // Envía el ID de la preferencia al frontend
         return Response.json({ preferenceId: preferenceResult.id });

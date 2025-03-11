@@ -187,17 +187,24 @@ export default function CoursePage() {
     
             const data = await response.json();
             Swal.close(); // Cierra el loader cuando se obtiene el preferenceId
-            setPreferenceId(data.preferenceId);
     
-            Swal.fire({
-                title: '¡Compra exitosa!',
-                text: 'Tu compra se ha realizado correctamente.',
-                icon: 'success',
-                confirmButtonText: 'Ir a mis cursos',
-                allowOutsideClick: false,
-            }).then(() => {
-                router.push('/user/purchasedCourses');
-            });
+            if (data.preferenceId) { // Verifica si preferenceId existe
+                setPreferenceId(data.preferenceId);
+                Swal.fire({
+                    title: '¡Compra exitosa!',
+                    text: 'Tu compra se ha realizado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Ir a mis cursos',
+                    allowOutsideClick: false,
+                }).then(() => {
+                    router.push('/user/purchasedCourses');
+                });
+            } else {
+                // Si preferenceId no existe, muestra un mensaje de error
+                Swal.fire('Error', 'No se pudo iniciar el pago. Intenta más tarde.', 'error');
+                console.error('No se recibió preferenceId:', data);
+            }
+            
         } catch (error) {
             console.error('Error al obtener preferenceId:', error);
             Swal.fire('Error', 'No se pudo iniciar el pago. Intenta más tarde.', 'error');
