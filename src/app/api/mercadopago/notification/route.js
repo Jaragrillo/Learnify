@@ -8,12 +8,6 @@ export async function POST(req, res) {
         const requestBody = await req.json();
         console.log("Cuerpo de la solicitud analizado:", requestBody); 
 
-        // Verificar que el cuerpo de la solicitud contenga los datos necesarios
-        if (!requestBody || !requestBody.data || !requestBody.data.id) {
-            console.error("Cuerpo de la solicitud inválido:", requestBody);
-            return NextResponse.json({ error: "Cuerpo de la solicitud inválido" }, { status: 400 });
-        }
-
         // Obtener el ID del pago desde el cuerpo de la solicitud
         const paymentId = requestBody.data.id;
 

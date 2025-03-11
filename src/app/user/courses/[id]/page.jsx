@@ -355,7 +355,12 @@ export default function CoursePage() {
                         </div>
                     </div>
                     <div className="w-fit h-fit bg-white rounded-lg hover:scale-110 transition duration-500 absolute bottom-10 left-0 right-0 mx-auto">
-                        <Link href={'/user/courses'} className='text-3xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text px-5 py-1 shadow-lg shadow-black/60 rounded-lg block w-fit'>¡Compra el curso ahora!</Link>
+                        <button 
+                            onClick={handleCheckout}
+                            className='text-3xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text px-5 py-1 shadow-lg shadow-black/60 rounded-lg block w-fit'
+                        >
+                            ¡Compra el curso ahora!
+                        </button>
                     </div>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
@@ -386,7 +391,12 @@ export default function CoursePage() {
                     </div>
                 </section>
                 <section className="p-20">
-                    <Link href={'/user/courses'} className='text-3xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'>¡Empieza a aprender ya!</Link>
+                    <button 
+                        onClick={handleCheckout}
+                        className='text-3xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'
+                    >
+                        ¡Empieza a aprender ya!
+                    </button>
                 </section>
             </main>
             <style jsx global>{`
