@@ -3,13 +3,17 @@ const { MercadoPagoConfig, Payment } = require('mercadopago');
 
 export async function POST(req, res) {
     try {
+        // Analizar el cuerpo de la solicitud como JSON
+        const requestBody = await req.json();
+        console.log("Cuerpo de la solicitud analizado:", requestBody); 
+
         // Configura las credenciales de Mercado Pago
         const client = new MercadoPagoConfig({
             accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN,
         });
         const payment = new Payment(client);
 
-        const paymentResult = await payment.get({ paymentId: req.body.data.id });
+        const paymentResult = await payment.get({ paymentId: requestBody.data.id });
 
         // Verificar la autenticidad (ejemplo simplificado)
         if (paymentResult.id !== req.body.data.id) {
