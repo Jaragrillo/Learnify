@@ -11,13 +11,16 @@ export async function POST(req, res) {
         // Recibe los datos del curso o producto desde el frontend
         const { courseId, title, price, currency, currentUserId } = await req.json();
 
+        // Convertir price a un número flotante y eliminar caracteres no numéricos
+        const unitPrice = parseFloat(String(price).replace(/[^0-9.]/g, ''));
+
         // Crea la preferencia de pago
         const preferenceData = {
             items: [
                 {
                     id: courseId,
                     title: title,
-                    unit_price: price,
+                    unit_price: unitPrice,
                     currency_id: currency || "COP", // Moneda por defecto COP
                     quantity: 1,
                 },
@@ -29,7 +32,7 @@ export async function POST(req, res) {
             },
             notification_url: `${process.env.NEXTAUTH_URL}/api/mercadopago/notification`, // URL de notificación
             metadata: {
-                userId: currentUserId,
+                userId: Number(currentUserId),
             },
         };
 
