@@ -27,9 +27,9 @@ export async function POST(req, res) {
                     userId: Number(currentUserId),
                 },
                 back_urls: {
-                    success: `https://localhost:3000/user/courses/${courseId}?paymentStatus=succes`,
-                    failure: `https://localhost:3000/user/courses/${courseId}?paymentStatus=failure`,
-                    pending: `https://localhost:3000/user/courses/${courseId}?paymentStatus=pending`,
+                    success: `${process.env.NEXTAUTH_URL}/user/courses/${courseId}?paymentStatus=succes`,
+                    failure: `${process.env.NEXTAUTH_URL}/user/courses/${courseId}?paymentStatus=failure`,
+                    pending: `${process.env.NEXTAUTH_URL}/user/courses/${courseId}?paymentStatus=pending`,
                 },
                 auto_return: "approved"
             }
