@@ -11,7 +11,6 @@ import categoriesData from '@/utils/categoriesData.json';
 import { jwtDecode } from 'jwt-decode';
 import jsCookie from 'js-cookie';
 import CoursePageSkeleton from "@/components/skeletons/CoursePageSkeleton";
-import PaymentButton from "@/components/PaymentButton";
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 
@@ -45,7 +44,6 @@ export default function CoursePage() {
     const [sliderRef, setSliderRef] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null); // Estado para almacenar el ID del usuario actual
     const [isAuthor, setIsAuthor] = useState(false); // Estado para verificar si el usuario es el autor
-    const [preferenceId, setPreferenceId] = useState(null);    
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -88,6 +86,39 @@ export default function CoursePage() {
             setIsAuthor(courseData.autor.id_autor === currentUserId);
         }
     }, [courseData, currentUserId]);
+
+    // Mostrar mensaje de estado de pago
+    useEffect(() => {
+        if (!router.isReady) return; // Esperar a que el router esté listo
+
+        
+        const paymentStatus = router.query.paymentStatus // Obtener el estado del pago desde la URL
+
+        if (paymentStatus === 'succes') {
+            Swal.fire({
+                title: '¡Pago exitoso!',
+                text: 'Tu pago se ha realizado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Tus cursos comprados',
+            }).then(() => {
+                router.push('/user/purchasedCourses');
+            });
+        } else if (paymentStatus === 'failure') {
+            Swal.fire({
+                title: '¡Pago fallido!',
+                text: 'Hubo un problema con tu pago. Por favor, inténtalo de nuevo.',
+                icon: 'error',
+                confirmButtonText: 'Volver a intentar',
+            });
+        } else if (paymentStatus === 'pending') {
+            Swal.fire({
+                title: '¡Pago pendiente!',
+                text: 'Tu pago está pendiente de aprobación. Te notificaremos cuando se complete.',
+                icon: 'warning',
+                confirmButtonText: 'Entendido',
+            });
+        }
+    }, [router.isReady, router, router]);
 
     const categorySlug = categoriesData.categories.find(
         (category) => category.categorie === courseData.nombreCategoria 
@@ -187,22 +218,12 @@ export default function CoursePage() {
     
             const data = await response.json();
             Swal.close(); // Cierra el loader cuando se obtiene el preferenceId
-    
-            if (data.preferenceId) { // Verifica si preferenceId existe
-                setPreferenceId(data.preferenceId);
-                Swal.fire({
-                    title: '¡Compra exitosa!',
-                    text: 'Tu compra se ha realizado correctamente.',
-                    icon: 'success',
-                    confirmButtonText: 'Ir a mis cursos',
-                    allowOutsideClick: false,
-                }).then(() => {
-                    router.push('/user/purchasedCourses');
-                });
-            } else {
-                // Si preferenceId no existe, muestra un mensaje de error
+            
+            if (data.init_point) {
+                window.location.href = data.init_point;
+            } else{
                 Swal.fire('Error', 'No se pudo iniciar el pago. Intenta más tarde.', 'error');
-                console.error('No se recibió preferenceId:', data);
+                console.log('No se recibió init_point:', data);
             }
             
         } catch (error) {
@@ -279,16 +300,12 @@ export default function CoursePage() {
                             <p className="text-2xl text-[#0D1D5F] font-medium mb-3">
                                 ${Number(courseData.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })}
                             </p>
-                            {preferenceId ? (
-                                <PaymentButton preferenceId={preferenceId} />
-                            ) : (
-                                <button
-                                    onClick={handleCheckout}
-                                    className='text-xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'
-                                >
-                                    ¡Compra ahora!
-                                </button>
-                            )}
+                            <button
+                                onClick={handleCheckout}
+                                className='text-xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'
+                            >
+                                ¡Compra ahora!
+                            </button>
                         </div>
                     </div>
                 </section>
