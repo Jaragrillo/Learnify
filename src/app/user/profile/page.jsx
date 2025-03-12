@@ -18,6 +18,8 @@ export default function ProfilePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState(null);
   const router = useRouter();
+  const [createdCoursesCount, setCreatedCoursesCount] = useState(0);
+  const [purchasedCoursesCount, setPurchasedCoursesCount] = useState(0);
 
   useEffect(() => {
     // Verificar si el usuario está autenticado
@@ -34,6 +36,7 @@ export default function ProfilePage() {
       setIsLoggedIn(true);
       setRole(decodedToken.role);
       fetchUserData(decodedToken.id);
+      fetchCoursesCounts();
     } catch (error) {
       console.error("Error al decodificar el token:", error);
       localStorage.removeItem('auth-token'); // Elimina el token en caso de error
@@ -55,6 +58,25 @@ export default function ProfilePage() {
       console.error("Error al obtener datos del perfil:", error);
       setError("No se pudo cargar el perfil.");
       setIsLoading(false);
+    }
+  };
+
+  // Función para consultar los cursos que ha comprado y creado el usuario
+  const fetchCoursesCounts = async () => {
+    try {
+      const createdResponse = await fetch('/api/courses?createdByUser=true');
+      if (createdResponse.ok) {
+        const createdData = await createdResponse.json();
+        setCreatedCoursesCount(createdData.length);
+      }
+
+      const purchasedResponse = await fetch('/api/courses?purchasedByUser=true');
+      if (purchasedResponse.ok) {
+        const purchasedData = await purchasedResponse.json();
+        setPurchasedCoursesCount(purchasedData.length);
+      }
+    } catch (error) {
+      console.error("Error al obtener la cantidad de cursos:", error);
     }
   };
 
@@ -198,7 +220,7 @@ export default function ProfilePage() {
                       Cursos creados
                     </div>
                   </label>
-                  <input type="text" name="createdCourses" id="createdCourses" value={`${userData.nombre}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                  <input type="text" name="createdCourses" id="createdCourses" value={createdCoursesCount} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                   <Link href={'/user/myCourses'} className="text-white/60 hover:text-white/100 w-fit mt-1 block">Ver cursos creados →</Link>
                 </div>
                 <div className="w-2/5">
@@ -213,7 +235,7 @@ export default function ProfilePage() {
                       Cursos comprados
                     </div>
                   </label>
-                  <input type="text" name="purchasedCourses" id="purchasedCourses" value={`${userData.nombre}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
+                  <input type="text" name="purchasedCourses" id="purchasedCourses" value={purchasedCoursesCount } className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                   <Link href={'/user/purchasedCourses'} className="text-white/60 hover:text-white/100 w-fit mt-1 block">Ver cursos comprados →</Link>
                 </div>
               </form>

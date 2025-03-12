@@ -19,8 +19,8 @@ export default function createdCoursesPage() {
                 }
                 const data = await response.json();
                 setCourses(data);
-            } catch (err) {
-                setError(err.message);
+            } catch (error) {
+                setError(error.message);
             } finally {
                 setIsLoading(false);
             }
@@ -38,7 +38,7 @@ export default function createdCoursesPage() {
                 </section>
                 <section>
                     <div className="flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                        <p className="text-white text-3xl">Todos los cursos</p>
+                        <p className="text-white text-3xl">Cursos creados</p>
                         <Link href={'/user/myCourses/newCourse'} className="group flex text-2xl items-center text-white gap-2 px-3 py-2 border border-white hover:bg-white hover:text-black transition-all duration-300 ease-linear">
                             Crear nuevo curso
                             <Image 
