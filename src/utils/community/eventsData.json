@@ -1,0 +1,41 @@
+{
+    "events": [
+      {
+        "title": "Taller de desarrollo web",
+        "date": "15-05-2025",
+        "time": "2:00pm",
+        "attendees": 78
+      },
+      {
+        "title": "Seminario web en ciencia de datos",
+        "date": "10-02-2025",
+        "time": "12:00pm",
+        "attendees": 120
+      },
+      {
+        "title": "Taller de redes sociales",
+        "date": "30-05-2025",
+        "time": "1:00pm",
+        "attendees": 55
+      },
+      {
+        "title": "Taller de gastronomía",
+        "date": "01-06-2025",
+        "time": "10:00am",
+        "attendees": 36
+      },
+      {
+        "title": "Desarrollo personal: Charla motivacional",
+        "date": "19-07-2025",
+        "time": "11:00am",
+        "attendees": 120
+      },
+      {
+        "title": "Desarrollo web: SEO y buenas prácticas",
+        "date": "06-06-2025",
+        "time": "8:00am",
+        "attendees": 20
+      }
+    ]
+  }
+  
