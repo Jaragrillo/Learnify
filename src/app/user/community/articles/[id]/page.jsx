@@ -36,7 +36,18 @@ export default function ArticlePage({ params }) {
                     </div>
                 </section>
                 <section className='px-10 pb-10'>
-                    <p>{articleInfo.article}</p>
+                    {
+                        articleInfo && articleInfo.sections && articleInfo.sections.length > 0 ? (
+                            articleInfo.sections.map((section, index) => (
+                                <div key={index} className='mb-5'>
+                                    <h4 className='text-[#0D1D5F] font-medium text-2xl'>{section.title}</h4>
+                                    <p className='text-[#0D1D5F] text-justify font-light text-xl'>{section.article}</p>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No hay secciones del artículo aún.</p>
+                        )
+                    }
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
                     <h2 className="text-4xl font-medium mb-10 text-[#0D1D5F]">Comentarios</h2>

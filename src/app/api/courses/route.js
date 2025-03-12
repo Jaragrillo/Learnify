@@ -2,13 +2,14 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { SECRET_KEY } from '../auth/login/route';
-import { Course, User, CourseContent, Rating } from '@/models/index'
+import { Course, User, CourseContent, Rating, Sale } from '@/models/index'
 
 // Consulta de todos los cursos
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const categoryId = searchParams.get('category'); // Parámetro de categoría para filtrar
     const createdByUser = searchParams.get('createdByUser'); // Consulta de cursos creados por usuario actual
+    const purchasedByUser = searchParams.get('purchasedByUser'); // Consulta de cursos comprados por usuario actual
     const topRated = searchParams.get('topRated'); // Consulta para cursos destacados
 
     try {
@@ -57,6 +58,78 @@ export async function GET(request) {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },
             });   
+        }
+
+        if (purchasedByUser) {
+            // Autenticación del usuario
+            const cookieStore = await cookies();
+            const token = cookieStore.get('auth-token')?.value;
+
+            if (!token) {
+                return NextResponse.json({ message: 'No autenticado.' }, { status: 401 });
+            }
+
+            const decodedToken = jwt.verify(token, SECRET_KEY);
+            const userId = decodedToken.id;
+
+            // Obtener las ventas del usuario
+            const ventasUsuario = await Sale.findAll({
+                where: { id_cliente: userId },
+                attributes: ['id_curso']
+            });
+
+            // Extraer los IDs de los cursos comprados
+            const cursosCompradosIds = ventasUsuario.map(venta => venta.id_curso);
+
+            // Obtener detalles de los cursos comprados
+            const cursosComprados = await Course.findAll({
+                where: { id_curso: cursosCompradosIds },
+                include: [
+                    {
+                        model: User,
+                        as: 'autor',
+                        attributes: ['id_usuario', 'nombre', 'apellidos']
+                    },
+                    {
+                        model: CourseContent,
+                        as: 'clases',
+                        attributes: ['id_clase']
+                    }
+                ]
+            });
+
+            // Calcular el promedio de valoraciones para cada curso comprado
+            const cursosCompradosConDetalles = await Promise.all(cursosComprados.map(async (curso) => {
+                const valoraciones = await Rating.findAll({
+                    where: { id_curso: curso.id_curso },
+                    attributes: ['puntuacion']
+                });
+
+                const totalValoraciones = valoraciones.length;
+                const promedioValoracion = totalValoraciones > 0
+                    ? valoraciones.reduce((sum, val) => sum + val.puntuacion, 0) / totalValoraciones
+                    : null;
+
+                return {
+                    id_curso: curso.id_curso,
+                    titulo: curso.titulo,
+                    img_portada: curso.img_portada,
+                    descripcion: curso.descripcion,
+                    precio: curso.precio,
+                    estudiantes: curso.estudiantes,
+                    autor: {
+                        id_autor: curso.autor?.id_usuario,
+                        nombre_completo: ` ${curso.autor.nombre} ${curso.autor.apellidos}` || "autor desconocido",
+                    },
+                    totalClases: curso.clases?.length || 0,
+                    valoracion: promedioValoracion ?? 'El curso no ha sido valorado'
+                };
+            }));
+ 
+            return new Response(JSON.stringify(cursosCompradosConDetalles), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });
         }
 
         if (categoryId) {
