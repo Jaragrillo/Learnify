@@ -150,7 +150,7 @@ export default function NavbarLoggedIn() {
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/community"} className={`hover:text-black/100 ${pathname.includes('community') ? 'text-black/100' : ''}`}>Comunidad</Link>
+                            <Link href={"/user/community/forums"} className={`hover:text-black/100 ${pathname.includes('community') ? 'text-black/100' : ''}`}>Comunidad</Link>
                         </li>
                     </ul>
                 </nav>

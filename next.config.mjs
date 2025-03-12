@@ -9,6 +9,12 @@ const nextConfig = {
         port: '',
         pathname: '/**', // Permite cualquier subdominio y rutas de Cloudinary
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        port: '',
+        pathname: '/**', // Permite cualquier subdominio y rutas de pixabay
+      },
     ],
   },
   webpack: (config) => {

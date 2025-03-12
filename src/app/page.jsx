@@ -7,18 +7,18 @@ export default function HomePage() {
       <main>
         <section className='mb-20'>
           <div className='w-full h-[400px] m-auto mb-10 py-16 text-white text-center relative'>
-              <div className=''>
-                  <h1 className='text-6xl font-medium mb-5'>¡Bienvenido a Learnify!</h1> 
-                  <p className='text-4xl font'>La plataforma donde puedes enseñar, aprender y crecer.</p>
-                  <p className='text-2xl font-medium italic'>Crea y vende tu contenido, o accede a un mundo de conocimiento.</p>
-              </div>
-              <Image /* NEXT JS Image Optimization (New way of loading an Image) */
-                src="/images/landing/bg_home.png" 
-                alt="welcome-principal-banner" 
-                width={1000} 
-                height={1000} 
-                className="brightness-50 w-full  absolute top-0 -z-10"
-              />
+            <div>
+                <h1 className='text-6xl font-medium mb-5'>¡Bienvenido a Learnify!</h1> 
+                <p className='text-4xl font'>La plataforma donde puedes enseñar, aprender y crecer.</p>
+                <p className='text-2xl font-medium italic'>Crea y vende tu contenido, o accede a un mundo de conocimiento.</p>
+            </div>
+            <Image 
+              src="/images/landing/bg_home.png" 
+              alt="welcome-principal-banner" 
+              width={1000} 
+              height={1000} 
+              className="brightness-50 w-full  absolute top-0 -z-10"
+            />
           </div>
           <div className='flex items-top justify-around px-10'>
               <div className='w-[530px] text-center bg-[#F4F4F4] p-5 rounded-lg shadow-lg shadow-black/25'>
