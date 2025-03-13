@@ -81,6 +81,7 @@ export default function CoursePage() {
         }
     }, [id]);
 
+    // Validar si quien está viendo el curso no sea el creador 
     useEffect(() => {
         if (courseData.autor && currentUserId) {
             setIsAuthor(courseData.autor.id_autor === currentUserId);
@@ -90,7 +91,6 @@ export default function CoursePage() {
     // Mostrar mensaje de estado de pago
     useEffect(() => {
         if (!router.isReady) return; // Esperar a que el router esté listo
-
         
         const paymentStatus = router.query.paymentStatus // Obtener el estado del pago desde la URL
 
