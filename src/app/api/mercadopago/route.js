@@ -24,7 +24,7 @@ export async function POST(req, res) {
                     },
                 ],
                 metadata: {
-                    userId: Number(currentUserId),
+                    userId: currentUserId,
                 },
                 back_urls: {
                     success: `${process.env.NEXTAUTH_URL}/user/courses/${courseId}?paymentStatus=succes`,

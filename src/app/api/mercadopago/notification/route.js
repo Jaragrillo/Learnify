@@ -14,17 +14,17 @@ export async function POST(req, res) {
         // Configura las credenciales de Mercado Pago
         const mercadopago = new MercadoPagoConfig({ accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN });
 
-        // Crear una instancia de Payment con la configuración
-        const paymentInstance = new Payment(mercadopago);
-
         // Obtener detalles del pago desde Mercado Pago
-        const payment = await paymentInstance.get({ id: paymentId });
+        const payment = await new Payment(mercadopago).get({id: paymentId});
 
         // Verificar que el pago se haya encontrado
         if (!payment) {
             console.error("Pago no encontrado con ID:", paymentId);
             return NextResponse.json({ error: "Pago no encontrado" }, { status: 404 });
         }
+
+        console.log("metadata",payment.metadata);
+        
 
         if (payment.status === 'approved') {
             // Obtén el ID del curso de los items
