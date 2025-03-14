@@ -3,15 +3,19 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from "next/image";
+import { usePathname } from 'next/navigation';
 
-export default function AsideNavbarLoggedIn() {
+export default function AsideNavbarDashboard() {
+
+    const pathname = usePathname();
+
     return(
         <aside className='bg-[#0F5789] h-full w-80 px-10 py-20 fixed z-30'>
             <p className='text-2xl text-center mb-10 text-white'>Learnify Management</p>
             <nav className='mx-auto'>
                 <ul>
-                    <li className='bg-gray-300 hover:bg-white rounded-lg p-2 mb-5'>
-                        <Link href={"manage/dashboard"}>
+                    <li className={`bg-gray-300 hover:bg-white rounded-lg p-2 mb-5 ${pathname.includes('dashboard') ? 'bg-white' : ''}`}>
+                        <Link href={"/manage/dashboard"}>
                             <div className='flex items-center gap-3 w-60'>
                                 <Image 
                                     src="/svg/dashboard.svg" 
@@ -24,8 +28,8 @@ export default function AsideNavbarLoggedIn() {
                             </div>
                         </Link>
                     </li>
-                    <li className='bg-gray-300 hover:bg-white rounded-lg p-2 mb-5'>
-                        <Link href={"manage/courses"}>
+                    <li className={`bg-gray-300 hover:bg-white rounded-lg p-2 mb-5 ${pathname.includes('courses') ? 'bg-white' : ''}`}>
+                        <Link href={"/manage/courses"}>
                             <div className='flex items-center gap-3 w-60'>
                                 <Image 
                                     src="/svg/class.svg" 
@@ -38,8 +42,8 @@ export default function AsideNavbarLoggedIn() {
                             </div>
                         </Link>
                     </li>
-                    <li className='bg-gray-300 hover:bg-white rounded-lg p-2 mb-5'>
-                        <Link href={"manage/sells"}>
+                    <li className={`bg-gray-300 hover:bg-white rounded-lg p-2 mb-5 ${pathname.includes('sells') ? 'bg-white' : ''}`}>
+                        <Link href={"/manage/sells"}>
                             <div className='flex items-center gap-3 w-60'>
                                 <Image 
                                     src="/svg/moneyBlack.svg" 
@@ -52,8 +56,8 @@ export default function AsideNavbarLoggedIn() {
                             </div>
                         </Link>
                     </li>
-                    <li className='bg-gray-300 hover:bg-white rounded-lg p-2 mb-5'>
-                        <Link href={"manage/users"}>
+                    <li className={`bg-gray-300 hover:bg-white rounded-lg p-2 mb-5 ${pathname.includes('users') ? 'bg-white' : ''}`}>
+                        <Link href={"/manage/users"}>
                             <div className='flex items-center gap-3 w-60'>
                                 <Image 
                                     src="/svg/user.svg" 
@@ -66,8 +70,8 @@ export default function AsideNavbarLoggedIn() {
                             </div>
                         </Link>
                     </li>
-                    <li className='bg-gray-300 hover:bg-white rounded-lg p-2 mb-5'>
-                        <Link href={"manage/messages"}>
+                    <li className={`bg-gray-300 hover:bg-white rounded-lg p-2 mb-5 ${pathname.includes('messages') ? 'bg-white' : ''}`}>
+                        <Link href={"/manage/messages"}>
                             <div className='flex items-center gap-3 w-60'>
                                 <Image 
                                     src="/svg/messageBlack.svg" 

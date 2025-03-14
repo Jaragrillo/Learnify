@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import { useAuth } from '@/contexts/AuthContext'
 
@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false); // useState para mostrar el campo de la contraseña
   const router = useRouter();
-  const { login } = useAuth(); // Obtener la función de actualización del contexto
+  const { login, role } = useAuth(); // Obtener la función de actualización del contexto
 
   const validateForm = () => {
 
@@ -113,8 +113,6 @@ export default function LoginPage() {
             confirmButton: 'bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded',
           },
           buttonsStyling: false,
-        }).then(() => {
-          router.push('/user/home'); // Redirección al home del usuario logeado
         });
       } else {
         Swal.fire({
@@ -143,6 +141,17 @@ export default function LoginPage() {
       });
     }
   }
+
+  useEffect(() => {
+    console.log("LoginPage: Role in useEffect:", role); // Debugging
+    if (role === 1) {
+        console.log("LoginPage: Redirecting to /manage/dashboard"); // Debugging
+        router.push('/manage/dashboard');
+    } else if (role !== null) {
+        console.log("LoginPage: Redirecting to /user/home"); // Debugging
+        router.push('/user/home');
+    }
+  }, [role, router]);
 
   return (
     <>
