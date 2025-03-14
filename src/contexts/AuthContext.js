@@ -12,12 +12,14 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado de autenticación
   const [userData, setUserData] = useState(null); // Información del usuario
   const [role, setRole] = useState(null); // Para almacenar el rol del usuario
+  const [cookieSet, setCookieSet] = useState(false); 
 
   // Función de login
   const login = (data) => {
     setIsLoggedIn(true);
     setUserData(data);
     setRole(data.role); // Asignar rol desde los datos del usuario
+    setCookieSet(true); // Actualizar el estado
   };
 
   // Función de logout
@@ -25,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(false);
     setUserData(null);
     setRole(null);
+    setCookieSet(false);
   };
 
   // Función para actualizar la foto de perfil
@@ -68,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
       checkAuth();
     }
-  }, []);
+  }, [cookieSet]);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, userData, role, login, logout, refreshNav }}>
@@ -100,7 +103,9 @@ function decodeJwt(token) {
         .join('')
     );
 
-    return JSON.parse(jsonPayload);
+    const decodedToken = JSON.parse(jsonPayload);
+    console.log("AuthContext: Decoded Token:", decodedToken); // Debugging
+    return decodedToken;
   } catch (e) {
     return null;
   }

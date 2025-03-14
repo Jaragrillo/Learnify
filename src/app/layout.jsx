@@ -8,6 +8,7 @@ import NavbarDashboard from '@/components/NavbarDashboard';
 import Footer from '@/components/Footer';
 import GlobalMiddlewareWrapper from '@/components/GlobalMiddlewareWrapper';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { useEffect, useState } from 'react';
 
 // Configurar Poppins
 const poppins = Poppins({
@@ -39,17 +40,29 @@ export default function RootLayout({ children }) {
 // Componente para manejar el Navbar según estado de autenticación
 const NavbarComponent = () => {
   const { isLoggedIn, role } = useAuth();
+  const [navbar, setNavbar] = useState(<NavbarLoggedOut />);
 
-  if (isLoggedIn) {
-    return role === 1 ? <NavbarDashboard /> : <NavbarLoggedIn />;
-  }
+  useEffect(() => {
+    console.log("NavbarComponent: isLoggedIn:", isLoggedIn, "role:", role); // Debugging
+      if (isLoggedIn) {
+          setNavbar(role === 1 ? <NavbarDashboard /> : <NavbarLoggedIn />);
+      } else {
+          setNavbar(<NavbarLoggedOut />);
+      }
+  }, [isLoggedIn, role]);
 
-  return <NavbarLoggedOut />;
+  return navbar;
 };
 
 // Componente para manejar el Footer según estado de autenticación
 const FooterComponent = () => {
   const { role } = useAuth();
-  
-  return role !== 1 ? <Footer /> : null;
+  const [footer, setFooter] = useState(null);
+
+  useEffect(() => {
+    console.log("FooterComponent: role:", role); // Debugging
+    setFooter(role !== 1 ? <Footer /> : null);
+  }, [role]);
+
+  return footer;
 };
