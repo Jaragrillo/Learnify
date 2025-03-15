@@ -4,29 +4,34 @@ export default function AdminCoursesPage() {
     return (
       <>
         <main className="ml-80">
-          <section>
-            <div>
-              <Image></Image>
-              <h2>Cursos</h2>
+          <section className="pt-10 px-10">
+            <div className="flex items-center gap-2">
+              <Image 
+                  src="/svg/class.svg" 
+                  alt="class-svg" 
+                  width={50} 
+                  height={50} 
+              />
+              <h2 className="text-4xl text-[#0D1D5F]">Cursos</h2>
             </div>
           </section>
-          <section>
-            <div>
-              <div>
-                <h3>Cursos creados hoy</h3>
+          <section className="p-10 relative">
+            <div className="flex justify-between">
+              <div className="w-[30%] border-2 border-[#0D1D5F] rounded-lg p-5">
+                <h3 className="text-xl font-medium">Cursos creados hoy</h3>
                 <p></p>
               </div>
-              <div>
-                <h3>Cursos creados en la semana</h3>
+              <div className="w-[30%] border-2 border-[#0D1D5F] rounded-lg p-5">
+                <h3 className="text-xl font-medium">Cursos creados en la semana</h3>
                 <p></p>
               </div>
-              <div>
-                <h3>Cursos creados en el mes</h3>
+              <div className="w-[30%] border-2 border-[#0D1D5F] rounded-lg p-5">
+                <h3 className="text-xl font-medium">Cursos creados en el mes</h3>
                 <p></p>
               </div>
             </div>
           </section>
-          <section>
+          <section className="p-10">
             <div>
               <label htmlFor="filterCoursesBy">Filtrar cursos por:</label>
               <select name="filterCoursesBy" id="filterCoursesBy">
