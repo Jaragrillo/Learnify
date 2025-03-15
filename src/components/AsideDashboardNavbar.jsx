@@ -22,7 +22,6 @@ export default function AsideNavbarDashboard() {
                                     alt="dashboard-svg" 
                                     width={24} 
                                     height={24} 
-                                    className=""
                                 />
                                 <p className='text-xl'>Dashboard</p>
                             </div>
@@ -32,11 +31,10 @@ export default function AsideNavbarDashboard() {
                         <Link href={"/manage/courses"}>
                             <div className='flex items-center gap-3 w-60'>
                                 <Image 
-                                    src="/svg/class.svg" 
-                                    alt="class-svg" 
+                                    src="/svg/classBlack.svg" 
+                                    alt="classBlack-svg" 
                                     width={24} 
                                     height={24} 
-                                    className=""
                                 />
                                 <p className='text-xl'>Cursos</p>
                             </div>
@@ -50,7 +48,6 @@ export default function AsideNavbarDashboard() {
                                     alt="moneyBlack-svg" 
                                     width={24} 
                                     height={24} 
-                                    className=""
                                 />
                                 <p className='text-xl'>Ventas</p>
                             </div>
@@ -64,7 +61,6 @@ export default function AsideNavbarDashboard() {
                                     alt="user-svg" 
                                     width={24} 
                                     height={24} 
-                                    className=""
                                 />
                                 <p className='text-xl'>Usuarios</p>
                             </div>
@@ -78,7 +74,6 @@ export default function AsideNavbarDashboard() {
                                     alt="messageBlack-svg"
                                     width={24} 
                                     height={24} 
-                                    className=""
                                 />
                                 <p className='text-xl'>Mensajes</p>
                             </div>
