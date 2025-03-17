@@ -94,7 +94,7 @@ export default function AdminCoursesPage() {
                     height={50} 
                   />
                   <div>
-                    <h5>Estudiantes actuales</h5>
+                    <h5 className="font-medium">Estudiantes actuales</h5>
                     <p>{course.students}</p>  
                   </div>  
                 </div>  
@@ -106,7 +106,7 @@ export default function AdminCoursesPage() {
                     height={50} 
                   />
                   <div>
-                    <h5>Ganancias generadas</h5>
+                    <h5 className="font-medium">Ganancias generadas</h5>
                     <p>${course.incomes} COP</p>  
                   </div>  
                 </div>  
@@ -121,7 +121,7 @@ export default function AdminCoursesPage() {
                     />
                   </div>
                   <div>
-                    <h5>Creado por:</h5>
+                    <h5 className="font-medium">Creado por:</h5>
                     <p>{course.author.nombreCompleto}</p>
                   </div>  
                 </div>  
@@ -134,7 +134,7 @@ export default function AdminCoursesPage() {
           <h3 className="text-3xl text-center text-[#0D1D5F] mb-10">Cursos mejor valorados</h3>
           <div className="flex justify-between">
             {dashboardCourseData.cursosMejorValorados.map((course, index) => (
-              <div key={index} className="shadow-lg shadow-black/60 rounded-lg p-5 w-full">
+              <div key={index} className="shadow-lg shadow-black/60 rounded-lg p-5 w-2/5">
                 <h4 className="text-2xl text-[#0D1D5F] mb-3">{course.title}</h4>
                 <div className="flex items-center mb-3">
                   {renderStars(Math.round(course.rating))} {/* Renderiza las estrellas */}
@@ -151,7 +151,7 @@ export default function AdminCoursesPage() {
                     />
                   </div>
                   <div>
-                    <h5>Creado por:</h5>
+                    <h5 className="font-medium">Creado por:</h5>
                     <p>{course.author.nombreCompleto}</p>
                   </div>
                 </div>
@@ -161,34 +161,100 @@ export default function AdminCoursesPage() {
           <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
         </section>
         <section className="px-10">
-          <h3>Cursos</h3>
-          <div>tabla cursos</div>
+          <h3 className="text-2xl font-medium text-[#0D1D5F] mb-10">Cursos</h3>
+          <div className="overflow-x-auto border">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estudiantes</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Autor</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {dashboardCourseData.cursos.map(curso => (
+                  <tr key={curso.id_curso}>
+                    <td className="px-6 py-4 whitespace-nowrap">{curso.id_curso}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{curso.titulo}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">${curso.precio}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{curso.estudiantes}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{curso.id_autor}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{curso.id_categoria}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button className="bg-red-400 flex items-center px-3 py-2 rounded-lg hover:bg-red-600">
+                        <p className="text-white font-light">Eliminar</p>
+                        <Image 
+                          src="/svg/delete.svg" 
+                          alt="delete-svg" 
+                          width={24} 
+                          height={24} 
+                        />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
         </section>
-        <section className="px-10">
-          <div className="flex items-center gap-2">
+        <section className="px-10 pb-10">
+          <div className="flex items-center gap-2 mb-10">
             <Image 
                 src="/svg/class.svg" 
                 alt="class-svg" 
                 width={50} 
                 height={50} 
             />
-            <h2 className="text-4xl text-[#0D1D5F]">Cursos</h2>
+            <h2 className="text-4xl text-[#0D1D5F]">Categorías</h2>
           </div>
           <div>
-            <div>
-              tabla categorias
-            </div>
-            <div>
-              <button>
-                <p>Añadir nueva categoría</p>
+            <div className="flex flex-row-reverse mb-2">
+              <button className="flex items-center gap-1 group">
+                <p className="text-2xl group-hover:underline text-[#0D1D5F]">Añadir nueva categoría</p>
                 <Image 
-                    src="/svg/add.svg" 
-                    alt="add-svg" 
-                    width={50} 
-                    height={50} 
+                    src="/svg/addDarkBlue.svg" 
+                    alt="addDarkBlue-svg" 
+                    width={40} 
+                    height={40} 
                 />
               </button>
+            </div>
+            <div className="overflow-x-auto border">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripcion</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {dashboardCourseData.categorias.map(categoria => (
+                    <tr key={categoria.id_categoria}>
+                      <td className="px-6 py-4 whitespace-nowrap">{categoria.id_categoria}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{categoria.categoria}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{categoria.descripcion.length > 50 ? categoria.descripcion.substring(0, 50) + "..." : categoria.descripcion}</td>
+                      <td className="px-6 py-4 whitespace-nowrap flex items-center gap-2">
+                        <button className="bg-blue-400 flex items-center px-3 py-2 rounded-lg hover:bg-blue-500 gap-1">
+                          <p className="text-white font-light">Editar</p>
+                          <Image 
+                            src="/svg/edit.svg" 
+                            alt="edit-svg" 
+                            width={24} 
+                            height={24} 
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </section>

@@ -1,4 +1,3 @@
-// models/index.js (define las relaciones aquí)
 import User from './User.js';
 import Role from './Role.js';
 import Course from './Course.js';

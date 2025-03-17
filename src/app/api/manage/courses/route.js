@@ -1,4 +1,3 @@
-// pages/api/manage/courses.js
 import { Course, Sale, Rating, User, Category } from '@/models/index';
 import { NextResponse } from 'next/server';
 import { Sequelize, Op } from 'sequelize';
@@ -7,7 +6,11 @@ export async function GET(req, res) {
     try {
         // Cursos más comprados
         const cursosMasCompradosSales = await Sale.findAll({
-            attributes: ['id_curso', [Sequelize.fn('COUNT', Sequelize.col('Sale.id_curso')), 'ventas']],
+            attributes: [
+                'id_curso',
+                [Sequelize.fn('COUNT', Sequelize.col('id_curso')), 'ventas'],
+                [Sequelize.fn('SUM', Sequelize.col('precio')), 'ganancias'],
+            ],  
             group: ['id_curso'],
             order: [[Sequelize.literal('ventas'), 'DESC']],
             limit: 4,
@@ -21,7 +24,7 @@ export async function GET(req, res) {
                     model: User,
                     as: 'autor',
                     attributes: ['nombre', 'apellidos', 'foto_perfil'],
-                }],
+                },],
             });
 
             if (!course) {
@@ -32,7 +35,7 @@ export async function GET(req, res) {
             return {
                 title: course.titulo,
                 students: course.estudiantes,
-                incomes: course.Sales ? course.Sales.reduce((total, sale) => total + sale.precio, 0) : 0,
+                incomes: venta.dataValues.ganancias || 0,
                 author: {
                     nombreCompleto: `${course.autor.nombre} ${course.autor.apellidos}`,
                     profileImage: course.autor.foto_perfil,
