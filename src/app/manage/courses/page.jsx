@@ -182,7 +182,12 @@ export default function AdminCoursesPage() {
             <div>
               <button>
                 <p>Añadir nueva categoría</p>
-                <Image></Image>
+                <Image 
+                    src="/svg/add.svg" 
+                    alt="add-svg" 
+                    width={50} 
+                    height={50} 
+                />
               </button>
             </div>
           </div>
