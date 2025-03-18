@@ -25,19 +25,21 @@ export default function IncomeChart({ data }) {
         responsive: true,
         plugins: {
             legend: { position: 'top' },
-            title: { display: true, text: 'Ventas por Fecha' },
+            title: { display: true, text: 'Ventas por Fecha', font: { size: 25, weight: '200' }, color: '#0D1D5F', },
         },
         scales: {
             x: {
                 title: {
                     display: true,
                     text: 'Fechas',
+                    font: { size: 20, weight: '600' }, color: '#0D1D5F',
                 },
             },
             y: {
                 title: {
                     display: true,
                     text: 'Ingresos',
+                    font: { size: 20, weight: '600' }, color: '#0D1D5F',
                 },
             },
         },

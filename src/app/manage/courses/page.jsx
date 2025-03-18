@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useState, useEffect } from 'react';
+import BestSellingCoursesChart from "@/components/charts/BestSellingCoursesChart";
+import Swal from 'sweetalert2';
 
 export default function AdminCoursesPage() {
   const [dashboardCourseData, setDashboardCourseData] = useState({
@@ -27,6 +29,24 @@ export default function AdminCoursesPage() {
     };
 
     fetchData();
+  }, []);
+
+  const reloadData = async () => {
+    try {
+      const response = await fetch('/api/manage/courses');
+      if (response.ok) {
+        const data = await response.json();
+        setDashboardCourseData(data);
+      } else {
+        console.error('Error fetching data');
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    reloadData();
   }, []);
 
   // Obtenemos las estrellas de valoración
@@ -60,6 +80,194 @@ export default function AdminCoursesPage() {
     );
   };
 
+  // Prepara los datos para el gráfico de cursos más vendidos
+  const bestSellingChartData = {
+    labels: dashboardCourseData.cursosMasComprados.map(course => course.title),
+    datasets: [{
+        data: dashboardCourseData.cursosMasComprados.map(course => course.students), // Usamos estudiantes como ventas
+    }],
+  };
+
+  // Función para eliminar un curso
+  const handleDeleteCourse = async (courseId, reloadData) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el curso permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#d33',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Eliminando...',
+          text: 'Por favor, espera.',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        try {
+          const response = await fetch(`/api/manage/courses/delete?id=${courseId}`, {
+            method: 'DELETE',
+          });
+
+          if (!response.ok) {
+            throw new Error('Error al eliminar el curso');
+          }
+
+          Swal.fire('¡Eliminado!', 'El curso ha sido eliminado correctamente.', 'success');
+          reloadData(); // Recargar datos
+        } catch (error) {
+          Swal.fire('Error', error.message, 'error');
+        }
+      }
+    });
+  };
+
+  // Función para crear una categoría
+  const handleCreateCategory = async (reloadData) => {
+    const { value: formValues } = await Swal.fire({
+      title: 'Crear Categoría',
+      html:
+        '<input id="swal-input1" class="swal2-input" placeholder="Nombre de la categoría">' +
+        '<textarea id="swal-input2" class="swal2-textarea" placeholder="Descripción de la categoría"></textarea>',
+      focusConfirm: false,
+      confirmButtonText: 'Crear categoría',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: 'red',
+      showCancelButton: true, 
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+          document.getElementById('swal-input2').value,
+        ];
+      },
+    });
+
+    if (formValues) {
+      const [nombre, descripcion] = formValues;
+
+      if (!nombre || !descripcion) {
+        Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
+        return;
+      }
+
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: `¿Quieres crear la categoría "${nombre}"?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, crear',
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: 'red'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Creando...',
+            text: 'Por favor, espera.',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+
+          try {
+            const response = await fetch('/api/manage/courses/categories/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ nombre, descripcion }),
+            });
+            
+            if (!response.ok) {
+              throw new Error('Error al crear la categoría');
+            }
+            
+            Swal.fire('¡Creada!', 'La categoría ha sido creada correctamente.', 'success');
+            reloadData(); // Recargar datos
+          } catch (error) {
+            Swal.fire('Error', error.message, 'error');
+          }
+        }
+      });
+    }
+  };
+
+  // Función para editar una categoría
+  const handleEditCategory = async (category, reloadData) => {
+    const { value: formValues } = await Swal.fire({
+      title: 'Editar Categoría',
+      html:
+        `<input id="swal-input1" class="swal2-input" placeholder="Nombre de la categoría" value="${category.categoria}">` +
+        `<textarea id="swal-input2" class="swal2-textarea" placeholder="Descripción de la categoría">${category.descripcion}</textarea>`,
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+          document.getElementById('swal-input2').value,
+        ];
+      },
+    });
+
+    if (formValues) {
+      const [nombre, descripcion] = formValues;
+    
+      if (!nombre || !descripcion) {
+        Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
+        return;
+      }
+
+      if (nombre === category.categoria && descripcion === category.descripcion) {
+        Swal.fire('Sin cambios', 'No se realizaron cambios en la categoría.', 'info');
+        return;
+      }
+
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: `¿Quieres actualizar la categoría "${category.categoria}"?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, actualizar',
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: 'red'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Actualizando...',
+            text: 'Por favor, espera.',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+
+          try {
+            const response = await fetch('/api/manage/courses/categories/edit', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ id_categoria: category.id_categoria, nombre, descripcion }),
+            });
+            
+            if (!response.ok) {
+              throw new Error('Error al actualizar la categoría');
+            }
+            
+            Swal.fire('¡Actualizada!', 'La categoría ha sido actualizada correctamente.', 'success');
+            reloadData(); // Recargar datos
+          } catch (error) {
+            Swal.fire('Error', error.message, 'error');
+          }
+        }
+      });
+    }
+  };
+
   return (
     <>
       <main className="ml-80">
@@ -76,7 +284,7 @@ export default function AdminCoursesPage() {
         </section>
         <section className="px-10 pt-10">
           <div>
-            chart cursos más vendidos
+            <BestSellingCoursesChart data={bestSellingChartData} />
           </div>
           <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
         </section>
@@ -185,7 +393,10 @@ export default function AdminCoursesPage() {
                     <td className="px-6 py-4 whitespace-nowrap">{curso.id_autor}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{curso.id_categoria}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <button className="bg-red-400 flex items-center px-3 py-2 rounded-lg hover:bg-red-600">
+                      <button 
+                        className="bg-red-400 flex items-center px-3 py-2 rounded-lg hover:bg-red-600"
+                        onClick={() => handleDeleteCourse(curso.id_curso, reloadData)}
+                      >
                         <p className="text-white font-light">Eliminar</p>
                         <Image 
                           src="/svg/delete.svg" 
@@ -214,7 +425,10 @@ export default function AdminCoursesPage() {
           </div>
           <div>
             <div className="flex flex-row-reverse mb-2">
-              <button className="flex items-center gap-1 group">
+              <button 
+                className="flex items-center gap-1 group"
+                onClick={() => handleCreateCategory(reloadData)}
+              >
                 <p className="text-2xl group-hover:underline text-[#0D1D5F]">Añadir nueva categoría</p>
                 <Image 
                     src="/svg/addDarkBlue.svg" 
@@ -241,7 +455,10 @@ export default function AdminCoursesPage() {
                       <td className="px-6 py-4 whitespace-nowrap">{categoria.categoria}</td>
                       <td className="px-6 py-4 whitespace-nowrap">{categoria.descripcion.length > 50 ? categoria.descripcion.substring(0, 50) + "..." : categoria.descripcion}</td>
                       <td className="px-6 py-4 whitespace-nowrap flex items-center gap-2">
-                        <button className="bg-blue-400 flex items-center px-3 py-2 rounded-lg hover:bg-blue-500 gap-1">
+                        <button 
+                          className="bg-blue-400 flex items-center px-3 py-2 rounded-lg hover:bg-blue-500 gap-1"
+                          onClick={() => handleEditCategory(categoria, reloadData)}
+                        >
                           <p className="text-white font-light">Editar</p>
                           <Image 
                             src="/svg/edit.svg" 

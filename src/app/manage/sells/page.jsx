@@ -1,61 +1,129 @@
+'use client'
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function AdminSalesPage() {
-    return (
-      <>
-        <main className="ml-80">
-          <section className="pt-10 px-10">
-            <div className="flex items-center gap-2">
-              <Image 
-                  src="/svg/moneyDarkBlue.svg" 
-                  alt="moneyDarkBlue-svg" 
-                  width={50} 
-                  height={50} 
-              />
-              <h2 className="text-4xl text-[#0D1D5F]">Ventas</h2>
+  const [dashboardSalesData, setDashboardSalesData] = useState({
+    ingresosTotales: 0,
+    ventasDia: [],
+    ventasSemana: [],
+    ventasMes: [],
+    ventasAnio: [],
+    ventas: [],
+  });
+
+  useEffect(() => {
+    const fetchSalesData = async () => {
+      try {
+        const response = await fetch('/api/manage/sells');
+        if (response.ok) {
+          const data = await response.json();
+          setDashboardSalesData(data);
+        } else {
+          console.error('Error al obtener datos de ventas');
+        }
+      } catch (error) {
+        console.error('Error al obtener datos de ventas:', error);
+      }
+    };
+
+    fetchSalesData();
+  }, []);
+
+  const prepareChartData = (ventas) => {
+    if (ventas.length === 0) {
+      return { labels: [], datasets: [{ data: [] }] };
+    }
+
+    const labels = ventas.map(venta => venta.fecha);
+    const data = ventas.map(venta => venta.ingresos);
+
+    return {
+      labels: labels,
+      datasets: [{ data: data }],
+    };
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+    }).format(amount);
+  };
+
+  return (
+    <>
+      <main className="ml-80">
+        <section className="pt-10 px-10">
+          <div className="flex items-center gap-2">
+            <Image 
+                src="/svg/moneyDarkBlue.svg" 
+                alt="moneyDarkBlue-svg" 
+                width={50} 
+                height={50} 
+            />
+            <h2 className="text-4xl text-[#0D1D5F]">Ventas</h2>
+          </div>
+        </section>
+        <section className="p-10">
+          <div className="flex justify-between">
+            <div className="w-full border-2 border-[#0D1D5F] rounded-lg p-5">
+              <h3 className="text-xl font-medium">Ingresos totales</h3>
+              <p className="text-4xl font-medium my-3">{formatCurrency(dashboardSalesData.ingresosTotales)}</p>
             </div>
-          </section>
-          <section className="p-10">
-            <div className="flex justify-between">
-              <div className="w-[30%] border-2 border-[#0D1D5F] rounded-lg p-5">
-                <h3 className="text-xl font-medium">Ingresos</h3>
-                <p className="text-4xl font-medium my-3"></p>
-              </div>
-              <div className="w-[30%] border-2 border-[#0D1D5F] rounded-lg p-5">
-                <h3 className="text-xl font-medium">Gastos</h3>
-                <p className="text-lg font-medium my-3 text-gray-400">Empieza a registrar los gastos de learnify</p>
-              </div>
-              <div className="w-[30%] border-2 border-[#0D1D5F] rounded-lg p-5">
-                <h3 className="text-xl font-medium">Balance General</h3>
-                <p className="text-4xl font-medium my-3"></p>
-              </div>
-            </div>
-          </section>
-          <section>
+          </div>
+        </section>
+        <section className="px-10">
+          <div>
+            <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos del Día</h4>
             <div>
-              <h4>Ingresos del Día</h4>
-              <div>ingresos del dia chart</div>
+              {dashboardSalesData.ventasDia.length > 0 ? (
+                <IncomeChart data={prepareChartData(dashboardSalesData.ventasDia)} />
+              ) : (
+                <p>No se han realizado compras el día de hoy.</p>
+              )}
             </div>
+          </div>
+          <div>
+            <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos Semanales</h4>
             <div>
-              <h4>Ingresos Semanales</h4>
-              <div>ingresos semanales chart</div>
+              {dashboardSalesData.ventasSemana.length > 0 ? (
+                <IncomeChart data={prepareChartData(dashboardSalesData.ventasSemana)} />
+              ) : (
+                <p>No se han realizado compras esta semana.</p>
+              )}
             </div>
+          </div>
+          <div>
+            <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos Mensuales</h4>
             <div>
-              <h4>Ingresos Mensuales</h4>
-              <div>ingresos mensuales chart</div>
+              {dashboardSalesData.ventasMes.length > 0 ? (
+                <IncomeChart data={prepareChartData(dashboardSalesData.ventasMes)} />
+              ) : (
+                <p>No se han realizado compras este mes.</p>
+              )}
             </div>
+          </div>
+          <div>
+            <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos Año Hasta la Fecha</h4>
             <div>
-              <h4>Ingresos Año Hasta la Fecha</h4>
-              <div>ingresos año hasta la fecha chart</div>
+              {dashboardSalesData.ventasAnio.length > 0 ? (
+                <IncomeChart data={prepareChartData(dashboardSalesData.ventasAnio)} />
+              ) : (
+                <p>No se han realizado compras este año.</p>
+              )}
             </div>
-          </section>
-          <section>
-            <h3>Ventas</h3>
-            <div>
-              tabla ventas
-            </div>
-          </section>
-        </main>
-      </>
-    );
+          </div>
+          <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
+        </section>
+        <section className="px-10 pb-10">
+          <h3 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ventas</h3>
+          <div>
+            tabla ventas
+          </div>
+        </section>
+      </main>
+    </>
+  );
 }
