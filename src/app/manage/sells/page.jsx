@@ -1,5 +1,7 @@
 'use client'
 
+import IncomeBarChart from "@/components/charts/IncomeBarChart";
+import IncomeChart from "@/components/charts/IncomeChart";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -37,7 +39,10 @@ export default function AdminSalesPage() {
     }
 
     const labels = ventas.map(venta => venta.fecha);
-    const data = ventas.map(venta => venta.ingresos);
+    const data = ventas.map(venta => parseFloat(venta.ingresos));
+
+    // Verificar los datos
+    console.log("Chart Data:", { labels, data });
 
     return {
       labels: labels,
@@ -70,7 +75,7 @@ export default function AdminSalesPage() {
           <div className="flex justify-between">
             <div className="w-full border-2 border-[#0D1D5F] rounded-lg p-5">
               <h3 className="text-xl font-medium">Ingresos totales</h3>
-              <p className="text-4xl font-medium my-3">{formatCurrency(dashboardSalesData.ingresosTotales)}</p>
+              <p className="text-4xl font-medium my-3">{formatCurrency(dashboardSalesData.ingresosTotales)} COP</p>
             </div>
           </div>
         </section>
@@ -79,12 +84,13 @@ export default function AdminSalesPage() {
             <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos del Día</h4>
             <div>
               {dashboardSalesData.ventasDia.length > 0 ? (
-                <IncomeChart data={prepareChartData(dashboardSalesData.ventasDia)} />
+                <IncomeBarChart data={prepareChartData(dashboardSalesData.ventasDia)} />
               ) : (
                 <p>No se han realizado compras el día de hoy.</p>
               )}
             </div>
           </div>
+          <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
           <div>
             <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos Semanales</h4>
             <div>
@@ -95,16 +101,18 @@ export default function AdminSalesPage() {
               )}
             </div>
           </div>
+          <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
           <div>
             <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos Mensuales</h4>
             <div>
               {dashboardSalesData.ventasMes.length > 0 ? (
-                <IncomeChart data={prepareChartData(dashboardSalesData.ventasMes)} />
+                <IncomeBarChart data={prepareChartData(dashboardSalesData.ventasMes)} />
               ) : (
                 <p>No se han realizado compras este mes.</p>
               )}
             </div>
           </div>
+          <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
           <div>
             <h4 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ingresos Año Hasta la Fecha</h4>
             <div>
@@ -119,8 +127,31 @@ export default function AdminSalesPage() {
         </section>
         <section className="px-10 pb-10">
           <h3 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ventas</h3>
-          <div>
-            tabla ventas
+          <div className="overflow-x-auto border">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Curso</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Autor</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Venta</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {dashboardSalesData.ventas.map(venta => (
+                  <tr key={venta.id_venta}>
+                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_venta}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_curso}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_autor}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_cliente}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatCurrency(venta.precio)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{new Date(venta.fecha_venta).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
       </main>

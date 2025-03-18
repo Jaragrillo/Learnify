@@ -21,10 +21,10 @@ export default function AdminCoursesPage() {
                 const data = await response.json();
                 setDashboardCourseData(data);
             } else {
-                console.error('Error fetching data');
+                console.error('Error al obtener datos de los cursos');
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error al obtener datos de los cursos:', error);
         }
     };
 
@@ -38,10 +38,10 @@ export default function AdminCoursesPage() {
         const data = await response.json();
         setDashboardCourseData(data);
       } else {
-        console.error('Error fetching data');
+        console.error('Error al obtener datos de los cursos');
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error al obtener datos de los cursos:', error);
     }
   };
 
