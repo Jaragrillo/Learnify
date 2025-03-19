@@ -114,20 +114,20 @@ export default function AdminUsersPage() {
       didOpen: () => {
         const datepickerInput = document.querySelector('.datepicker');
         if (datepickerInput && !flatpickrInstance.current) {
-            flatpickrInstance.current = flatpickr(datepickerInput, {
-                defaultDate: formData.fecha_nacimiento,
-                onChange: (selectedDates) => {
-                    setFormData((prevState) => ({
-                        ...prevState,
-                        fecha_nacimiento: selectedDates[0] ? selectedDates[0].toISOString().split('T')[0] : '',
-                    }));
-                },
-                maxDate: "2009-12-12",
-                altInputPlaceholder: 'Fecha de Nacimiento',
-                altFormat: 'F j, Y',
-                dateFormat: 'Y-m-d',
-                locale: Spanish,
-            });
+          flatpickrInstance.current = flatpickr(datepickerInput, {
+            defaultDate: formData.fecha_nacimiento,
+            onChange: (selectedDates) => {
+              setFormData((prevState) => ({
+                ...prevState,
+                fecha_nacimiento: selectedDates[0] ? selectedDates[0].toISOString().split('T')[0] : '',
+              }));
+            },
+            maxDate: "2009-12-12",
+            altInputPlaceholder: 'Fecha de Nacimiento',
+            altFormat: 'F j, Y',
+            dateFormat: 'Y-m-d',
+            locale: Spanish,
+          });
         }
       },
       preConfirm: () => {

@@ -79,16 +79,8 @@ export default function purchasedCoursesPage() {
                                         </div>
                                         <div className="mt-4 p-2">
                                             <h3 className="text-2xl font-medium">{course.titulo}</h3>
+                                            <p className="text-lg font-medium text-[#0D1D5F]/80">{course.autor.nombre_completo}</p>
                                             <div className="flex items-center gap-x-2 mt-2 text-gray-600">
-                                                <div className="flex items-center gap-1">
-                                                    <Image 
-                                                        src="/svg/star.svg" 
-                                                        alt="star-svg" 
-                                                        width={24} 
-                                                        height={24} 
-                                                    />
-                                                    {course.valoracion || 'El curso no ha sido valorado'}
-                                                </div>
                                                 <div className="flex items-center gap-1">
                                                     <Image 
                                                         src="/svg/studentDarkBlue.svg" 
@@ -99,18 +91,25 @@ export default function purchasedCoursesPage() {
                                                     />
                                                     {course.estudiantes}
                                                 </div>
+                                                <div className="flex items-center gap-1">
+                                                    <Image 
+                                                        src="/svg/class.svg" 
+                                                        alt="class-svg" 
+                                                        width={24} 
+                                                        height={24} 
+                                                        className=""
+                                                    />
+                                                    {course.totalClases}
+                                                </div>
                                             </div>
-                                            <p className="text-2xl mt-2"> {/* Formatear el precio para mostrarlo más agradable al usuario en COP ↓ */}
-                                                ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP 
-                                            </p>
-                                            <Link href={`/user/myCourses/editCourse/${course.id_curso}`} className="w-11/12 flex items-center justify-center absolute bottom-2 left-0 right-0 m-auto py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
+                                            <Link href={`/user/purchasedCourses/${course.id_curso}`} className="w-11/12 flex items-center justify-center absolute bottom-2 left-0 right-0 m-auto py-3 gap-2 text-white bg-[#070E2B] mt-4 hover:bg-[#0D1D5F] transition duration-200">
                                                 <Image 
                                                     src="/svg/edit.svg" 
                                                     alt="edit-svg" 
                                                     width={24} 
                                                     height={24} 
                                                 />
-                                                Editar curso
+                                                Ver curso
                                             </Link>
                                         </div>
                                     </div>
