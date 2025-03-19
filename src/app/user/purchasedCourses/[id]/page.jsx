@@ -83,10 +83,10 @@ export default function purchasedCoursePage() {
                 <section className="p-10">
                     <h2 className='text-4xl text-[#0D1D5F]'>Bienvenid@ al curso de {courseData.titulo}</h2>
                     <p className='text-2xl text-[#0D1D5F] font-light max-w-[920px]'>{courseData.descripcion}</p>
-                    <p>{courseData.nombreCategoria}</p>
+                    <p className="text-2xl text-[#0D1D5F]/50 italic font-light">Categoría: {courseData.nombreCategoria}</p>
                 </section>
                 <section className="p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                    <h3 className="text-4xl mb-10 italic text-center">¡Comienza a aprender ahora!</h3>
+                    <h3 className="text-4xl mb-10 italic text-white font-medium text-center">¡Comienza a aprender ahora!</h3>
                     <h3 className="text-3xl text-white mb-10">Clases del curso</h3>
                     <div className="relative pl-10">
                         <div className="absolute top-0 bottom-0 left-3 w-[1px] bg-white"></div>
@@ -95,27 +95,29 @@ export default function purchasedCoursePage() {
                                 <div key={clase.id_clase} className="flex items-center gap-5 relative mb-14">
                                     <div className="absolute -left-9 top-0 bottom-0 my-auto rounded-full bg-white size-4"></div> {/* Círculo */}
                                     <div className="relative">
-                                        {clase.url_video && (
-                                            <Image
-                                                src={clase.previewUrl}
-                                                alt={`Portada de ${clase.titulo}`}
-                                                width={320}
-                                                height={180}
-                                                className="shadow-lg shadow-black/60"
-                                            />
-                                        )}
-                                        <div className="absolute bg-[#cee4f1] size-14 flex justify-center items-center -top-5 -right-5 rounded-full text-xl ">
-                                            <p>#{index+1}</p>
-                                        </div>
                                         <div>
-                                            <p className="text-xl font-light text-white/70">¡Clase no vista!</p>
+                                            <p className="text-xl font-light italic text-white/70 mb-1">¡Clase no vista!</p>
                                         </div>
+                                        {clase.url_video && (
+                                            <div className="relative">
+                                                <Image
+                                                    src={clase.previewUrl}
+                                                    alt={`Portada de ${clase.titulo}`}
+                                                    width={350}
+                                                    height={210}
+                                                    className="shadow-lg shadow-black/60"
+                                                />
+                                                <div className="absolute bg-[#cee4f1] size-14 flex justify-center items-center -top-5 -right-5 rounded-full text-xl ">
+                                                    <p>#{index+1}</p>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                     <div>
-                                        <h4 className="text-2xl text-white mb-5">Clase #{index +1}: {clase.titulo}</h4>
+                                        <h4 className="text-2xl text-white mb-5 font-light"><span className="font-normal">Clase #{index +1}:</span> {clase.titulo}</h4>
                                         <div className="flex items-center gap-5">
                                             <Link 
-                                                href={`/user/purchasedCourses/${courseId}/class/${clase.id_clase}`}
+                                                href={`/user/purchasedCourses/${courseData.id_curso}/class/${clase.id_clase}`}
                                                 className="text-[#0D1D5F] font-medium px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
                                             >
                                                 ¡Ver ahora!
@@ -129,49 +131,49 @@ export default function purchasedCoursePage() {
                         )}
                     </div>
                 </section>
-                <section>
-                    <h3>¡Valora el curso!</h3>
-                    <div>
-                        <p>Tu opinión es muy importante para nosotros. Por favor, dedica unos minutos a compartir tu experiencia con este curso. Ten encuenta para evaluar:</p>
+                <section className="p-10">
+                    <h3 className="text-3xl text-[#0D1D5F] mb-10">¡Valora el curso!</h3>
+                    <div className="mx-auto bg-gradient-to-b shadow-lg shadow-black/60 p-5 text-white font-extralight from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
+                        <p className="text-2xl test-justify">Tu opinión es muy importante para nosotros. Por favor, dedica unos minutos a compartir tu experiencia con este curso. Ten encuenta para evaluar:</p>
                         <div>
-                            <div>
+                            <div className="flex items-center gap-1 my-4">
                                 <Image 
                                   src="/svg/check.svg" 
                                   alt="check-svg" 
-                                  width={34} 
-                                  height={34} 
+                                  width={40} 
+                                  height={40} 
                                 />
-                                <p>La claridad y calidad del contenido.</p>
+                                <p className="text-2xl">La claridad y calidad del contenido.</p>
                             </div>
-                            <div>
+                            <div className="flex items-center gap-1 my-4">
                                 <Image 
                                   src="/svg/check.svg" 
                                   alt="check-svg" 
-                                  width={34} 
-                                  height={34} 
+                                  width={40} 
+                                  height={40} 
                                 />
-                                <p>La utilidad de la información presentada.</p>
+                                <p className="text-2xl">La utilidad de la información presentada.</p>
                             </div>
-                            <div>
+                            <div className="flex items-center gap-1 my-4">
                                 <Image 
                                   src="/svg/check.svg" 
                                   alt="check-svg" 
-                                  width={34} 
-                                  height={34} 
+                                  width={40} 
+                                  height={40} 
                                 />
-                                <p>La habilidad del instructor para explicar los temas.</p>
+                                <p className="text-2xl">La habilidad del instructor para explicar los temas.</p>
                             </div>
-                            <div>
+                            <div className="flex items-center gap-1 my-4">
                                 <Image 
                                   src="/svg/check.svg" 
                                   alt="check-svg" 
-                                  width={34} 
-                                  height={34} 
+                                  width={40} 
+                                  height={40} 
                                 />
-                                <p>La relación entre el precio y el valor que recibiste.</p>
+                                <p className="text-2xl">La relación entre el precio y el valor que recibiste.</p>
                             </div>
                         </div>
-                        <p>¡Tu retroalimentación ayudará a otros estudiantes a tomar decisiones informadas y permitirá que el instructor mejore sus futuros cursos!</p>
+                        <p className="text-2xl text-justify">¡Tu retroalimentación ayudará a otros estudiantes a tomar decisiones informadas y permitirá que el instructor mejore sus futuros cursos!</p>
                         <div>
                             <form action="">
                                 input estrellas

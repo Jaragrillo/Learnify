@@ -6,6 +6,7 @@ import BestSellingCoursesChart from "@/components/charts/BestSellingCoursesChart
 import Swal from 'sweetalert2';
 
 export default function AdminCoursesPage() {
+  const [totalCourses, setTotalCourses] = useState(0);
   const [dashboardCourseData, setDashboardCourseData] = useState({
     cursosMasComprados: [],
     cursosMejorValorados: [],
@@ -20,6 +21,7 @@ export default function AdminCoursesPage() {
             if (response.ok) {
                 const data = await response.json();
                 setDashboardCourseData(data);
+                setTotalCourses(data.cursos.length);
             } else {
                 console.error('Error al obtener datos de los cursos');
             }
@@ -37,6 +39,7 @@ export default function AdminCoursesPage() {
       if (response.ok) {
         const data = await response.json();
         setDashboardCourseData(data);
+        setTotalCourses(data.cursos.length);
       } else {
         console.error('Error al obtener datos de los cursos');
       }
@@ -282,7 +285,15 @@ export default function AdminCoursesPage() {
             <h2 className="text-4xl text-[#0D1D5F]">Cursos</h2>
           </div>
         </section>
-        <section className="px-10 pt-10">
+        <section className="p-10">
+          <div className="flex justify-between">
+            <div className="w-full border-2 border-[#0D1D5F] rounded-lg p-5">
+              <h3 className="text-xl font-medium">Cursos Totales</h3>
+              <p className="text-4xl font-medium my-3">{totalCourses}</p>
+            </div>
+          </div>
+        </section>
+        <section className="px-10">
           <div>
             <BestSellingCoursesChart data={bestSellingChartData} />
           </div>

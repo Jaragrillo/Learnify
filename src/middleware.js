@@ -15,8 +15,19 @@ export function middleware(req) {
       const userRole = payload.role;
 
       // Validar acceso a rutas protegidas
+      // Excepción para /user/profile y /user/profile/edit
+      if (pathname.startsWith('/user/profile')) {
+        return NextResponse.next(); // Permite el acceso sin importar el rol
+      }
+
       if (pathname.startsWith('/manage/') && userRole !== 1) {
         const url = new URL('/user/home', req.url);
+        url.searchParams.set('error', 'unauthorized'); // Añadimos el mensaje
+        return NextResponse.redirect(url);
+      }
+
+      if (pathname.startsWith('/user/') && userRole !== 2) {
+        const url = new URL('/manage/dashboard', req.url);
         url.searchParams.set('error', 'unauthorized'); // Añadimos el mensaje
         return NextResponse.redirect(url);
       }

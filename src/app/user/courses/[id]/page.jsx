@@ -44,6 +44,7 @@ export default function CoursePage() {
     const [sliderRef, setSliderRef] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null); // Estado para almacenar el ID del usuario actual
     const [isAuthor, setIsAuthor] = useState(false); // Estado para verificar si el usuario es el autor
+    const [isStudent, setIsStudent] = useState(false); // Estado para verificar si ya compró el curso
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -79,7 +80,21 @@ export default function CoursePage() {
             console.error("Error al decodificar el token:", error);
             jsCookie.remove('auth-token');
         }
-    }, [id]);
+
+        const checkPurchase = async () => {
+            if(!currentUserId || !id) return;
+
+            try {
+                const response = await fetch(`/api/courses/purchased?courseId=${id}&userId=${currentUserId}`);
+                const data = await response.json();
+                setIsStudent(data.purchased)
+            } catch (error) {
+                console.error('Error checking purchase:', error);
+            }
+        }
+
+        checkPurchase();
+    }, [currentUserId, id]);
 
     // Validar si quien está viendo el curso no sea el creador 
     useEffect(() => {
@@ -302,9 +317,13 @@ export default function CoursePage() {
                             </p>
                             <button
                                 onClick={handleCheckout}
-                                className='text-xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'
+                                className={`
+                                    text-xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto transition duration-500    
+                                    ${isAuthor || isStudent ? 'cursor-not-allowed opacity-40 hover:scale-100' : 'hover:scale-110'}
+                                `}
+                                disabled={isAuthor || isStudent} // Desabilitar si es el autor o si ya compró el curso
                             >
-                                ¡Compra ahora!
+                                {isAuthor ? 'Eres el autor' : isStudent ? 'Comprado' : '¡Compra ahora!'}
                             </button>
                         </div>
                     </div>
@@ -354,12 +373,16 @@ export default function CoursePage() {
                             </Slider>
                         </div>
                     </div>
-                    <div className="w-fit h-fit bg-white rounded-lg hover:scale-110 transition duration-500 absolute bottom-10 left-0 right-0 mx-auto">
+                    <div className={`w-fit h-fit bg-white rounded-lg ${isAuthor || isStudent ? 'hover:scale-100' : 'hover:scale-110'} transition duration-500 absolute bottom-10 left-0 right-0 mx-auto`}>
                         <button 
                             onClick={handleCheckout}
-                            className='text-3xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text px-5 py-1 shadow-lg shadow-black/60 rounded-lg block w-fit'
+                            className={`
+                                text-3xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text px-5 py-1 shadow-lg shadow-black/60 rounded-lg block w-fit
+                                ${isAuthor || isStudent ? 'cursor-not-allowed opacity-40' : ''}
+                            `}
+                            disabled={isAuthor || isStudent} // Desabilitar si es el autor o si ya compró el curso
                         >
-                            ¡Compra el curso ahora!
+                            {isAuthor ? 'Eres el autor' : isStudent ? 'Comprado' : '¡Compra el curso ahora!'}
                         </button>
                     </div>
                 </section>
@@ -393,9 +416,13 @@ export default function CoursePage() {
                 <section className="p-20">
                     <button 
                         onClick={handleCheckout}
-                        className='text-3xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'
+                        className={`
+                            text-3xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto transition duration-500
+                            ${isAuthor || isStudent ? 'cursor-not-allowed opacity-40 hover:scale-100' : 'hover:scale-110'}
+                        `}
+                        disabled={isAuthor || isStudent} // Desabilitar si es el autor o si ya compró el curso
                     >
-                        ¡Empieza a aprender ya!
+                        {isAuthor ? 'Eres el autor' : isStudent ? 'Comprado' : '¡Empieza a aprender ya!'}
                     </button>
                 </section>
             </main>
