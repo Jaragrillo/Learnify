@@ -1,4 +1,3 @@
-// src/app/api/courses/course/[id]/route.js
 import { NextResponse } from 'next/server';
 import { Course, User, CourseContent, Rating, Comment, Category } from '@/models/index';
 import cloudinary from 'cloudinary';
@@ -12,6 +11,7 @@ cloudinary.config({
 
 export async function GET(request, { params }) {
     const { id } = await params;
+    const userId = request.nextUrl.searchParams.get('userId');  // Obtener userId de los query params
     
 
     try {
@@ -41,7 +41,12 @@ export async function GET(request, { params }) {
                     model: Category,
                     as: 'categoria',
                     attributes: ['id_categoria', 'categoria']
-                }
+                },
+                {
+                    model: Rating,
+                    as: 'valoraciones',
+                    attributes: ['id_usuario', 'puntuacion'],
+                },
             ],
         });
 
@@ -97,6 +102,9 @@ export async function GET(request, { params }) {
             comentarios: course.comentarios,
             valoracion: promedioValoracion ?? 0,
             totalValoraciones,
+            valoraciones: userId
+                ? course.valoraciones.filter((val) => val.id_usuario === parseInt(userId))
+                : course.valoraciones, // Filtrar valoraciones por userId si se proporciona
             categoria: course.categoria ? course.categoria.id_categoria : null, // Incluir id de la categoria
             nombreCategoria: course.categoria ? course.categoria.categoria : null, // Incluir nombre de la categoría
         };

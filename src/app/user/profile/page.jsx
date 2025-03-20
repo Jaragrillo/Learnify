@@ -208,7 +208,7 @@ export default function ProfilePage() {
                   </label>
                   <input type="text" name="biography" id="biography" value={userData.biografia ? userData.biografia : "Añade una biografía..."} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div>
-                <div className="w-2/5">
+                <div className={`w-2/5 ${role === 1 ? 'hidden' : ''}`}>
                   <label htmlFor="createdCourses" className="block text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
@@ -223,7 +223,7 @@ export default function ProfilePage() {
                   <input type="text" name="createdCourses" id="createdCourses" value={createdCoursesCount} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                   <Link href={'/user/myCourses'} className="text-white/60 hover:text-white/100 w-fit mt-1 block">Ver cursos creados →</Link>
                 </div>
-                <div className="w-2/5">
+                <div className={`w-2/5 ${role === 1 ? 'hidden' : ''}`}>
                   <label htmlFor="purchasedCourses" className="block text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
