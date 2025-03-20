@@ -10,6 +10,8 @@ import CoursePageSkeleton from "@/components/skeletons/CoursePageSkeleton";
 import Swal from 'sweetalert2';
 import fullStar from '../../../../../public/svg/star.svg'
 import emptyStar from '../../../../../public/svg/emptyStar.svg'
+import { jsPDF } from 'jspdf';
+import { autoTable } from 'jspdf-autotable'
 
 export default function purchasedCoursePage() {
     const pathname = usePathname();
@@ -26,6 +28,7 @@ export default function purchasedCoursePage() {
     const [rating, setRating] = useState(0); // Valoración seleccionada
     const [hoverRating, setHoverRating] = useState(0); // Valoración al pasar el mouse
     const [hasRated, setHasRated] = useState(false); // Estado para verificar si el usuario ya valoró el curso
+    const [clasesVistas, setClasesVistas] = useState({}); // Estado para rastrear las clases vistas
 
     // Cargar información del curso
     useEffect(() => {
@@ -68,7 +71,18 @@ export default function purchasedCoursePage() {
             jsCookie.remove('auth-token');
         }
 
-        // Verificar compra del usuario logeado
+        fetchCourseData();
+    }, [id, currentUserId]);
+
+    // Verificar si el usuario es el autor
+    useEffect(() => {
+        if (currentUserId && courseData) {
+            setIsAuthor(courseData.autor.id_autor === currentUserId);
+        }
+    }, [currentUserId, courseData]);
+
+    // Verificar compra del usuario logeado
+    useEffect(() => {
         const checkPurchase = async () => {
             if (!currentUserId || !id || !courseData) {
                 setIsPurchaseChecking(false);
@@ -87,13 +101,11 @@ export default function purchasedCoursePage() {
             }
         };
 
-        fetchCourseData();  
 
         if (currentUserId && courseData) {
-            setIsAuthor(courseData.autor.id_autor === currentUserId);
             checkPurchase();
         }
-    }, [id, currentUserId]);
+    }, [currentUserId, courseData, id]);
 
     const reloadData = async () => {
         try {
@@ -145,7 +157,7 @@ export default function purchasedCoursePage() {
                 });
             }
         }
-    }, [isLoading, isAuthor, isStudent, router, isPurchaseChecking]);
+    }, [isLoading, isAuthor, isStudent, router, isPurchaseChecking, courseData]);
 
     // Manejo de la creación de comentarios
     const handleComentarioChange = (e) => {
@@ -283,6 +295,101 @@ export default function purchasedCoursePage() {
         );
     };
 
+    // Función para crear el pdf de la factura de la compra del curso
+    const handleDownloadPurchaseInvoice = async () => {
+        try {
+            Swal.fire({
+                title: 'Descargando factura...',
+                html: 'Por favor, espera...',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
+            // Importar jspdf-autotable dinámicamente
+            await import('jspdf-autotable');
+
+            // Obtener la factura y el detalle de la factura desde la API
+            const response = await fetch(`/api/invoice?userId=${currentUserId}&courseId=${id}`);
+            if (!response.ok) {
+                throw new Error('No se pudo obtener la factura.');
+            }
+            const invoiceData = await response.json();
+
+            // Crear el documento PDF
+            const doc = new jsPDF();
+
+            // Añadir contenido al PDF
+            doc.text('Factura de Compra', 10, 10);
+            doc.text(`ID Factura: ${invoiceData.factura.id_factura}`, 10, 20);
+            doc.text(`Fecha: ${new Date(invoiceData.factura.fecha_factura).toLocaleDateString()}`, 10, 30);
+            doc.text(`Cliente: ${invoiceData.cliente.nombre} ${invoiceData.cliente.apellidos}`, 10, 40);
+            doc.text(`Curso: ${courseData.titulo}`, 10, 50);
+            doc.text(`Total: ${invoiceData.factura.total}`, 10, 60);
+
+            // Crear tabla de detalle de factura
+            const columns = ['ID Detalle', 'Curso', 'Cantidad', 'Precio Unitario', 'Subtotal'];
+            const rows = invoiceData.detalle.map(item => [
+                item.id_detalle,
+                courseData.titulo,
+                item.cantidad,
+                item.precio_unitario,
+                item.cantidad * item.precio_unitario,
+            ]);
+
+            autoTable(doc, {
+                head: [columns],
+                body: rows,
+                startY: 70,
+            });
+
+            // Descargar el PDF
+            doc.save(`Factura_${invoiceData.factura.id_factura}.pdf`);
+
+            Swal.close();
+        } catch (error) {
+            console.error('Error al generar la factura:', error);
+            Swal.fire('Error', 'No se pudo generar la factura. Inténtalo de nuevo.', 'error');
+        }
+    };
+
+    // Manejo del progreso del curso
+    // Cargar el progreso del curso desde localStorage al montar el componente
+    useEffect(() => {
+        const progresoGuardado = getCourseProgress(id);
+        if (progresoGuardado) {
+            setClasesVistas(progresoGuardado.clasesVistas || {});
+        }
+    }, [id]);
+
+    const handleMarcarVista = (claseId) => {
+        const nuevasClasesVistas = { ...clasesVistas, [claseId]: !clasesVistas[claseId] };
+        setClasesVistas(nuevasClasesVistas);
+
+        // Actualizar el progreso en localStorage
+        const progresoActualizado = { clasesVistas: nuevasClasesVistas };
+        saveCourseProgress(id, progresoActualizado);
+    };
+
+    const calcularProgreso = () => {
+        if (!courseData || !courseData.clases) return 0;
+
+        const totalClases = courseData.clases.length;
+        const clasesVistasCount = Object.values(clasesVistas).filter(visto => visto).length;
+        return (clasesVistasCount / totalClases) * 100;
+    };
+
+    const getCourseProgress = (courseId) => {
+        const progresoData = localStorage.getItem(`courseProgress_${courseId}`);
+        return progresoData ? JSON.parse(progresoData) : null;
+    };
+
+    const saveCourseProgress = (courseId, progresoData) => {
+        localStorage.setItem(`courseProgress_${courseId}`, JSON.stringify(progresoData));
+    };
+
     if (isLoading) {
         return <CoursePageSkeleton />
     }
@@ -290,10 +397,22 @@ export default function purchasedCoursePage() {
     return (
         <>
             <main>
-                <section className="p-10">
+                <section className="p-10 relative">
                     <h2 className='text-4xl text-[#0D1D5F]'>Bienvenid@ al curso de {courseData.titulo}</h2>
                     <p className='text-2xl text-[#0D1D5F] font-light max-w-[920px]'>{courseData.descripcion}</p>
                     <p className="text-2xl text-[#0D1D5F]/50 italic font-light">Categoría: {courseData.nombreCategoria}</p>
+                    <button 
+                      className="flex items-center gap-1 group absolute bottom-1 right-1 opacity-50"
+                      onClick={handleDownloadPurchaseInvoice}
+                    >
+                      <p className="text-xl group-hover:underline text-[#0D1D5F]">Descargar factura</p>
+                      <Image 
+                          src="/svg/downloadDarkBlue.svg" 
+                          alt="downloadDarkBlue-svg" 
+                          width={50} 
+                          height={50} 
+                      />
+                    </button>
                 </section>
                 <section className="p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
                     <h3 className="text-4xl mb-10 italic text-white font-medium text-center">¡Comienza a aprender ahora!</h3>
@@ -302,11 +421,11 @@ export default function purchasedCoursePage() {
                         <div className="absolute top-0 bottom-0 left-3 w-[1px] bg-white"></div>
                         {courseData && courseData.clases && courseData.clases.length > 0 ? (
                             courseData.clases.map((clase, index) => (
-                                <div key={clase.id_clase} className="flex items-center gap-5 relative mb-14">
+                                <div key={clase.id_clase} className={`flex items-center gap-5 relative mb-14 ${clasesVistas[clase.id_clase] ? 'opacity-50 transition-all duration-500' : 'opacity-100 transition-all duration-500'}`}>
                                     <div className="absolute -left-9 top-0 bottom-0 my-auto rounded-full bg-white size-4"></div> {/* Círculo */}
                                     <div className="relative">
                                         <div>
-                                            <p className="text-xl font-light italic text-white/70 mb-1">¡Clase no vista!</p>
+                                            <p className="text-xl font-light italic text-white/70 mb-1">{clasesVistas[clase.id_clase] ? '¡Clase vista!' : '¡Clase no vista!'}</p>
                                         </div>
                                         {clase.url_video && (
                                             <div className="relative">
@@ -325,13 +444,22 @@ export default function purchasedCoursePage() {
                                     </div>
                                     <div>
                                         <h4 className="text-2xl text-white mb-5 font-light"><span className="font-normal">Clase #{index +1}:</span> {clase.titulo}</h4>
-                                        <div className="flex items-center gap-5">
+                                        <div>
                                             <Link 
                                                 href={`/user/purchasedCourses/${courseData.id_curso}/class/${clase.id_clase}`}
-                                                className="text-[#0D1D5F] font-medium px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
+                                                className="text-[#0D1D5F] font-medium mb-5 px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
                                             >
                                                 ¡Ver ahora!
                                             </Link>
+                                            <label className="flex items-center gap-2 cursor-pointer w-fit">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-checkbox h-5 w-5 text-blue-600"
+                                                    checked={clasesVistas[clase.id_clase] || false}
+                                                    onChange={() => handleMarcarVista(clase.id_clase)}
+                                                />
+                                                <span className="text-white">Marcar como vista</span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -418,8 +546,8 @@ export default function purchasedCoursePage() {
                         </div>
                         <div>
                             {courseData.comentarios.length > 0 ? (
-                                courseData.comentarios.map((comentario) => (
-                                    <div key={comentario.id_comentario} className="bg-white p-5 w-full mb-5 shadow-lg shadow-black/50">
+                                courseData.comentarios.map((comentario, index) => (
+                                    <div key={index} className="bg-white p-5 w-full mb-5 shadow-lg shadow-black/50">
                                         <div className="flex items-center gap-4">
                                             <div className="w-[100px] h-[100px] overflow-hidden rounded-full">
                                                 <Image

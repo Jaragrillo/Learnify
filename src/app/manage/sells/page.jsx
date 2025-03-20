@@ -4,6 +4,7 @@ import IncomeBarChart from "@/components/charts/IncomeBarChart";
 import IncomeChart from "@/components/charts/IncomeChart";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import * as XLSX from 'xlsx';
 
 export default function AdminSalesPage() {
   const [dashboardSalesData, setDashboardSalesData] = useState({
@@ -55,6 +56,40 @@ export default function AdminSalesPage() {
       style: 'currency',
       currency: 'COP',
     }).format(amount);
+  };
+
+  // Función para crear el excel de las ventas
+  const handleDownloadSalesReport = () => {
+    const ventas = dashboardSalesData.ventas.map(venta => ({
+      ID: venta.id_venta,
+      Curso: venta.id_curso,
+      Autor: venta.id_autor,
+      Cliente: venta.id_cliente,
+      Precio: formatCurrency(venta.precio),
+      'Fecha Venta': new Date(venta.fecha_venta).toLocaleDateString(),
+    }));
+
+    // Obtener la fecha actual
+    const fechaDescarga = new Date().toLocaleDateString();
+
+    // Crear el encabezado del informe
+    const headerInforme = [['Informe de Ventas hasta', fechaDescarga]];
+
+    // Crear el encabezado de las columnas
+    const headerColumnas = Object.keys(ventas[0]);
+
+    // Combinar el encabezado del informe y el encabezado de las columnas con los datos
+    const data = [headerColumnas, ...ventas.map(venta => Object.values(venta))];
+
+    // Crear la hoja de cálculo
+    const worksheet = XLSX.utils.book_new();
+    XLSX.utils.sheet_add_aoa(worksheet, headerInforme); // Añadir el encabezado del informe
+    XLSX.utils.sheet_add_aoa(worksheet, data, { origin: 'A2' }); // Añadir el encabezado de las columnas y los datos
+
+    // Crear el libro de Excel y descargar el archivo
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Ventas');
+    XLSX.writeFile(workbook, `Informe_Ventas_${fechaDescarga.replace(/\//g, '-')}.xlsx`);
   };
 
   return (
@@ -127,6 +162,20 @@ export default function AdminSalesPage() {
         </section>
         <section className="px-10 pb-10">
           <h3 className="text-2xl font-medium text-[#0D1D5F] mb-10">Ventas</h3>
+          <div className="flex flex-row-reverse mb-2">
+            <button 
+              className="flex items-center gap-1 group"
+              onClick={handleDownloadSalesReport}
+            >
+              <p className="text-2xl group-hover:underline text-[#0D1D5F]">Descargar informe de las ventas</p>
+              <Image 
+                  src="/svg/downloadDarkBlue.svg" 
+                  alt="downloadDarkBlue-svg" 
+                  width={50} 
+                  height={50} 
+              />
+            </button>
+          </div>
           <div className="overflow-x-auto border">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
