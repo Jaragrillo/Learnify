@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import { jwtDecode } from 'jwt-decode';
 import jsCookie from 'js-cookie';
@@ -12,30 +12,14 @@ import Swal from 'sweetalert2';
 export default function purchasedCoursePage() {
     const pathname = usePathname();
     const id = pathname.split('/').pop(); // Obtener el ID de la ruta
+    const router = useRouter();
 
-    const [courseData, setCourseData] = useState({
-        id_curso: '',
-        titulo: '',
-        img_portada: '',
-        descripcion: '',
-        precio: '',
-        estudiantes: 0,
-        autor: {
-            id_autor: null,
-            nombre_completo: '',
-            foto_perfil: '',
-            biografia: '',
-        },
-        clases: [],
-        comentarios: [],
-        valoracion: 'El curso no ha sido valorado',
-        totalValoraciones: 0,
-        categoria: '',
-        nombreCategoria: '',
-    });
+    const [courseData, setCourseData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [currentUserId, setCurrentUserId] = useState(null); // Estado para almacenar el ID del usuario actual
     const [isAuthor, setIsAuthor] = useState(false); // Estado para verificar si el usuario es el autor
+    const [isStudent, setIsStudent] = useState(false); // Estado para verificar si el usuario es estudiante del curso
+    const [isPurchaseChecking, setIsPurchaseChecking] = useState(true); // Nuevo estado
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -54,8 +38,6 @@ export default function purchasedCoursePage() {
                 setIsLoading(false);
             }
         }
-    
-        fetchCourseData();
 
         const token = jsCookie.get('auth-token');
 
@@ -71,7 +53,57 @@ export default function purchasedCoursePage() {
             console.error("Error al decodificar el token:", error);
             jsCookie.remove('auth-token');
         }
-    }, [id]);
+
+        // Verificar compra del usuario logeado
+        const checkPurchase = async () => {
+            if (!currentUserId || !id || !courseData) {
+                setIsPurchaseChecking(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/courses/purchased?courseId=${id}&userId=${currentUserId}`);
+                const data = await response.json();
+                setIsStudent(data.purchased);
+                console.log(isStudent);
+            } catch (error) {
+                console.error('Error checking purchase:', error);
+            } finally {
+                setIsPurchaseChecking(false);
+            }
+        };
+
+        fetchCourseData();  
+
+        if (currentUserId && courseData) {
+            setIsAuthor(courseData.autor.id_autor === currentUserId);
+            checkPurchase();
+        }
+    }, [id, courseData, currentUserId]);
+
+    useEffect(() => {
+        if (!isLoading && courseData && !isPurchaseChecking) {
+            if (isAuthor) {
+                Swal.fire({
+                    title: 'Acceso denegado',
+                    text: 'Eres el autor de este curso.',
+                    icon: 'warning',
+                    confirmButtonText: 'Mis cursos',
+                }).then(() => {
+                    router.push('/user/myCourses');
+                });
+            } else if (!isStudent) {
+                Swal.fire({
+                    title: 'Acceso denegado',
+                    text: 'Debes comprar el curso para ver su contenido.',
+                    icon: 'warning',
+                    confirmButtonText: 'Cursos comprados',
+                }).then(() => {
+                    router.push('/user/purchasedCourses');
+                });
+            }
+        }
+    }, [isLoading, isAuthor, isStudent, router, isPurchaseChecking]);
 
     if (isLoading) {
         return <CoursePageSkeleton />
@@ -133,7 +165,7 @@ export default function purchasedCoursePage() {
                 </section>
                 <section className="p-10">
                     <h3 className="text-3xl text-[#0D1D5F] mb-10">¡Valora el curso!</h3>
-                    <div className="mx-auto bg-gradient-to-b shadow-lg shadow-black/60 p-5 text-white font-extralight from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
+                    <div className="mx-auto shadow-lg shadow-black/60 p-5 text-white font-extralight bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
                         <p className="text-2xl test-justify">Tu opinión es muy importante para nosotros. Por favor, dedica unos minutos a compartir tu experiencia con este curso. Ten encuenta para evaluar:</p>
                         <div>
                             <div className="flex items-center gap-1 my-4">
