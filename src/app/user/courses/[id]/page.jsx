@@ -390,24 +390,26 @@ export default function CoursePage() {
                     <h3 className="text-3xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
                     <div>
                         {courseData.comentarios.length > 0 ? (
-                            courseData.comentarios.map((comentario) => {
-                                <div key={comentario.id_comentario} className="bg-white p-5 w-full">
-                                    <div className="w-[80px] h-[80px] overflow-hidden rounded-full">
-                                        <Image
-                                            src={comentario.usuario.foto_perfil}
-                                            alt={comentario.usuario.nombre_completo}
-                                            width={80}
-                                            height={80}
-                                            className="rounded full"
-                                        />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-2xl font-medium">{comentario.usuario.nombre_completo}</h4>
-                                        <p className="text-xl text-[#0D1D5F]">{comentario.comentario}</p>
-                                        <p className="text-[#0D1D5F]/60">{comentario.fecha_comentario}</p>
+                            courseData.comentarios.map((comentario) => (
+                                <div key={comentario.id_comentario} className="bg-white p-5 w-full mb-5 shadow-lg shadow-black/50">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-[100px] h-[100px] overflow-hidden rounded-full">
+                                            <Image
+                                                src={comentario.usuario.foto_perfil}
+                                                alt={`${comentario.usuario.nombre}-${comentario.usuario.apellidos}-ProfileImage`}
+                                                width={100}
+                                                height={100}
+                                                className="rounded full"
+                                            />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-2xl font-medium text-[#0D1D5F]">{`${comentario.usuario.nombre} ${comentario.usuario.apellidos}`}</h4>
+                                            <p className="text-xl text-[#0D1D5F]">{comentario.comentario}</p>
+                                            <p className="text-[#0D1D5F]/60">{comentario.fecha_comentario}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            })
+                            ))
                         ) : (
                             <p className="text-gray-600">Aún no hay comentarios para este curso.</p>
                         )}

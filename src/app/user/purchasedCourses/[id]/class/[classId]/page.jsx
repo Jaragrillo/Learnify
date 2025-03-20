@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import { jwtDecode } from 'jwt-decode';
 import jsCookie from 'js-cookie';
+import ClassSkeleton from "@/components/skeletons/ClassSkeleton";
 
 export default function purchasedCourseClassPage() {
     const pathname = usePathname();
@@ -24,73 +25,61 @@ export default function purchasedCourseClassPage() {
     const [isPurchaseChecking, setIsPurchaseChecking] = useState(true);
 
     useEffect(() => {
-        const fetchClaseData = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch(`/api/courses/course/class/${classId}`);
-                const data = await response.json();
-                setClaseData(data);
-                setIsLoading(false);
+                const [claseResponse, courseResponse] = await Promise.all([
+                    fetch(`/api/courses/course/class/${classId}`),
+                    fetch(`/api/courses/course/${courseId}`)
+                ]);
+
+                const [claseData, courseData] = await Promise.all([
+                    claseResponse.json(),
+                    courseResponse.json()
+                ]);
+
+                setClaseData(claseData);
+                setCourseData(courseData);
+
+                const token = jsCookie.get('auth-token');
+                if (token) {
+                    const decodedToken = jwtDecode(token);
+                    const userId = decodedToken.id;
+                    setCurrentUserId(userId);
+
+                    if (courseData) {
+                        setIsAuthor(courseData.autor.id_autor === userId);
+                        await checkPurchase(userId, courseId, courseData);
+                    }
+                }
             } catch (error) {
-                Swal.fire('Error', 'No se pudieron cargar los datos de la clase. Intenta más tarde.', 'error');
+                Swal.fire('Error', 'No se pudieron cargar los datos. Intenta más tarde.', 'error');
                 console.error(error);
+            } finally {
                 setIsLoading(false);
             }
         };
 
-        const fetchCourseData = async () => {
-            try {
-                const response = await fetch(`/api/courses/course/${courseId}`);
-                const data = await response.json();
-                setCourseData(data);
-            } catch (error) {
-                Swal.fire('Error', 'No se pudieron cargar los datos del curso. Intenta más tarde.', 'error');
-                console.error(error);
-            }
-        };
+        fetchData();
 
-        const token = jsCookie.get('auth-token');
+    }, [classId, courseId]);
 
-        if (!token) {
+    // Verificar la compra del curso por parte del usuario
+    const checkPurchase = async (userId, courseId, courseData) => {
+        if (!userId || !courseId || !courseData) {
+            setIsPurchaseChecking(false);
             return;
         }
 
         try {
-            const decodedToken = jwtDecode(token);
-            const userId = decodedToken.id;
-            setCurrentUserId(userId);
+            const response = await fetch(`/api/courses/purchased?courseId=${courseId}&userId=${userId}`);
+            const data = await response.json();
+            setIsStudent(data.purchased);
         } catch (error) {
-            console.error("Error al decodificar el token:", error);
-            jsCookie.remove('auth-token');
+            console.error('Error checking purchase:', error);
+        } finally {
+            setIsPurchaseChecking(false);
         }
-
-        // Verificar compra del usuario logeado
-        const checkPurchase = async () => {
-            if (!currentUserId || !courseId || !courseData) {
-                setIsPurchaseChecking(false);
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/courses/purchased?courseId=${courseId}&userId=${currentUserId}`);
-                const data = await response.json();
-                setIsStudent(data.purchased);
-            } catch (error) {
-                console.error('Error checking purchase:', error);
-            } finally {
-                setIsPurchaseChecking(false);
-            }
-        };
-
-        Promise.all([fetchClaseData(), fetchCourseData()])
-            .then(() => {
-                if (currentUserId && courseData) {
-                    setIsAuthor(courseData.autor.id_autor === currentUserId);
-                    checkPurchase();
-                }
-                setIsLoading(false);
-            })
-            .catch(() => setIsLoading(false));
-    }, [classId, courseId, currentUserId, courseData]);
+    };
 
     useEffect(() => {
         if (!isLoading && courseData && !isPurchaseChecking) {
@@ -117,11 +106,7 @@ export default function purchasedCourseClassPage() {
     }, [isLoading, isAuthor, isStudent, router, isPurchaseChecking]);
 
     if (isLoading) {
-        return <p>cargando...</p>;
-    }
-
-    if (!claseData || !courseData) {
-        return <p>Datos no encontrados.</p>;
+        return <ClassSkeleton />;
     }
 
     return(
