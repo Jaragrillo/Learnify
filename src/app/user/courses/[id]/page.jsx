@@ -390,8 +390,8 @@ export default function CoursePage() {
                     <h3 className="text-3xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
                     <div>
                         {courseData.comentarios.length > 0 ? (
-                            courseData.comentarios.map((comentario) => (
-                                <div key={comentario.id_comentario} className="bg-white p-5 w-full mb-5 shadow-lg shadow-black/50">
+                            courseData.comentarios.map((comentario, index) => (
+                                <div key={index} className="bg-white p-5 w-full mb-5 shadow-lg shadow-black/50">
                                     <div className="flex items-center gap-4">
                                         <div className="w-[100px] h-[100px] overflow-hidden rounded-full">
                                             <Image
