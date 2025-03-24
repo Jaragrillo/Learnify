@@ -21,10 +21,10 @@ export default function AboutPage() {
     <>
       <main>
         <section className='p-20'>
-          <h2 className='text-4xl text-[#0D1D5F] text-center font-medium'>Learnify</h2>
-          <h3 className='text-4xl text-[#0D1D5F] text-center font-medium italic mb-5'>Potenciando educadores y aprendices en la era digital.</h3>
-          <Link href={"/register"} className='text-2xl text-white px-5 py-1 mb-10 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'>¡Únete a Learnify hoy!</Link>
-          <p className='text-2xl font-light max-w-7xl m-auto text-justify'>Learnify es una plataforma de aprendizaje virtual donde los usuarios pueden crear y vender sus propios cursos, o comprar contenido educativo creado por otros. Es un espacio que conecta a creadores y aprendices, ofreciendo una experiencia flexible para adquirir o compartir conocimientos en diversas áreas.</p>
+          <h2 className='text-3xl md:text-4xl text-[#0D1D5F] text-center font-medium'>Learnify</h2>
+          <h3 className='text-2xl sm:text-3xl md:text-4xl text-[#0D1D5F] text-center font-medium italic mb-5'>Potenciando educadores y aprendices en la era digital.</h3>
+          <Link href={"/register"} className='text-xl md:text-2xl text-white px-5 py-1 mb-10 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto hover:scale-110 transition duration-500'>¡Únete a Learnify hoy!</Link>
+          <p className='text-xl md:text-2xl font-light max-w-7xl m-auto text-justify'>Learnify es una plataforma de aprendizaje virtual donde los usuarios pueden crear y vender sus propios cursos, o comprar contenido educativo creado por otros. Es un espacio que conecta a creadores y aprendices, ofreciendo una experiencia flexible para adquirir o compartir conocimientos en diversas áreas.</p>
         </section>
         <section className='bg-gradient-to-t from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] py-20 px-10 relative'>
           <Image 
@@ -34,7 +34,7 @@ export default function AboutPage() {
             height={800} 
             className="m-auto absolute top-0 bottom-0 left-0 right-0"
           />
-          <h2 className='text-white text-5xl font-medium text-center mb-20 italic'>La identidad de Learnify</h2>
+          <h2 className='text-white text-3xl sm:text-4xl md:text-5xl font-medium text-center mb-20 italic'>La identidad de Learnify</h2>
 
           {/* <!-- timeline component --> */}
           <div className="container mx-auto w-full h-full">
@@ -102,7 +102,7 @@ export default function AboutPage() {
         </section>
         <section className='py-24 px-10' id='ourDifferentiators'>
           <h2 className='text-4xl text-[#0D1D5F] text-center font-medium mb-10'>¿Por qué elegir Learnify?</h2>
-          <div className='flex flex-wrap justify-around mb-10'>
+          <div className='flex flex-wrap justify-around mb-10 gap-10'>
             <div className='bg-gradient-to-b from-[#5AC8EC] via-30% via-[#3AA5D8] to-[#0A355A] text-white rounded-lg shadow-lg shadow-black/60 w-[525px] h-[350px] p-5'>
               <div className='flex items-center gap-2'>
                 <Image 
@@ -194,7 +194,7 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-          <div className='flex flex-wrap justify-around'>
+          <div className='flex flex-wrap justify-around gap-10'>
             <div className='bg-gradient-to-b from-[#5AC8EC] via-30% via-[#3AA5D8] to-[#0A355A] text-white rounded-lg shadow-lg shadow-black/60 w-[525px] h-[350px] p-5'>
               <div className='flex items-center gap-2'>
                 <Image 
@@ -292,7 +292,7 @@ export default function AboutPage() {
             <h2 className="text-3xl font-medium text-white mb-6">¿Cómo funciona Learnify?</h2>
 
             {/* Switch */}
-            <div className="relative w-[500px] mx-auto bg-white rounded-full p-1 flex items-center justify-between">
+            <div className="relative w-[300px] sm:w-[500px] mx-auto bg-white rounded-full p-1 flex items-center justify-between">
               <button
                 className={`w-1/2 text-center py-2 rounded-full transition-all text-xl z-20 ${
                   active === "educadores" ? " text-white" : "text-gray-600"
@@ -322,7 +322,7 @@ export default function AboutPage() {
             {/* Content */}
             <div className="mt-8 transition-transform duration-500">
               {active === "educadores" && (
-                <div className="bg-white p-5 py-10 rounded-lg shadow-md shadow-white/60 text-left text-[#070E2B] w-[510px] mx-auto">
+                <div className="bg-white p-5 py-10 rounded-lg shadow-md shadow-white/60 text-left text-[#070E2B] w-[300px] sm:w-[510px] mx-auto">
                   <h3 className="text-3xl mb-5">Para Creadores de Contenido</h3>
                   <div className='flex items-center mb-5 gap-2'>
                     <Image 
@@ -369,7 +369,7 @@ export default function AboutPage() {
                 </div>
               )}
               {active === "aprendices" && (
-                <div className="bg-white p-5 py-10 rounded-lg shadow-md shadow-white/60 text-left text-[#070E2B] w-[510px] mx-auto">
+                <div className="bg-white p-5 py-10 rounded-lg shadow-md shadow-white/60 text-left text-[#070E2B] w-[300px] sm:w-[510px] mx-auto">
                   <h3 className="text-3xl mb-5">Para Aprendices</h3>
                   <div className='flex items-center mb-5 gap-2'>
                     <Image 
@@ -421,7 +421,7 @@ export default function AboutPage() {
         <section>
           <div className='bg-slate-200 text-[#070E2B] m-20 rounded-lg p-10'>
             <h3 className='text-5xl text-center mb-10'>Learnify en Números</h3>
-            <div className='flex items-start justify-around'>
+            <div className='flex flex-wrap gap-10 items-start justify-around'>
               <div>
                 <div className='flex items-center justify-center'>
                   <h4 className='text-3xl font-semibold'>100.000</h4>
