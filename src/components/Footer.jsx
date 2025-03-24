@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
 export default function Footer()  {
+    // Estados para controlar el valor de cada select
+    const [sobreLearnify, setSobreLearnify] = useState('');
+    const [recursos, setRecursos] = useState('');
+    const [comunidad, setComunidad] = useState('');
+    const [legal, setLegal] = useState('');
+
+    // Función para manejar el cambio en los selects
+    const handleSelectChange = (event, setter) => {
+        setter(event.target.value);
+        if (event.target.value) {
+            window.location.href = event.target.value; // Redirigir a la URL seleccionada
+        }
+    };
+
+
   return (
     <>
         <footer className='bg-[#1F2937] text-white p-10 '>
-            <div className='flex justify-between mb-10'>
+            {/* Footer para escritorio */}
+            <div className='hidden md:flex justify-between mb-10'>
                 <div>
                     <h4 className='font-medium text-2xl'>Sobre Learnify</h4>
                     <ul>
@@ -41,6 +57,61 @@ export default function Footer()  {
                     </ul>
                 </div>
             </div>
+
+            {/* Footer para móvil */}
+            <div className="md:hidden flex flex-col gap-5 mb-10">
+                <div>
+                    <select
+                        value={sobreLearnify}
+                        onChange={(e) => handleSelectChange(e, setSobreLearnify)}
+                        className="bg-[#1F2937] text-white w-full p-2 border-2 border-white/30 focus:outline-none rounded-md"
+                    >
+                        <option value="">Sobre Learnify</option>
+                        <option value="/about">Sobre nosotros</option>
+                        <option value="/about">¿Qué somos?</option>
+                        <option value="/about#ourDifferentiators">Nuestros diferenciadores</option>
+                        <option value="/benefits">Beneficios</option>
+                    </select>
+                </div>
+                <div>
+                    <select
+                        value={recursos}
+                        onChange={(e) => handleSelectChange(e, setRecursos)}
+                        className="bg-[#1F2937] text-white w-full p-2 border-2 border-white/30 focus:outline-none rounded-md"
+                    >
+                        <option value="">Recursos</option>
+                        <option value="/contact">Centro de ayuda</option>
+                        <option value="/benefits#testimonials">Testimonios</option>
+                        <option value="/FAQs/learning">FAQs</option>
+                    </select>
+                </div>
+                <div>
+                    <select
+                        value={comunidad}
+                        onChange={(e) => handleSelectChange(e, setComunidad)}
+                        className="bg-[#1F2937] text-white w-full p-2 border-2 border-white/30 focus:outline-none rounded-md"
+                    >
+                        <option value="">Comunidad</option>
+                        <option value="/user/community/forums">Foros</option>
+                        <option value="/user/community/events">Eventos</option>
+                        <option value="/user/community/articles">Artículos</option>
+                    </select>
+                </div>
+                <div>
+                    <select
+                        value={legal}
+                        onChange={(e) => handleSelectChange(e, setLegal)}
+                        className="bg-[#1F2937] text-white w-full p-2 border-2 border-white/30 focus:outline-none rounded-md"
+                    >
+                        <option value="">Legal</option>
+                        <option value="/legal#terms&conditions">Términos & condiciones</option>
+                        <option value="/legal#privacyPolicies">Políticas de privacidad</option>
+                        <option value="/legal#dataTreatmentPolicies">Política de tratamiento de datos</option>
+                        <option value="/legal#cookiesPolicies">Política de cookies</option>
+                    </select>
+                </div>
+            </div>
+
             <div className='border-t border-white/30'>
                 <p className='text-center text-xl mt-10'>@2025 Learnify | Todos los derechos reservados.</p>
             </div>
