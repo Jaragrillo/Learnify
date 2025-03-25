@@ -6,7 +6,7 @@ export default function BenefitsPage() {
     <>
       <main>
         <section>
-          <div className='p-20'>
+          <div className='p-10 sm:p-20'>
             <h2 className='text-2xl sm:text-4xl text-[#0D1D5F] text-center font-medium'>¡Conoce todos los beneficios de ser parte de la familia Learnify!</h2>  
           </div>
           <div className='p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>

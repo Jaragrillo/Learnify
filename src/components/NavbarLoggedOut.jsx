@@ -87,7 +87,7 @@ export default function NavbarLoggedOut() {
 
             {/* Menú móvil */}
             {isMobileMenuOpen && (
-                <div className={`md:hidden absolute top-[100px] left-0 w-full ${isLoginOrRegisterPage ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] z-50`}>
+                <div className={`md:hidden absolute top-[100px] left-0 w-full ${isLoginOrRegisterPage ? 'bg-[#32acda]' : 'bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'} z-50`}>
                     <ul className="flex flex-col items-center">
                         <li className="p-5 text-lg">
                             <Link href={'/'} className={`px-3 py-2 rounded-xl hover:bg-white/10 transition duration-500 ${pathname === '/' ? 'bg-white/10' : ''}`}>

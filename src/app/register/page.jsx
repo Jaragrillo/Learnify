@@ -215,8 +215,8 @@ export default function RegisterPage() {
   return (
     <>
       <main>
-        <section className='h-[120vh] flex'>
-          <div className='w-1/2 h-full -z-10'>
+        <section className='lg:h-[120vh] flex'>
+          <div className='hidden lg:block w-1/2 h-full -z-10'>
             <Image 
               src="/images/learnifyLogo.jpeg" 
               width={1000} 
@@ -225,9 +225,9 @@ export default function RegisterPage() {
               className="h-full"
             />
           </div>
-          <div className='w-1/2 h-full bg-[#32acda] flex flex-col items-center justify-center pt-10'>
-            <h2 className='text-white text-4xl max-w-sm mb-5'>¡Aprende sin límites, enseña sin fronteras!</h2>
-            <div className=' bg-white w-[490px] rounded-lg shadow-lg shadow-black/25 p-5'>
+          <div className='w-full lg:w-1/2 h-full bg-[#32acda] flex flex-col items-center justify-center pb-10 lg:pb-0 pt-[100px] lg:pt-10'>
+            <h2 className='text-white text-2xl text-center sm:text-3xl lg:text-4xl max-w-sm mb-5'>¡Aprende sin límites, enseña sin fronteras!</h2>
+            <div className=' bg-white w-fit mx-20 lg:m-0 md:w-[490px] rounded-lg shadow-lg shadow-black/25 p-5'>
               <h3 className='text-center text-3xl mb-5 font-medium'>Regístrate</h3>
               <form onSubmit={handleSubmit} className='w-fit m-auto'>
                 <div className='mb-4'>

@@ -47,7 +47,7 @@ export default function HomePage() {
         </section>
         <section>
           <div className='mt-10 p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-              <h2 className='text-white text-5xl font-medium text-center mb-10'>¿Qué nos hace diferentes?</h2>
+              <h2 className='text-white text-4xl sm:text-5xl font-medium text-center mb-10'>¿Qué nos hace diferentes?</h2>
               <div className=''>
                   <div className='flex flex-wrap justify-around'>
                       <div className='bg-white w-[500px] h-[350px] text-black text-center rounded-xl flex flex-col items-center justify-center mb-10 shadow-lg shadow-black/40'>
@@ -58,8 +58,8 @@ export default function HomePage() {
                             height={70} 
                             className="mb-5"
                           />
-                          <h3 className='text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>¡Aprende lo que sea!</h3>
-                          <p className='text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>Obten acceso a una basta librería de conocimientos en todos los ambitos. Aprende donde sea, cuando sea.</p>
+                          <h3 className='text-3xl sm:text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>¡Aprende lo que sea!</h3>
+                          <p className='text-xl mx-2 sm:mx-0 sm:text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>Obten acceso a una basta librería de conocimientos en todos los ambitos. Aprende donde sea, cuando sea.</p>
                       </div>
                       <div className='bg-white w-[500px] h-[350px] text-black text-center rounded-xl flex flex-col items-center justify-center mb-10 shadow-lg shadow-black/40'>
                           <Image 
@@ -69,8 +69,8 @@ export default function HomePage() {
                             height={70} 
                             className="mb-5"
                           />
-                          <h3 className='text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>¡Enseña a otros!</h3>
-                          <p className='text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>Comparte tu experiencia con el mundo. Crea y sube tu propio contenido e inspira y educa a otros.</p>
+                          <h3 className='text-3xl sm:text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>¡Enseña a otros!</h3>
+                          <p className='text-xl mx-2 sm:mx-0 sm:text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>Comparte tu experiencia con el mundo. Crea y sube tu propio contenido e inspira y educa a otros.</p>
                       </div>
                   </div>
                   <div className='flex flex-wrap justify-around'>
@@ -82,8 +82,8 @@ export default function HomePage() {
                             height={70} 
                             className="mb-5"
                           />
-                          <h3 className='text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>Gana dinero</h3>
-                          <p className='text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>Convierte tus aptitudes en un ingreso. Vende tu contenido y genera ganancias desde tus conocimientos.</p>
+                          <h3 className='text-3xl sm:text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>Gana dinero</h3>
+                          <p className='text-xl mx-2 sm:mx-0 sm:text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>Convierte tus aptitudes en un ingreso. Vende tu contenido y genera ganancias desde tus conocimientos.</p>
                       </div>
                       <div className='bg-white w-[500px] h-[350px] text-black text-center rounded-xl flex flex-col items-center justify-center mb-10 shadow-lg shadow-black/40'>
                           <Image 
@@ -93,12 +93,12 @@ export default function HomePage() {
                             height={70} 
                             className="mb-5"
                           />
-                          <h3 className='text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>Amplía tus habilidades</h3>
-                          <p className='text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>¡Mejoráte continuamente! Aprende de expertos, adquiere nuevas habilidades y sigue tu progreso al instante.</p>
+                          <h3 className='text-3xl sm:text-4xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text font-semibold mb-5'>Amplía tus habilidades</h3>
+                          <p className='text-xl mx-2 sm:mx-0 sm:text-2xl max-w-sm text-justify leading-tight text-[#070E2B] font-light'>¡Mejoráte continuamente! Aprende de expertos, adquiere nuevas habilidades y sigue tu progreso al instante.</p>
                       </div>
                   </div>
               </div>
-              <div className="group text-white text-3xl sm:text-4xl md:text-5xl mb-10 m-auto block italic w-fit relative">
+              <div className="group text-white text-2xl sm:text-4xl md:text-5xl mb-10 m-auto block italic w-fit relative">
                   <Link href={"/benefits"} className="relative">
                       ¡Aún hay más para ti!
                       <span className="absolute left-0 -bottom-1 w-full h-[3px] bg-white transform scale-x-0 origin-left transition-transform duration-700 ease-in-out group-hover:scale-x-100"></span>
@@ -108,7 +108,7 @@ export default function HomePage() {
         </section>
         <section className='relative'>
           <div className='p-10'>
-            <h2 className='text-[#0D1D5F] text-4xl max-w-[1000px] m-auto font-medium text-center mb-16'>Aprende en cualquier momento, en cualquier lugar</h2>
+            <h2 className='text-[#0D1D5F] text-2xl sm:text-4xl max-w-[1000px] m-auto font-medium text-center mb-16'>Aprende en cualquier momento, en cualquier lugar</h2>
             <div className='flex flex-wrap justify-around gap-5'>
               <div className='text-center bg-[#F4F4F4] p-5 rounded-lg shadow-lg shadow-black/25 h-[430px] flex items-center'>
                 <div>

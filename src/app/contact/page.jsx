@@ -77,8 +77,8 @@ export default function ContactPage() {
       <main>
         <div>
           <h2 className='text-4xl text-[#0D1D5F] text-center font-medium my-10'>¡Contáctanos!</h2>
-          <section className='flex gap-10 p-10 relative bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-            <div className='w-1/2'>
+          <section className='block lg:flex gap-10 p-10 relative bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
+            <div className='w-full mb-10 lg:mb-0 lg:w-1/2'>
               <div className='text-white'>
                 <h3 className='text-3xl mb-2'>Mandanos un mensaje</h3>
                 <p className='text-justify text-lg mb-8'>Estamos aquí para escucharte. Ya sea que tengas sugerencias, quejas, reclamos o si deseas presentar oportunidades o propuestas laborales, ¡no dudes en escribirnos! Tu opinión es importante para nosotros.</p>
@@ -183,7 +183,7 @@ export default function ContactPage() {
                 </button>
               </form>
             </div>
-            <div className='w-1/2'>
+            <div className='w-full lg:w-1/2'>
               <div className='bg-white p-5 rounded-lg shadow-lg shadow-black/40'>
                 <h4 className='text-2xl font-medium mb-5'>Información de contacto</h4>
                 <ul>
@@ -195,7 +195,7 @@ export default function ContactPage() {
                       height={24} 
                       className="text-inherit"
                     />
-                    <p>soporte@learnify.com</p>
+                    <p className='text-sm sm:text-base'>soporte@learnify.com</p>
                   </li>
                   <li className='flex items-center gap-2 mb-2 text-xl'>
                     <Image 
@@ -204,7 +204,7 @@ export default function ContactPage() {
                       width={24} 
                       height={24} 
                     />
-                    <p>+57 300 6648618</p>
+                    <p className='text-sm sm:text-base'>+57 300 6648618</p>
                   </li>
                   <li className='flex items-center gap-2 mb-2 text-xl'>
                     <Image 
@@ -213,7 +213,7 @@ export default function ContactPage() {
                       width={24} 
                       height={24} 
                     />
-                    <p>Cl. 63 #58B-03, Terranova, Itagüi, Antioquia</p>
+                    <p className='text-sm sm:text-base'>Cl. 63 #58B-03, Terranova, Itagüi, Antioquia</p>
                   </li>
                   <li className='flex items-center gap-2 mb-2 text-xl'>
                     <Image 
@@ -222,11 +222,11 @@ export default function ContactPage() {
                       width={24} 
                       height={24} 
                     />
-                    <p>Lunes - Viernes: 9am - 5pm COT</p>
+                    <p className='text-sm sm:text-base'>Lunes - Viernes: 9am - 5pm COT</p>
                   </li>
                 </ul>
               </div>
-              <div className='bg-white p-5 rounded-lg shadow-lg shadow-black/40 w-1/2 mt-10'>
+              <div className='bg-white p-5 rounded-lg shadow-lg shadow-black/40 w-full lg:w-1/2 mt-10'>
                 <h4 className='text-2xl font-medium mb-5'>Conecta con nosotros</h4>
                 <ul>
                   <li className='flex items-center gap-2 mb-2 text-xl'>
@@ -273,7 +273,7 @@ export default function ContactPage() {
               alt="learnify-logo-transparent-image" 
               width={374} 
               height={374} 
-              className="absolute bottom-10 right-10"
+              className="hidden lg:block absolute bottom-10 right-10"
             />
           </section>
         </div>
