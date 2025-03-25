@@ -14,13 +14,13 @@ export default function CommunityFaqsPage() {
     return (
         <>
             <section className="p-10">
-                <h3 className="text-3xl text-[#0D1D5F] mb-10">Sobre la interacción y comunidad</h3>
+                <h3 className="text-2xl sm:text-3xl text-[#0D1D5F] mb-10">Sobre la interacción y comunidad</h3>
                 <div>
                     {communityFaqs.community.map((faq, index) => (
                         <div key={index} className="bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] shadow-md shadow-black/60 mb-5 py-4">
                             {/* Pregunta */}
                             <div
-                                className="flex items-center  cursor-pointer"
+                                className="flex items-center cursor-pointer"
                                 onClick={() => toggleFAQ(index)}
                             >
                                 <Image
