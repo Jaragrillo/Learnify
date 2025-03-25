@@ -138,8 +138,8 @@ export default function coursesPage() {
         <>
             <main>
                 <section className="p-10">
-                    <h2 className='text-4xl text-[#0D1D5F]'>Explora Nuestros Cursos</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Descubre una amplia variedad de cursos impartidos por expertos en sus campos.</p>
+                    <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>Explora Nuestros Cursos</h2>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[600px]'>Descubre una amplia variedad de cursos impartidos por expertos en sus campos.</p>
 
                     <h3 className="mt-10 text-3xl text-[#0D1D5F]">Cursos destacados</h3>
                     {isSliderLoading ? (
@@ -195,9 +195,9 @@ export default function coursesPage() {
                     )}
                 </section>
                 <section>
-                    <div className="flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                        <p className="text-white text-3xl">Todos los cursos</p>
-                        <div className="relative">
+                    <div className="block text-center sm:text-left sm:flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
+                        <p className="text-white text-3xl mb-2 sm:mb-0">Todos los cursos</p>
+                        <div className="relative w-fit mx-auto sm:mx-0">
                             <select
                                 name="coursesCategoriesSelect"
                                 id="coursesCategoriesSelect"
@@ -226,9 +226,9 @@ export default function coursesPage() {
                         {isLoading ? (
                             <CategoryCoursesSkeleton />
                         ) : courses.length > 0 ? (
-                            <div className='flex flex-wrap justify-between gap-6'>
+                            <div className='flex flex-wrap justify-center lg:justify-between gap-6'>
                                 {courses.map((course) => (
-                                    <div key={course.id_curso} className='shadow-lg shadow-black/60 relative w-[400px] h-[420px]'>
+                                    <div key={course.id_curso} className='shadow-lg shadow-black/60 relative w-[400px] h-[450px] sm:h-[420px]'>
                                         <div className="w-full h-40">
                                             <Image
                                                 src={course.img_portada}

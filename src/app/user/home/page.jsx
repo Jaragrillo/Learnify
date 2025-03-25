@@ -170,6 +170,14 @@ export default function page() {
         nextArrow: <NextArrow />,
         responsive: [
             {
+                breakpoint: 1280,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    infinite: true,
+                },
+            },
+            {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 2,
@@ -178,7 +186,7 @@ export default function page() {
                 },
             },
             {
-                breakpoint: 600,
+                breakpoint: 675,
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
@@ -192,8 +200,8 @@ export default function page() {
         <>
             <main>
                 <section className='p-10'>
-                    <h2 className='text-4xl text-[#0D1D5F]'>Una amplia selección de cursos</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Elige entre más de 5.000 cursos de vídeo en línea con nuevo contenido cada semana.</p>
+                    <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>Una amplia selección de cursos</h2>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[600px]'>Elige entre más de 5.000 cursos de vídeo en línea con nuevo contenido cada semana.</p>
                     <div>
                         {loading ? (
                               <HomeCoursesSkeleton />
@@ -201,7 +209,7 @@ export default function page() {
                           <Slider {...carouselSettings}>
                             {courses.map((course) => (
                                 <div key={course.id_curso}  className='px-4 py-6'>
-                                    <div className="bg-white shadow-lg shadow-black/60 w-full h-[384px] relative">
+                                    <div className="bg-white shadow-lg shadow-black/60 w-full h-[400px] sm:h-[384px] relative">
                                         <div className="w-full h-40">
                                             <Image
                                                 src={course.img_portada}
@@ -234,15 +242,15 @@ export default function page() {
                         )}
                     </div>
                 </section>
-                <section className='w-full bg-[#070E2B] relative h-80'>
+                <section className='w-full bg-[#070E2B] relative h-96 sm:h-80'>
                     <p className={`antialiased font-light text-3xl text-white p-5`} style={{ fontFamily: 'var(--font-newsreader)' }}>Habilidades que te ayudan a avanzar</p>
-                    <div className='bg-[#F7F7F7] absolute h-[280px] flex items-center w-4/5 p-10 font-light text-2xl left-0 right-0 -bottom-7 m-auto shadow-lg shadow-black/60'>
+                    <div className='bg-[#F7F7F7] absolute h-[280px] flex items-center w-4/5 p-10 font-light text-base sm:text-2xl left-0 right-0 -bottom-7 m-auto shadow-lg shadow-black/60'>
                         <p className='text-justify leading-normal'>La tecnología y el mundo laboral evolucionan muy rápido, pero con nosotros, podrás mantener el ritmo. Consigue las habilidades que necesitas para lograr tus objetivos y garantizar la competitividad.</p>
                     </div>
                 </section>
                 <section className='px-10 py-24'>
                     <h2 className='text-4xl text-[#0D1D5F] text-center'>Categorías principales</h2>
-                    <div className='flex flex-wrap justify-between'>
+                    <div className='flex flex-wrap justify-center sm:justify-between'>
                     <Link href={"/user/categories/programmation"} className='hover:cursor-default'>
                             <div className='group size-[300px] relative my-10 shadow-lg shadow-black/50 text-white bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
                                 <div className='absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0'>
@@ -469,7 +477,7 @@ export default function page() {
                 </div>
                 <section className='px-10 py-24'>
                     <h2 className='text-4xl text-center text-[#0D1D5F]'>Educadores destacados</h2>
-                    <div className='relative flex flex-wrap justify-between'>
+                    <div className='relative flex-col flex md:flex-row flex-wrap items-center justify-between'>
                         {educators.map((educator) => (
                             <div key={educator.id} className='w-2/6 my-5'>
                                 <div className='text-center'>
@@ -481,31 +489,31 @@ export default function page() {
                                         className='border-2 border-black rounded-full m-auto hover:cursor-pointer hover:border-[#0B78B8]/80'
                                         onClick={() => setActiveModal(educator.id)} // Mostrar detalles al hacer clic
                                     />
-                                    <h3 className='text-xl mt-4'>{educator.name}</h3>
+                                    <h3 className='text-lg sm:text-xl mt-4'>{educator.name}</h3>
                                     <p
-                                        className='text-lg hover:cursor-pointer hover:text-[#0B78B8] w-fit mx-auto'
+                                        className='text-base sm:text-lg hover:cursor-pointer hover:text-[#0B78B8] w-fit mx-auto'
                                         onClick={() => setActiveModal(educator.id)} // Mostrar detalles al hacer clic
                                     >
                                         Ver perfil &gt;
                                     </p>
                                 </div>
                                 {activeModal === educator.id && ( // Mostrar modal solo para el educador activo
-                                    <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
-                                        <div className='bg-white p-6 shadow-lg w-[900px] relative'>
+                                    <div className='fixed inset-0 bg-black/50 flex flex-col lg:flex-row items-center justify-center z-50'>
+                                        <div className='bg-white p-6 shadow-lg w-4/5 lg:w-[900px] relative'>
                                             <button
                                                 onClick={() => setActiveModal(null)} // Cerrar modal
                                                 className='absolute top-4 right-4 bg-gray-200 rounded-full py-2 px-3 hover:bg-gray-300'
                                             >
                                                 ✕
                                             </button>
-                                            <div className='flex items-center gap-3'>
+                                            <div className='flex flex-col lg:flex-row items-center gap-3'>
                                                 <div>
                                                     <Image
                                                         src={educator.image}
                                                         alt={`educator-${educator.name}-image`}
                                                         width={250}
                                                         height={250}
-                                                        className='rounded-full mx-auto'
+                                                        className='rounded-full mx-auto h-1/2 w-1/2 sm:h-full sm:w-full'
                                                     />
                                                 </div>
                                                 <div>
@@ -517,8 +525,14 @@ export default function page() {
                                                 <h4 className='text-xl text-[#0D1D5F]'>Cursos Impartidos:</h4>
                                                 {educator.courses.map((course, index) => (
                                                     <li key={index} className='flex items-center gap-1'>
-                                                        <Image src="/svg/class.svg" alt="class-svg" width={20} height={30} />
-                                                        <p className='text-lg text-[#070E2B]'>{course}</p>
+                                                        <Image 
+                                                            src="/svg/class.svg" 
+                                                            alt="class-svg" 
+                                                            width={20} 
+                                                            height={30} 
+                                                            className='hidden sm:block'
+                                                        />
+                                                        <p className='text-lg text-[#070E2B] flex items-center gap-x-2'> <span className='block sm:hidden'>●</span> {course}</p>
                                                     </li>
                                                 ))}
                                             </ul>
