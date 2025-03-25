@@ -33,13 +33,13 @@ export default function createdCoursesPage() {
         <>
             <main>
                 <section className="p-10">
-                    <h2 className='text-4xl text-[#0D1D5F]'>Mis Cursos Creados</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Comparte tus conocimientos y genera ingresos creando un nuevo curso. O, edita uno ya existente.</p>
+                    <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>Mis Cursos Creados</h2>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[600px]'>Comparte tus conocimientos y genera ingresos creando un nuevo curso. O, edita uno ya existente.</p>
                 </section>
                 <section>
-                    <div className="flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                        <p className="text-white text-3xl">Cursos creados</p>
-                        <Link href={'/user/myCourses/newCourse'} className="group flex text-2xl items-center text-white gap-2 px-3 py-2 border border-white hover:bg-white hover:text-black transition-all duration-300 ease-linear">
+                    <div className="block text-center sm:text-left sm:flex items-center justify-between w-full p-10 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
+                        <p className="text-white text-3xl mb-2 sm:mb-0">Cursos creados</p>
+                        <Link href={'/user/myCourses/newCourse'} className="group flex text-2xl items-center text-white gap-2 px-3 py-2 w-fit mx-auto sm:mx-0 border border-white hover:bg-white hover:text-black transition-all duration-300 ease-linear">
                             Crear nuevo curso
                             <Image 
                                 src="/svg/addWhite.svg" 
@@ -65,9 +65,9 @@ export default function createdCoursesPage() {
                         ) : courses.length === 0 ? (
                             <p className="text-gray-500">No tienes cursos creados aún.</p>
                         ) : (
-                            <div className="flex flex-wrap justify-between gap-6">
+                            <div className="flex flex-wrap justify-center md:justify-between gap-6">
                                 {courses.map((course) => (
-                                    <div key={course.id_curso} className="shadow-lg shadow-black/60 relative w-[400px] h-[392px]">
+                                    <div key={course.id_curso} className="shadow-lg shadow-black/60 relative w-[400px] h-[420px] sm:h-[392px]">
                                         <div className="w-full h-40">
                                             <Image
                                                 src={course.img_portada}
