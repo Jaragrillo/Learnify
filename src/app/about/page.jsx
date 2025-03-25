@@ -32,7 +32,7 @@ export default function AboutPage() {
             alt="learnify-logo-transparent-image" 
             width={800} 
             height={800} 
-            className="m-auto absolute top-0 bottom-0 left-0 right-0"
+            className="hidden md:block m-auto absolute top-0 bottom-0 left-0 right-0"
           />
           <h2 className='text-white text-3xl sm:text-4xl md:text-5xl font-medium text-center mb-20 italic'>La identidad de Learnify</h2>
 

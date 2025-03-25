@@ -6,11 +6,11 @@ export default function LegalPage() {
     <>
         <main>
             <div className='p-16 text-center'>
-                <h2 className='text-4xl font-medium text-[#0D1D5F]'>Información legal</h2>
-                <h3 className='text-3xl font-medium text-[#0D1D5F]'>Cómo maneja Learnify tu información</h3>
+                <h2 className='text-2xl sm:text-4xl font-medium text-[#0D1D5F]'>Información legal</h2>
+                <h3 className='text-xl sm:text-3xl font-medium text-[#0D1D5F]'>Cómo maneja Learnify tu información</h3>
             </div>
             <section className='relative flex'>
-                <aside className='bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-5'>
+                <aside className='hidden sm:block bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-5'>
                     <ul>
                         <li className='flex items-center p-5 border-l border-l-white/50 hover:border-l-white/100'>
                             <Link href={"#terms&conditions"} className='text-white/50 hover:text-white/100'>Términos y condiciones</Link>

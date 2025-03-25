@@ -14,6 +14,27 @@ export default function NavbarLoggedIn() {
     const [error, setError] = useState(null);
     const router = useRouter();
     const pathname = usePathname();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handleSearch = async (query) => { 
+        if (!query.trim()) {
+            setSearchResults([]);
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/browser?query=${query}`);
+            if (!response.ok) {
+                throw new Error('Error al buscar cursos');
+            }
+            const results = await response.json();
+            setSearchResults(results);
+        } catch (err) {
+            console.error('Error al buscar cursos:', err);
+            setSearchResults([]);
+        }
+    };
 
     useEffect(() => {
         const token = jsCookie.get('auth-token');
@@ -52,6 +73,18 @@ export default function NavbarLoggedIn() {
         fetchUserData();
     }, [router]);
 
+    useEffect(() => {
+        const delaySearch = setTimeout(() => {
+            if (searchTerm.trim()) {
+                handleSearch(searchTerm);
+            } else {
+                setSearchResults([]);
+            }
+        }, 500); // Retrasa la búsqueda 500ms
+
+        return () => clearTimeout(delaySearch); // Limpia el timeout si el componente se desmonta o searchTerm cambia
+    }, [searchTerm]);
+
     if (error) {
         return <p className="text-red-500">{error}</p>;
     }
@@ -72,21 +105,35 @@ export default function NavbarLoggedIn() {
                         </Link>
                     </div>
 
-                    <div>
-                        <form action="">
-                            <div className='relative'>
-                                <input type="text" name="searchCourse" id="searchCourse" placeholder='¿Qué te intersa aprende hoy?' className='rounded-lg px-3 py-2 w-[700px] focus:outline-none text-black' />
-                                <button type="submit">
-                                    <Image
-                                        src="/svg/search.svg"
-                                        alt="search-svg"
-                                        width={24}
-                                        height={24}
-                                        className="absolute right-5 top-0 bottom-0 my-auto "
-                                    />
-                                </button>
-                            </div>
-                        </form>
+                    <div className='hidden lg:block'>
+                        <div className='relative'>
+                            <input
+                                type="text"
+                                name="searchCourse"
+                                id="searchCourse"
+                                placeholder='¿Qué te intersa aprende hoy?'
+                                className='rounded-lg px-3 py-2 w-[700px] focus:outline-none text-black'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            {searchResults.length > 0 ? (
+                                <ul className="absolute bg-white text-black shadow-md shadow-black/50 rounded-md w-full mt-1 max-h-48 overflow-y-auto z-50">
+                                    {searchResults.map((course) => (
+                                        <li key={course.id_curso} className="p-2 hover:bg-gray-100 cursor-pointer">
+                                            <Link href={`/user/courses/${course.id_curso}`} className="block">
+                                                {course.titulo}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                searchTerm.trim() && ( // Mostrar el mensaje solo si hay un término de búsqueda
+                                    <p className="absolute bg-white text-black/50 rounded-md shadow-md shadow-black/50 w-full mt-1 p-2 z-50">
+                                        No se encontraron cursos relacionados.
+                                    </p>
+                                )
+                            )}
+                        </div>
                     </div>
 
                     <ul className='flex items-center mr-5'>
@@ -117,40 +164,40 @@ export default function NavbarLoggedIn() {
                         </li>
                     </ul>
                 </nav>
-                <nav className='bg-[#cee4f1] text-black/60 fixed w-full z-40 mt-[100px]'>
+                <nav className='hidden sm:block bg-[#cee4f1] text-black/60 fixed w-full z-30 mt-[100px]'>
                     <ul className='flex items-center'>
                         <li className='p-3'>
-                            <Link href={"/user/home"} className={`hover:text-black/100 ${pathname === '/user/home' ? 'text-black/100' : ''}`}>Home</Link>
+                            <Link href={"/user/home"} className={`text-xs md:text-base hover:text-black/100 ${pathname === '/user/home' ? 'text-black/100' : ''}`}>Home</Link>
                         </li>
                         <li>
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/courses"} className={`hover:text-black/100 ${pathname.includes('courses') ? 'text-black/100' : ''}`}>Cursos</Link>
+                            <Link href={"/user/courses"} className={`text-xs md:text-base hover:text-black/100 ${pathname.includes('courses') ? 'text-black/100' : ''}`}>Cursos</Link>
                         </li>
                         <li>
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/categories"} className={`hover:text-black/100 ${pathname.includes('categories') ? 'text-black/100' : ''}`}>Categorías</Link>
+                            <Link href={"/user/categories"} className={`text-xs md:text-base hover:text-black/100 ${pathname.includes('categories') ? 'text-black/100' : ''}`}>Categorías</Link>
                         </li>
                         <li>
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/purchasedCourses"} className={`hover:text-black/100 ${pathname.includes('purchasedCourses') ? 'text-black/100' : ''}`}>Cursos comprados</Link>
+                            <Link href={"/user/purchasedCourses"} className={`text-xs md:text-base hover:text-black/100 ${pathname.includes('purchasedCourses') ? 'text-black/100' : ''}`}>Cursos comprados</Link>
                         </li>
                         <li>
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/myCourses"} className={`hover:text-black/100 ${pathname.includes('myCourses') ? 'text-black/100' : ''}`}>Cursos creados</Link>
+                            <Link href={"/user/myCourses"} className={`text-xs md:text-base hover:text-black/100 ${pathname.includes('myCourses') ? 'text-black/100' : ''}`}>Cursos creados</Link>
                         </li>
                         <li>
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/community/forums"} className={`hover:text-black/100 ${pathname.includes('community') ? 'text-black/100' : ''}`}>Comunidad</Link>
+                            <Link href={"/user/community/forums"} className={`text-xs md:text-base hover:text-black/100 ${pathname.includes('community') ? 'text-black/100' : ''}`}>Comunidad</Link>
                         </li>
                     </ul>
                 </nav>

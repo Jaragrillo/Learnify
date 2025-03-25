@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React, { useState, useEffect, useRef } from 'react'
 import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
-import { Spanish } from 'flatpickr/dist/l10n/es' // Importamos el idioma español
+import { Spanish } from 'flatpickr/dist/l10n/es' 
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 

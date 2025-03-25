@@ -40,7 +40,7 @@ export default function NotFound() {
                           className="mx-auto"
                         />
                     </div>
-                    <div className="group text-white text-5xl mb-10 m-auto block w-fit relative">
+                    <div className="group text-white text-3xl sm:text-5xl text-center mb-10 m-auto block w-fit relative">
                         <Link href={redirectTo} className="relative">
                             ¡Retoma tu camino de aprendizaje!
                             <span className="absolute left-0 -bottom-1 w-full h-[3px] bg-white transform scale-x-0 origin-left transition-transform duration-700 ease-in-out group-hover:scale-x-100"></span>
@@ -50,7 +50,7 @@ export default function NotFound() {
                           alt="not-found-paper-airplane-image" 
                           width={410} 
                           height={235} 
-                          className="absolute right-0 -top-56"
+                          className="hidden sm:block absolute right-0 -top-56"
                         />
                     </div>
                 </section>
