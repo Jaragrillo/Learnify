@@ -13,10 +13,10 @@ export default function CommunityForumsPage() {
                 <div key={forum.forum_id} className='w-full group'>
                     <Link href={`/user/community/forums/${forum.forum_id}`}>
                         <div className='text-white w-full bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] border-b border-white/40 py-5 px-10'>
-                            <h4 className='text-2xl mb-5 group-hover:underline'>{forum.title}</h4>
-                            <div className='flex items-center gap-10'>
+                            <h4 className='text-xl text-justify sm:text-2xl sm:text-left mb-5 group-hover:underline'>{forum.title}</h4>
+                            <div className='block sm:flex items-center gap-10'>
                               <div>
-                                <p className='font-light text-lg text-white/60'>Creado por: {forum.author}</p>
+                                <p className='font-light text-sm sm:text-lg text-white/60'>Creado por: {forum.author}</p>
                               </div>
                               <div className='flex items-center gap-1'>
                                 <Image 
@@ -26,7 +26,7 @@ export default function CommunityForumsPage() {
                                   height={24} 
                                   className="opacity-60"
                                 />
-                                <p className='font-light text-lg text-white/60'>{forum.replies.length} respuestas</p>
+                                <p className='font-light text-sm sm:text-lg text-white/60'>{forum.replies.length} respuestas</p>
                               </div>
                             </div>
                         </div>

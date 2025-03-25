@@ -8,11 +8,11 @@ export default function CommunityEventsPage() {
 
   const handleJoinEvent = (eventTitle) => {
     Swal.fire({
-        title: '¡Te uniste al evento!',
-        text: `Te has unido al evento "${eventTitle}". Te llegará un correo con toda la información sobre el evento.`,
-        allowOutsideClick: false,
-        icon: 'success',
-        confirmButtonText: 'Entendido.'
+      title: '¡Te uniste al evento!',
+      text: `Te has unido al evento "${eventTitle}". Te llegará un correo con toda la información sobre el evento.`,
+      allowOutsideClick: false,
+      icon: 'success',
+      confirmButtonText: 'Entendido.'
     });
   }
 
@@ -20,7 +20,7 @@ export default function CommunityEventsPage() {
     <>
       <section className="p-10">
         <h3 className="text-3xl text-[#0D1D5F] mb-10">Próximos eventos de la comunidad</h3>
-        <div className='w-full flex flex-wrap gap-5 justify-between'>
+        <div className='w-full flex flex-wrap gap-5 justify-center md:justify-between'>
           {
             eventsData.events.map((event, index) => (
               <div key={index} className='bg-[#cee4f1] relative shadow-md shadow-black/25 p-5 w-[415px]'>
@@ -47,7 +47,7 @@ export default function CommunityEventsPage() {
                 </div>
                 <button
                 onClick={() => handleJoinEvent(event.title)} 
-                  className='absolute bottom-5 right-5 bg-[#070E2B] px-5 py-2 text-white hover:scale-110 transition duration-500'
+                  className='absolute bottom-5 right-5 bg-[#070E2B] px-2 py-1 sm:px-5 sm:py-2 text-white hover:scale-110 transition duration-500'
                 >
                   Unirse
                 </button>

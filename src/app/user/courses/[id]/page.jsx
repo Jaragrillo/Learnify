@@ -46,6 +46,7 @@ export default function CoursePage() {
     const [isAuthor, setIsAuthor] = useState(false); // Estado para verificar si el usuario es el autor
     const [isStudent, setIsStudent] = useState(false); // Estado para verificar si ya compró el curso
 
+
     useEffect(() => {
         const fetchCourseData = async () => {
             try {
@@ -251,12 +252,12 @@ export default function CoursePage() {
         <>
             <main>
                 <section className="p-10">
-                    <h2 className='text-4xl text-[#0D1D5F]'>{courseData.titulo}</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[920px]'>{courseData.descripcion}</p>
+                    <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>{courseData.titulo}</h2>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[920px]'>{courseData.descripcion}</p>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
                     <h3 className="text-3xl text-[#0D1D5F] mb-10">Información sobre el curso</h3>
-                    <div className="flex justify-between">
+                    <div className="flex flex-wrap gap-5 justify-center sm:justify-between">
                         <div className="bg-white w-[265px] h-[315px] text-center py-10 shadow-lg shadow-black/50">
                             <h4 className="text-3xl mb-3 text-[#0D1D5F]">Valoración</h4>
                             <Image
@@ -329,20 +330,20 @@ export default function CoursePage() {
                     </div>
                 </section>
                 <section className="p-10">
-                    <h3 className="text-3xl text-[#0D1D5F] mb-10">¡Conoce al creador del curso!</h3>
-                    <div className="p-10 flex items-center shadow-lg shadow-black/50 mx-auto w-3/4 h-[400px] gap-5">
-                        <div className="w-[250px] min-w-[250px] h-[250px] overflow-hidden rounded-full shadow-md shadow-gray-500/30">
+                    <h3 className="text-xl sm:text-3xl text-[#0D1D5F] mb-10">¡Conoce al creador del curso!</h3>
+                    <div className="p-10 flex flex-col lg:flex-row items-center justify-center lg:justify-normal shadow-lg shadow-black/50 mx-auto w-3/4 h-auto lg:h-[400px] gap-5">
+                        <div className="w-[100px] h-[100px] sm:w-[250px] sm:min-w-[250px] sm:min-h-[250px] sm:h-[250px] overflow-hidden rounded-full shadow-md shadow-gray-500/30">
                             <Image
                                 src={courseData.autor.foto_perfil}
                                 alt={courseData.autor.nombre_completo}
                                 width={250}
                                 height={250}
-                                className="rounded full"
+                                className="rounded full h-full w-full"
                             />
                         </div>
                         <div>
-                            <h4 className="text-4xl text-[#0D1D5F] font-medium">{courseData.autor.nombre_completo}</h4>
-                            <p className="text-xl text-[#0D1D5F] text-justify">{courseData.autor.biografia}</p>
+                            <h4 className="text-sm sm:text-3xl lg:text-4xl text-[#0D1D5F] font-medium">{courseData.autor.nombre_completo}</h4>
+                            <p className="text-xs sm:text-xl text-[#0D1D5F] text-justify">{courseData.autor.biografia}</p>
                         </div>
                     </div>
                 </section>
@@ -354,7 +355,7 @@ export default function CoursePage() {
                             <Slider {...carouselSettings} ref={setSliderRef}>
                                 {courseData.clases.map((clase, index) => (
                                     <div key={clase.id_clase} className="px-10">
-                                        <div className="p-4 bg-white shadow-lg shadow-black/60 mx-2 relative min-h-[385px]">
+                                        <div className="p-4 bg-white shadow-lg shadow-black/60 mx-2 relative h-[300px] sm:min-h-[385px]">
                                             <Image
                                                 src={clase.previewUrl}
                                                 alt={`Portada de ${clase.titulo}`}
@@ -362,8 +363,8 @@ export default function CoursePage() {
                                                 height={180}
                                                 className="mb-4 w-full shadow-md shadow-black/25"
                                             />
-                                            <h4 className="text-xl font-medium mb-2">{clase.titulo}</h4>
-                                            <p className="text-gray-700 line-clamp-3">{clase.descripcion}</p>
+                                            <h4 className="text-sm sm:text-xl font-medium mb-2">{clase.titulo}</h4>
+                                            <p className="text-xs sm:text-base text-gray-700 line-clamp-3">{clase.descripcion}</p>
                                             <div className="absolute bg-[#cee4f1] size-16 flex justify-center items-center -top-5 -right-5 rounded-full text-xl">
                                                 <p>#{index+1}</p>
                                             </div>
@@ -377,7 +378,7 @@ export default function CoursePage() {
                         <button 
                             onClick={handleCheckout}
                             className={`
-                                text-3xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text px-5 py-1 shadow-lg shadow-black/60 rounded-lg block w-fit
+                                text-2xl sm:text-3xl bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] text-transparent bg-clip-text px-5 py-1 shadow-lg shadow-black/60 rounded-lg block w-fit
                                 ${isAuthor || isStudent ? 'cursor-not-allowed opacity-40' : ''}
                             `}
                             disabled={isAuthor || isStudent} // Desabilitar si es el autor o si ya compró el curso
@@ -387,12 +388,12 @@ export default function CoursePage() {
                     </div>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
-                    <h3 className="text-3xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
+                    <h3 className="text-xl sm:text-3xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
                     <div>
                         {courseData.comentarios.length > 0 ? (
                             courseData.comentarios.map((comentario, index) => (
                                 <div key={index} className="bg-white p-5 w-full mb-5 shadow-lg shadow-black/50">
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex flex-col sm:flex-row items-center gap-4">
                                         <div className="w-[100px] h-[100px] overflow-hidden rounded-full">
                                             <Image
                                                 src={comentario.usuario.foto_perfil}
@@ -403,8 +404,8 @@ export default function CoursePage() {
                                             />
                                         </div>
                                         <div>
-                                            <h4 className="text-2xl font-medium text-[#0D1D5F]">{`${comentario.usuario.nombre} ${comentario.usuario.apellidos}`}</h4>
-                                            <p className="text-xl text-[#0D1D5F]">{comentario.comentario}</p>
+                                            <h4 className="text-lg sm:text-2xl font-medium text-[#0D1D5F]">{`${comentario.usuario.nombre} ${comentario.usuario.apellidos}`}</h4>
+                                            <p className="text-sm sm:text-xl text-justify sm:text-left text-[#0D1D5F]">{comentario.comentario}</p>
                                             <p className="text-[#0D1D5F]/60">{comentario.fecha_comentario}</p>
                                         </div>
                                     </div>
@@ -419,7 +420,7 @@ export default function CoursePage() {
                     <button 
                         onClick={handleCheckout}
                         className={`
-                            text-3xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto transition duration-500
+                            text-2xl sm:text-3xl text-white px-5 py-1 shadow-lg shadow-black/60 bg-gradient-to-r from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] rounded-lg block w-fit m-auto transition duration-500
                             ${isAuthor || isStudent ? 'cursor-not-allowed opacity-40 hover:scale-100' : 'hover:scale-110'}
                         `}
                         disabled={isAuthor || isStudent} // Desabilitar si es el autor o si ya compró el curso
@@ -429,9 +430,6 @@ export default function CoursePage() {
                 </section>
             </main>
             <style jsx global>{`
-                .slick-list {
-                    overflow: visible !important;
-                }
                 .slick-track {
                     margin: 0 !important;
                 }
