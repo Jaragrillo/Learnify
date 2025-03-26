@@ -113,12 +113,12 @@ export default function purchasedCourseClassPage() {
         <>
             <main>
                 <section className="p-10">
-                    <h2 className='text-4xl text-[#0D1D5F]'>Bienvenid@ a la clase {claseData.titulo}</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[920px]'>{claseData.descripcion}</p>
-                    <p className="text-2xl text-[#0D1D5F]/50 italic font-light">Curso: {courseData.titulo}</p>
+                    <h2 className='text-2xl sm:text-4xl text-justify sm:text-left text-[#0D1D5F]'>Bienvenid@ a la clase {claseData.titulo}</h2>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[920px]'>{claseData.descripcion}</p>
+                    <p className="text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F]/50 italic font-light">Curso: {courseData.titulo}</p>
                 </section>
                 <section className="p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                    <h3 className="text-4xl font-medium italic text-center text-white mb-10">¡Disfruta del aprendizaje!</h3>
+                    <h3 className="text-2xl sm:text-4xl font-medium italic text-center text-white mb-10">¡Disfruta del aprendizaje!</h3>
                     <div className="flex flex-col">
                         <div className="w-full">
                             {claseData.url_video && (
@@ -126,7 +126,7 @@ export default function purchasedCourseClassPage() {
                             )}
                         </div>
                         <div className="flex flex-row-reverse my-5">
-                            <p className="text-2xl font-extralight text-white/50">Autor: {courseData.autor.nombre_completo}</p>
+                            <p className="text-lg sm:text-2xl font-extralight text-white/50">Autor: {courseData.autor.nombre_completo}</p>
                         </div>
                     </div>
                     <div className="flex flex-row-reverse">

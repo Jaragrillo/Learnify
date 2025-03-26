@@ -274,7 +274,7 @@ export default function purchasedCoursePage() {
 
     const StarRating = ({ rating, hoverRating, onClick, onMouseEnter, onMouseLeave, disabled }) => {
         return (
-            <div className="flex items-center gap-10 mt-5">
+            <div className="flex items-center gap-5 sm:gap-10 mt-5">
                 {[...Array(5)].map((_, index) => {
                     const value = index + 1;
                     return (
@@ -398,14 +398,14 @@ export default function purchasedCoursePage() {
         <>
             <main>
                 <section className="p-10 relative">
-                    <h2 className='text-4xl text-[#0D1D5F]'>Bienvenid@ al curso de {courseData.titulo}</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[920px]'>{courseData.descripcion}</p>
-                    <p className="text-2xl text-[#0D1D5F]/50 italic font-light">Categoría: {courseData.nombreCategoria}</p>
+                    <h2 className='text-2xl sm:text-4xl text-justify sm:text-left text-[#0D1D5F]'>Bienvenid@ al curso de {courseData.titulo}</h2>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[920px]'>{courseData.descripcion}</p>
+                    <p className="text-xl sm:text-2xl text-justify sm:text-left mb-5 sm:mb-0 text-[#0D1D5F]/50 italic font-light">Categoría: {courseData.nombreCategoria}</p>
                     <button 
                       className="flex items-center gap-1 group absolute bottom-1 right-1 opacity-50"
                       onClick={handleDownloadPurchaseInvoice}
                     >
-                      <p className="text-xl group-hover:underline text-[#0D1D5F]">Descargar factura</p>
+                      <p className="text-lg sm:text-xl group-hover:underline text-[#0D1D5F]">Descargar factura</p>
                       <Image 
                           src="/svg/downloadDarkBlue.svg" 
                           alt="downloadDarkBlue-svg" 
@@ -415,20 +415,20 @@ export default function purchasedCoursePage() {
                     </button>
                 </section>
                 <section className="p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                    <h3 className="text-4xl mb-10 italic text-white font-medium text-center">¡Comienza a aprender ahora!</h3>
-                    <h3 className="text-3xl text-white mb-10">Clases del curso</h3>
+                    <h3 className="text-2xl sm:text-4xl mb-10 italic text-white font-medium text-center">¡Comienza a aprender ahora!</h3>
+                    <h3 className="text-xl sm:text-3xl text-white mb-10">Clases del curso</h3>
                     <div className="relative pl-10">
                         <div className="absolute top-0 bottom-0 left-3 w-[1px] bg-white"></div>
                         {courseData && courseData.clases && courseData.clases.length > 0 ? (
                             courseData.clases.map((clase, index) => (
-                                <div key={clase.id_clase} className={`flex items-center gap-5 relative mb-14 ${clasesVistas[clase.id_clase] ? 'opacity-50 transition-all duration-500' : 'opacity-100 transition-all duration-500'}`}>
+                                <div key={clase.id_clase} className={`flex flex-col lg:flex-row lg:items-center gap-7 relative mb-14 ${clasesVistas[clase.id_clase] ? 'opacity-50 transition-all duration-500' : 'opacity-100 transition-all duration-500'}`}>
                                     <div className="absolute -left-9 top-0 bottom-0 my-auto rounded-full bg-white size-4"></div> {/* Círculo */}
                                     <div className="relative">
                                         <div>
-                                            <p className="text-xl font-light italic text-white/70 mb-1">{clasesVistas[clase.id_clase] ? '¡Clase vista!' : '¡Clase no vista!'}</p>
+                                            <p className="text-lg sm:text-xl font-light italic text-white/70 mb-1">{clasesVistas[clase.id_clase] ? '¡Clase vista!' : '¡Clase no vista!'}</p>
                                         </div>
                                         {clase.url_video && (
-                                            <div className="relative">
+                                            <div className="relative w-fit">
                                                 <Image
                                                     src={clase.previewUrl}
                                                     alt={`Portada de ${clase.titulo}`}
@@ -443,7 +443,7 @@ export default function purchasedCoursePage() {
                                         )}
                                     </div>
                                     <div>
-                                        <h4 className="text-2xl text-white mb-5 font-light"><span className="font-normal">Clase #{index +1}:</span> {clase.titulo}</h4>
+                                        <h4 className="text-lg sm:text-2xl text-white mb-5 font-light"><span className="font-normal">Clase #{index +1}:</span> {clase.titulo}</h4>
                                         <div>
                                             <Link 
                                                 href={`/user/purchasedCourses/${courseData.id_curso}/class/${clase.id_clase}`}
@@ -472,7 +472,7 @@ export default function purchasedCoursePage() {
                 <section className="p-10">
                     <h3 className="text-3xl text-[#0D1D5F] mb-10">¡Valora el curso!</h3>
                     <div className="mx-auto shadow-lg shadow-black/60 p-5 text-white font-extralight bg-gradient-to-b from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                        <p className="text-2xl test-justify">Tu opinión es muy importante para nosotros. Por favor, dedica unos minutos a compartir tu experiencia con este curso. Ten encuenta para evaluar:</p>
+                        <p className="text-lg sm:text-2xl text-justify">Tu opinión es muy importante para nosotros. Por favor, dedica unos minutos a compartir tu experiencia con este curso. Ten encuenta para evaluar:</p>
                         <div>
                             <div className="flex items-center gap-1 my-4">
                                 <Image 
@@ -481,7 +481,7 @@ export default function purchasedCoursePage() {
                                   width={40} 
                                   height={40} 
                                 />
-                                <p className="text-2xl">La claridad y calidad del contenido.</p>
+                                <p className="text-lg sm:text-2xl">La claridad y calidad del contenido.</p>
                             </div>
                             <div className="flex items-center gap-1 my-4">
                                 <Image 
@@ -490,7 +490,7 @@ export default function purchasedCoursePage() {
                                   width={40} 
                                   height={40} 
                                 />
-                                <p className="text-2xl">La utilidad de la información presentada.</p>
+                                <p className="text-lg sm:text-2xl">La utilidad de la información presentada.</p>
                             </div>
                             <div className="flex items-center gap-1 my-4">
                                 <Image 
@@ -499,7 +499,7 @@ export default function purchasedCoursePage() {
                                   width={40} 
                                   height={40} 
                                 />
-                                <p className="text-2xl">La habilidad del instructor para explicar los temas.</p>
+                                <p className="text-lg sm:text-2xl">La habilidad del instructor para explicar los temas.</p>
                             </div>
                             <div className="flex items-center gap-1 my-4">
                                 <Image 
@@ -508,10 +508,10 @@ export default function purchasedCoursePage() {
                                   width={40} 
                                   height={40} 
                                 />
-                                <p className="text-2xl">La relación entre el precio y el valor que recibiste.</p>
+                                <p className="text-lg sm:text-2xl">La relación entre el precio y el valor que recibiste.</p>
                             </div>
                         </div>
-                        <p className="text-2xl text-justify">¡Tu retroalimentación ayudará a otros estudiantes a tomar decisiones informadas y permitirá que el instructor mejore sus futuros cursos!</p>
+                        <p className="text-lg sm:text-2xl text-justify">¡Tu retroalimentación ayudará a otros estudiantes a tomar decisiones informadas y permitirá que el instructor mejore sus futuros cursos!</p>
                         <div>
                             <form>
                                 <StarRating
@@ -527,7 +527,7 @@ export default function purchasedCoursePage() {
                     </div>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
-                    <h3 className="text-3xl text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso</h3>
+                    <h3 className="text-xl sm:text-3xl text-justify sm:text-left text-[#0D1D5F] mb-10">Mira las experiencias de otros aprendices en el curso. ¡Ahora puedes compartir la tuya!</h3>
                     <div>
                         <div className='mb-10'>
                             <form onSubmit={handleSubmitComentario}>
@@ -548,7 +548,7 @@ export default function purchasedCoursePage() {
                             {courseData.comentarios.length > 0 ? (
                                 courseData.comentarios.map((comentario, index) => (
                                     <div key={index} className="bg-white p-5 w-full mb-5 shadow-lg shadow-black/50">
-                                        <div className="flex items-center gap-4">
+                                        <div className="flex flex-col sm:flex-row items-center gap-4">
                                             <div className="w-[100px] h-[100px] overflow-hidden rounded-full">
                                                 <Image
                                                     src={comentario.usuario.foto_perfil}
@@ -559,8 +559,8 @@ export default function purchasedCoursePage() {
                                                 />
                                             </div>
                                             <div>
-                                                <h4 className="text-2xl font-medium text-[#0D1D5F]">{`${comentario.usuario.nombre} ${comentario.usuario.apellidos}`}</h4>
-                                                <p className="text-xl text-[#0D1D5F]">{comentario.comentario}</p>
+                                                <h4 className="text-lg sm:text-2xl font-medium text-[#0D1D5F]">{`${comentario.usuario.nombre} ${comentario.usuario.apellidos}`}</h4>
+                                                <p className="text-sm sm:text-xl text-justify sm:text-left text-[#0D1D5F]">{comentario.comentario}</p>
                                                 <p className="text-[#0D1D5F]/60">{comentario.fecha_comentario}</p>
                                             </div>
                                         </div>

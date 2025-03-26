@@ -180,7 +180,7 @@ export default function NewCourse() {
             <main>
                 <section className="p-10">
                     <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>¡Crea un nuevo curso!</h2>
-                    <p className='text-xl sm:text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Comparte tus conocimientos y genera ingresos creando un nuevo curso.</p>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[600px]'>Comparte tus conocimientos y genera ingresos creando un nuevo curso.</p>
                 </section>
                 <section className='p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
                     <form className='flex flex-col lg:flex-row lg:justify-between items-start gap-10'>

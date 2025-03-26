@@ -111,18 +111,18 @@ export default function CoursePage() {
         <>
             <main>
                 <section className="p-10">
-                    <h2 className='text-4xl text-[#0D1D5F]'>¡Edita tu curso!</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[920px]'>Corrige erorres, o, ¡añade información relevante que hayas pasado por alto! Recuerda, si quieres añadir contenido a tu curso entra en Clases.</p>
+                    <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>¡Edita tu curso!</h2>
+                    <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[920px]'>Corrige erorres, o, ¡añade información relevante que hayas pasado por alto! Recuerda, si quieres añadir contenido a tu curso entra en Clases.</p>
                 </section>
                 <section className="p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]">
-                    <h3 className="text-3xl text-white mb-10">Clases del curso</h3>
+                    <h3 className="text-2xl sm:text-3xl text-white mb-10">Clases del curso</h3>
                     <div className="relative pl-10">
                         <div className="absolute top-0 bottom-0 left-3 w-[1px] bg-white"></div>
                         {courseData && courseData.clases && courseData.clases.length > 0 ? (
                             courseData.clases.map((clase, index) => (
-                                <div key={clase.id_clase} className="flex items-center gap-5 relative mb-14">
+                                <div key={clase.id_clase} className="flex flex-col lg:flex-row lg:items-center gap-5 relative mb-14">
                                     <div className="absolute -left-9 top-0 bottom-0 my-auto rounded-full bg-white size-4"></div> {/* Círculo */}
-                                    <div className="relative">
+                                    <div className="relative w-fit">
                                         {clase.url_video && (
                                             <Image
                                                 src={clase.previewUrl}
@@ -137,17 +137,17 @@ export default function CoursePage() {
                                         </div>
                                     </div>
                                     <div>
-                                        <h4 className="text-2xl text-white mb-5">Clase #{index +1}: {clase.titulo}</h4>
+                                        <h4 className="text-lg sm:text-2xl text-white mb-5">Clase #{index +1}: {clase.titulo}</h4>
                                         <div className="flex items-center gap-5">
                                             <Link 
                                                 href={`/user/myCourses/editCourse/${courseId}/courseClasses/editClass/${clase.id_clase}`}
-                                                className="text-[#0D1D5F] font-medium px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
+                                                className="text-[#0D1D5F] font-medium text-sm sm:text-base px-2 sm:px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
                                             >
                                                 Editar clase
                                             </Link>
                                             <button 
                                                 onClick={() => handleDeleteClass(clase.id_clase)} // Pasa el ID de la clase
-                                                className="text-red-700 font-medium px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
+                                                className="text-red-700 font-medium text-sm sm:text-base px-2 sm:px-5 py-1 shadow-md shadow-black/60 bg-white rounded-lg block w-fit hover:scale-110 transition duration-500"
                                             >
                                                 Eliminar clase
                                             </button>
