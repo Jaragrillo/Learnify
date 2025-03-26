@@ -252,7 +252,7 @@ export default function CoursePage() {
         <>
             <main>
                 <section className="p-10">
-                    <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>{courseData.titulo}</h2>
+                    <h2 className='text-2xl sm:text-4xl text-justify sm:text-left text-[#0D1D5F]'>{courseData.titulo}</h2>
                     <p className='text-xl sm:text-2xl text-justify sm:text-left text-[#0D1D5F] font-light max-w-[920px]'>{courseData.descripcion}</p>
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
