@@ -8,7 +8,7 @@ import Image from "next/image";
 import Swal from 'sweetalert2';
 import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
-import { Spanish } from 'flatpickr/dist/l10n/es' // Importamos el idioma español
+import { Spanish } from 'flatpickr/dist/l10n/es' 
 import EditProfileSkeleton from "@/components/skeletons/EditProfileSkeleton";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -276,13 +276,13 @@ export default function EditProfilePage() {
 
   return (
     <main>
-      <section className="container mx-auto">
-        <h2 className='text-4xl text-[#0D1D5F] m-10'>Editar perfil</h2>
+      <section className="w-full mx-auto">
+        <h2 className='text-2xl sm:text-4xl text-[#0D1D5F] m-10'>Editar perfil</h2>
 
         <div className="bg-gradient-to-bl from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-10">
           <div className="mb-10 flex items-center gap-5">
             <label htmlFor="profileImage">
-              <div className="w-[150px] h-[150px] overflow-hidden rounded-full">
+              <div className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] overflow-hidden rounded-full">
                 <Image 
                   src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
                   alt="profile-image"
@@ -300,16 +300,16 @@ export default function EditProfilePage() {
               />
             </label>
             <div>
-                <p className="text-3xl text-white">{userData.nombre} {userData.apellidos}</p>
-                <p className="text-2xl text-white/60 font-light">{userData.correo}</p>
+              <p className="text-lg sm:text-3xl text-white">{userData.nombre} {userData.apellidos}</p>
+              <p className="text-sm sm:text-2xl text-white/60 font-light">{userData.correo}</p>
             </div>
           </div>
 
           <form className="flex flex-wrap gap-y-10 gap-x-32">
 
             {/* Nombre */}
-            <div className="w-2/5">
-              <label htmlFor="name" className="block text-2xl text-white">
+            <div className="w-full md:w-2/5">
+              <label htmlFor="name" className="block text-xl lg:text-2xl text-white">
                 <div className="flex items-center gap-1">
                   <Image 
                     src="/svg/name.svg" 
@@ -329,8 +329,8 @@ export default function EditProfilePage() {
             </div>
 
             {/* Apellidos */}
-            <div className="w-2/5">
-              <label htmlFor="lastName" className="block text-2xl text-white">
+            <div className="w-full md:w-2/5">
+              <label htmlFor="lastName" className="block text-xl lg:text-2xl text-white">
                 <div className="flex items-center gap-1">
                   <Image 
                     src="/svg/name.svg" 
@@ -350,8 +350,8 @@ export default function EditProfilePage() {
             </div>
             
             {/* Fecha de nacimiento */}
-            <div className="w-2/5">
-              <label htmlFor="dateOfBirth" className="block text-2xl text-white">
+            <div className="w-full md:w-2/5">
+              <label htmlFor="dateOfBirth" className="block text-xl lg:text-2xl text-white">
                 <div className="flex items-center gap-1">
                   <Image 
                     src="/svg/calendar.svg" 
@@ -374,8 +374,8 @@ export default function EditProfilePage() {
             </div>
 
             {/* Correo */}
-            <div className="w-2/5">
-              <label htmlFor="email" className="block text-2xl text-white">
+            <div className="w-full md:w-2/5">
+              <label htmlFor="email" className="block text-xl lg:text-2xl text-white">
                 <div className="flex items-center gap-1">
                   <Image 
                     src="/svg/emailWhite.svg" 
@@ -396,7 +396,7 @@ export default function EditProfilePage() {
 
             {/* Biografía */}
             <div className="w-full">
-              <label htmlFor="description" className="block text-2xl text-white">
+              <label htmlFor="description" className="block text-xl lg:text-2xl text-white">
                 <div className="flex items-center gap-1">
                   <Image 
                     src="/svg/description.svg" 
@@ -411,13 +411,13 @@ export default function EditProfilePage() {
                 value={userData.biografia} 
                 placeholder="Añade una biografía..."
                 onChange={(e) => setUserData({ ...userData, biografia: e.target.value })} 
-                className="w-[89%] resize-none min-h-24 max-h-24 px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300 h-32"
+                className="w-full md:w-[89%] resize-none min-h-24 max-h-24 px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300 h-32"
               />
             </div>
 
             {/* Contraseña actual */}
-            <div className="w-2/5">
-              <label htmlFor="currentlyPassword" className="block text-2xl text-white">
+            <div className="w-full md:w-2/5">
+              <label htmlFor="currentlyPassword" className="block text-xl lg:text-2xl text-white">
                 <div className="flex items-center gap-1">
                   <Image 
                     src="/svg/password.svg" 
@@ -451,8 +451,8 @@ export default function EditProfilePage() {
             </div>
 
             {/* Nueva contraseña */}
-            <div className="w-2/5">
-              <label htmlFor="email" className="block text-2xl text-white">
+            <div className="w-full md:w-2/5">
+              <label htmlFor="email" className="block text-xl lg:text-2xl text-white">
                 <div className="flex items-center gap-1">
                   <Image 
                     src="/svg/password.svg" 
