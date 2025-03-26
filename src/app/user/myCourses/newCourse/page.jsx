@@ -179,15 +179,15 @@ export default function NewCourse() {
         <>
             <main>
                 <section className="p-10">
-                    <h2 className='text-4xl text-[#0D1D5F]'>¡Crea un nuevo curso!</h2>
-                    <p className='text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Comparte tus conocimientos y genera ingresos creando un nuevo curso.</p>
+                    <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>¡Crea un nuevo curso!</h2>
+                    <p className='text-xl sm:text-2xl text-[#0D1D5F] font-light max-w-[600px]'>Comparte tus conocimientos y genera ingresos creando un nuevo curso.</p>
                 </section>
                 <section className='p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-                    <form action="" className='flex justify-between items-start'>
-                        <div className='w-3/5'>
+                    <form className='flex flex-col lg:flex-row lg:justify-between items-start gap-10'>
+                        <div className='w-full lg:w-3/5'>
                             <div className='mb-10'>
-                                <label htmlFor="title" className='text-4xl font-light text-white mb-2 block'>Título</label>
-                                <div className='relative w-4/5'>
+                                <label htmlFor="title" className='text-2xl sm:text-4xl font-light text-white mb-2 block'>Título</label>
+                                <div className='relative w-full lg:w-4/5'>
                                     <input 
                                         type="text"
                                         name='title'
@@ -207,8 +207,8 @@ export default function NewCourse() {
                                 </div>
                             </div>
                             <div className='mb-10'>
-                                <label htmlFor="description" className='text-4xl font-light text-white mb-2 block'>Descripción</label>
-                                <div className='relative w-4/5'>
+                                <label htmlFor="description" className='text-2xl sm:text-4xl font-light text-white mb-2 block'>Descripción</label>
+                                <div className='relative w-full lg:w-4/5'>
                                     <textarea 
                                         type="text" 
                                         name='description'
@@ -228,8 +228,8 @@ export default function NewCourse() {
                                 </div>
                             </div>
                             <div className='mb-10'>
-                                <label htmlFor="category" className='text-4xl font-light text-white mb-2 block'>Categoría</label>
-                                <div className='w-4/5'>
+                                <label htmlFor="category" className='text-2xl sm:text-4xl font-light text-white mb-2 block'>Categoría</label>
+                                <div className='w-full lg:w-4/5'>
                                     <select 
                                         name="category" 
                                         id="category" 
@@ -247,8 +247,8 @@ export default function NewCourse() {
                                 </div>
                             </div>
                             <div>
-                                <label htmlFor="price" className='text-4xl font-light text-white mb-2 block'>Precio</label>
-                                <div className='relative w-4/5'>
+                                <label htmlFor="price" className='text-2xl sm:text-4xl font-light text-white mb-2 block'>Precio</label>
+                                <div className='relative w-full lg:w-4/5'>
                                     <input 
                                         type="number"
                                         name='price' 
@@ -273,9 +273,9 @@ export default function NewCourse() {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-3/5 h-[550px] flex flex-col'>
+                        <div className='w-full lg:w-3/5 h-[550px] flex flex-col'>
                             <div className='h-3/5'>
-                                <label htmlFor="coverImage" className='text-4xl font-light text-white mb-2 block'>Portada</label>
+                                <label htmlFor="coverImage" className='text-2xl sm:text-4xl font-light text-white mb-2 block'>Portada</label>
                                 <div className='h-full relative'>
                                     <label htmlFor="coverImage" className='w-full h-full bg-transparent border focus:outline-none border-white text-white/60 block px-2 py-3 relative z-10 cursor-pointer'>
                                         Sube la imagen de portada del curso
