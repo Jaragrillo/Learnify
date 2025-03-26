@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation';
 import articlesData from '@/utils/community/articlesData.json'
 import Image from 'next/image';
 
-export default function ArticlePage({ params }) {
+export default async function ArticlePage({ params }) {
 
-    const { id } = params;
+    const { id } = await params;
 
     // Buscar la información de la categoría en el JSON
     const articleInfo = articlesData.articles.find(
@@ -20,18 +20,18 @@ export default function ArticlePage({ params }) {
         <>
             <main>
                 <section className="p-10">
-                    <div className='w-full h-[400px] m-auto text-white relative'>
+                    <div className='w-full h-auto lg:h-[400px] m-auto text-white relative'>
                         <div className='p-10'>
-                            <h2 className='text-5xl mb-5'>{articleInfo.title}</h2>
-                            <h3 className='text-2xl text-justify font-light'>{articleInfo.description}</h3>
-                            <p className="italic absolute right-10 bottom-10 text-2xl text-white/80">Hecho por: {articleInfo.author}</p>
+                            <h2 className='text-xl sm:text-3xl lg:text-5xl text-justify sm:text-left mb-5'>{articleInfo.title}</h2>
+                            <h3 className='text-sm sm:text-xl md:text-2xl text-justify font-light mb-10 lg:mb-0'>{articleInfo.description}</h3>
+                            <p className="italic relative sm:absolute sm:right-10 bottom-10 text-base sm:text-2xl text-white/80">Hecho por: {articleInfo.author}</p>
                         </div>
                         <Image 
                         src={articleInfo.img} 
                         alt={articleInfo.title} 
                         width={1000} 
                         height={1000} 
-                        className="brightness-50 w-full h-full  absolute top-0 -z-10"
+                        className="brightness-[0.3] w-full h-full absolute top-0 -z-10"
                         />
                     </div>
                 </section>
@@ -50,7 +50,7 @@ export default function ArticlePage({ params }) {
                     }
                 </section>
                 <section className="p-10 bg-[#cee4f1]">
-                    <h2 className="text-4xl font-medium mb-10 text-[#0D1D5F]">Comentarios</h2>
+                    <h2 className="text-3xl sm:text-4xl font-medium mb-10 text-[#0D1D5F]">Comentarios</h2>
                     <div>
                         <form action="" className='mb-10'>
                             <div className='w-full bg-white p-5 shadow-md shadow-black/25'>
@@ -63,7 +63,7 @@ export default function ArticlePage({ params }) {
                             articleInfo.comments.map((comment, index) => (
                                 <div key={index} className='w-full bg-white p-5 mb-10 shadow-lg shadow-black/25'>
                                     <h4 className='font-light text-2xl text-[#0D1D5F]'>{comment.author}</h4>
-                                    <p className='text-lg'>{comment.comment}</p>
+                                    <p className='text-lg text-justify lg:text-left'>{comment.comment}</p>
                                 </div>
                             ))
                         ) : (

@@ -218,7 +218,7 @@ export default function NavbarLoggedIn() {
                                 <Link href={"/user/myCourses"} className={`hover:text-black/100 ${pathname.includes('myCourses') ? 'text-black/100' : ''}`}>Cursos creados</Link>
                             </li>
                             <li className='p-3'>
-                                <Link href={"/user/community/forums"} className={`hover:text-black/100 ${pathname.includes('community') ? 'text-black/100' : ''}`}>Comunidad</Link>
+                                <Link href={"/user/community/forums"} className={`hover:text-black/100 ${pathname.includes('/user/community') ? 'text-black/100' : ''}`}>Comunidad</Link>
                             </li>
                         </ul>
                     </nav>
@@ -258,7 +258,7 @@ export default function NavbarLoggedIn() {
                             <p>|</p>
                         </li>
                         <li className='p-3'>
-                            <Link href={"/user/community/forums"} className={`text-xs md:text-base hover:text-black/100 ${pathname.includes('community') ? 'text-black/100' : ''}`}>Comunidad</Link>
+                            <Link href={"/user/community/forums"} className={`text-xs md:text-base hover:text-black/100 ${pathname.includes('/user/community') ? 'text-black/100' : ''}`}>Comunidad</Link>
                         </li>
                     </ul>
                 </nav>

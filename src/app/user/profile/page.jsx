@@ -116,30 +116,30 @@ export default function ProfilePage() {
   return (
     <>
       <main>
-        <section className="container mx-auto">
-        <h2 className='text-4xl text-[#0D1D5F] m-10'>Bienvenid@, {userData.nombre} {userData.apellidos}</h2>
+        <section className="w-full mx-auto">
+          <h2 className='text-2xl sm:text-4xl text-[#0D1D5F] m-10'>Bienvenid@, {userData.nombre} {userData.apellidos}</h2>
 
           {userData && (
             <div className="bg-gradient-to-bl from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-10">
               <div className="mb-10 flex items-center gap-5">
-                <div className="w-[150px] h-[150px] overflow-hidden rounded-full">
+                <div className="w-[100px] min-w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] overflow-hidden rounded-full">
                   <Image 
-                      src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
-                      alt={`${userData.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`}
-                      width={150} 
-                      height={150} 
-                      className="rounded-full object-cover"
+                    src={userData.foto_perfil ?? '/images/userDefaultImage.png'}
+                    alt={`${userData.foto_perfil ? `${userData.nombre}-${userData.apellidos}` : 'default'}-profile-image`}
+                    width={150} 
+                    height={150} 
+                    className="rounded-full object-cover"
                   />
                 </div>
                 <div>
-                  <p className="text-3xl text-white">{userData.nombre} {userData.apellidos}</p>
-                  <p className="text-2xl text-white/60 font-light">{userData.correo}</p>
+                  <p className="text-lg sm:text-3xl text-white">{userData.nombre} {userData.apellidos}</p>
+                  <p className="text-sm sm:text-2xl text-white/60 font-light">{userData.correo}</p>
                 </div>
               </div>
 
-              <form action="" className="flex flex-wrap gap-y-10 gap-x-32">
-                <div className="w-2/5">
-                  <label htmlFor="name" className="block text-2xl text-white">
+              <form className="flex flex-wrap gap-y-10 gap-x-32">
+                <div className="w-full md:w-2/5">
+                  <label htmlFor="name" className="block text-xl lg:text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
                         src="/svg/name.svg" 
@@ -152,8 +152,8 @@ export default function ProfilePage() {
                   </label>
                   <input type="text" name="name" id="name" value={`${userData.nombre}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div>
-                <div className="w-2/5">
-                  <label htmlFor="lastName" className="block text-2xl text-white">
+                <div className="w-full md:w-2/5">
+                  <label htmlFor="lastName" className="block text-xl lg:text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
                         src="/svg/name.svg" 
@@ -166,8 +166,8 @@ export default function ProfilePage() {
                   </label>
                   <input type="text" name="lastName" id="lastName" value={`${userData.apellidos}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div>
-                <div className="w-2/5">
-                  <label htmlFor="dateOfBirth" className="block text-2xl text-white">
+                <div className="w-full md:w-2/5">
+                  <label htmlFor="dateOfBirth" className="block text-xl lg:text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
                         src="/svg/calendar.svg" 
@@ -180,8 +180,8 @@ export default function ProfilePage() {
                   </label>
                   <input type="text" name="dateOfBirth" id="dateOfBirth" value={`${userData.fecha_nacimiento}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div>
-                <div className="w-2/5">
-                  <label htmlFor="email" className="block text-2xl text-white">
+                <div className="w-full md:w-2/5">
+                  <label htmlFor="email" className="block text-xl lg:text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
                         src="/svg/emailWhite.svg" 
@@ -194,8 +194,8 @@ export default function ProfilePage() {
                   </label>
                   <input type="text" name="email" id="email" value={`${userData.correo}`} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div>
-                <div className="w-[89%]">
-                  <label htmlFor="biography" className="block text-2xl text-white">
+                <div className="w-full md:w-[89%]">
+                  <label htmlFor="biography" className="block text-xl lg:text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
                         src="/svg/description.svg" 
@@ -208,8 +208,8 @@ export default function ProfilePage() {
                   </label>
                   <input type="text" name="biography" id="biography" value={userData.biografia ? userData.biografia : "Añade una biografía..."} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                 </div>
-                <div className={`w-2/5 ${role === 1 ? 'hidden' : ''}`}>
-                  <label htmlFor="createdCourses" className="block text-2xl text-white">
+                <div className={`w-full md:w-2/5 ${role === 1 ? 'hidden' : ''}`}>
+                  <label htmlFor="createdCourses" className="block text-xl lg:text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
                         src="/svg/classWhite.svg" 
@@ -223,8 +223,8 @@ export default function ProfilePage() {
                   <input type="text" name="createdCourses" id="createdCourses" value={createdCoursesCount} className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:outline-none placeholder:text-black" readOnly/>
                   <Link href={'/user/myCourses'} className="text-white/60 hover:text-white/100 w-fit mt-1 block">Ver cursos creados →</Link>
                 </div>
-                <div className={`w-2/5 ${role === 1 ? 'hidden' : ''}`}>
-                  <label htmlFor="purchasedCourses" className="block text-2xl text-white">
+                <div className={`w-full md:w-2/5 ${role === 1 ? 'hidden' : ''}`}>
+                  <label htmlFor="purchasedCourses" className="block text-xl lg:text-2xl text-white">
                     <div className="flex items-center gap-1">
                       <Image 
                         src="/svg/moneyWhite.svg" 

@@ -58,31 +58,31 @@ export default function CategoryPage({ params }) {
     <>
       <main>
         <section className='p-10'>
-          <h2 className='text-4xl text-[#0D1D5F]'>{categoryInfo.categorie}</h2>
-          <p className='text-2xl text-[#0D1D5F] font-light max-w-[1000px] text-justify'>{categoryInfo.description}</p>
+          <h2 className='text-2xl sm:text-4xl text-[#0D1D5F]'>{categoryInfo.categorie}</h2>
+          <p className='text-base sm:text-2xl text-[#0D1D5F] font-light max-w-[1000px] text-justify'>{categoryInfo.description}</p>
         </section>
 
         <section className='p-10 bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472]'>
-          <h2 className='text-3xl text-white max-w-3xl mb-10'>Habilidades que puedes desarrollar aprendiendo sobre {categoryInfo.categorie}</h2>
-          <div className='flex justify-between'>
+          <h2 className='text-2xl sm:text-3xl text-white max-w-3xl mb-10'>Habilidades que puedes desarrollar aprendiendo sobre {categoryInfo.categorie}</h2>
+          <div className='flex flex-wrap gap-5 justify-center lg:justify-between'>
             {categoryInfo.skills.map((skill, index) => (
               <div key={index} className='w-[395px] h-[390px] bg-white p-5 shadow-lg shadow-black/30'>
                 <div className='bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] p-5 text-white w-full h-[150px] flex items-center justify-center mb-3'>
-                  <h3 className='text-2xl'>{skill.skill}</h3>   
+                  <h3 className='text-xl sm:text-2xl'>{skill.skill}</h3>   
                 </div>
-                <p className='text-lg font-light text-justify text-[#0D1D5F] leading-tight'>{skill.skillDescription}</p>
+                <p className='text-base sm:text-lg font-light text-justify text-[#0D1D5F] leading-tight'>{skill.skillDescription}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className='px-10 py-20 flex items-center justify-between bg-[#cee4f1]'>
+        <section className='px-10 py-20 flex flex-wrap gap-5 items-center justify-center xl:justify-between bg-[#cee4f1]'>
           <div>
-            <h2 className='text-4xl text-[#0D1D5F] mb-3'>¿Por qué aprender sobre {categoryInfo.categorie}?</h2>
-            <p className='text-xl font-light text-[#0D1D5F] text-justify max-w-[750px]'>{categoryInfo.importance}</p>
+            <h2 className='text-2xl sm:text-4xl text-[#0D1D5F] mb-3'>¿Por qué aprender sobre {categoryInfo.categorie}?</h2>
+            <p className='text-base sm:text-xl font-light text-[#0D1D5F] text-justify max-w-[750px]'>{categoryInfo.importance}</p>
           </div>
           {categoryInfo.categoryImage && (
-            <div className='h-[380px] w-[434px]'>
+            <div className='w-full h-[250px] md:h-[380px] sm:h-[400px] md:w-[434px]'>
               <Image
                 src={categoryInfo.categoryImage}
                 alt={`${categoryInfo.categorie}-image`}
@@ -95,13 +95,13 @@ export default function CategoryPage({ params }) {
         </section>
 
         <section className='p-10'>
-          <h2 className='text-4xl text-center text-[#0D1D5F] mb-10'>Explora los cursos sobre {categoryInfo.categorie}</h2>
+          <h2 className='text-2xl sm:text-4xl text-center text-[#0D1D5F] mb-10'>Explora los cursos sobre {categoryInfo.categorie}</h2>
           {isLoading ? (
             <CategoryCoursesSkeleton />
           ) : courses.length > 0 ? (
-            <div className='flex flex-wrap justify-between gap-6'>
+            <div className='flex flex-wrap justify-center lg:justify-between gap-6'>
               {courses.map((course) => (
-                <div key={course.id_curso} className='shadow-lg shadow-black/60 relative w-[400px] h-[420px]'>
+                <div key={course.id_curso} className='shadow-lg shadow-black/60 relative w-[400px] h-[450px] sm:h-[420px]'>
                   <div className="w-full h-40">
                     <Image
                       src={course.img_portada}
@@ -117,35 +117,34 @@ export default function CategoryPage({ params }) {
                     <div className="flex items-center gap-x-2 mt-2 text-gray-600">
                       <div className="flex items-center gap-1">
                         <Image 
-                            src="/svg/star.svg" 
-                            alt="star-svg" 
-                            width={24} 
-                            height={24} 
+                          src="/svg/star.svg" 
+                          alt="star-svg" 
+                          width={24} 
+                          height={24} 
                         />
                         {course.valoracion || 'El curso no ha sido valorado'}
                       </div>
                       <div className="flex items-center gap-1">
                         <Image 
-                            src="/svg/studentDarkBlue.svg" 
-                            alt="studentDarkBlue-svg" 
-                            width={24} 
-                            height={24} 
+                          src="/svg/studentDarkBlue.svg" 
+                          alt="studentDarkBlue-svg" 
+                          width={24} 
+                          height={24} 
                         />
                         {course.estudiantes}
                       </div>
                       <div className="flex items-center gap-1">
                         <Image 
-                            src="/svg/class.svg" 
-                            alt="class-svg" 
-                            width={24} 
-                            height={24} 
-                            className=""
+                          src="/svg/class.svg" 
+                          alt="class-svg" 
+                          width={24} 
+                          height={24} 
                         />
                         {course.totalClases || 0}
                       </div>
                     </div>
                     <p className="text-2xl mt-2"> {/* Formatear el precio para mostrarlo más agradable al usuario en COP ↓ */}
-                        ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP 
+                      ${Number(course.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })} COP 
                     </p>
                     <Link 
                       href={`/user/courses/${course.id_curso}`} 
