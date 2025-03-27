@@ -10,11 +10,13 @@ export default function IncomeChart({ data }) {
         console.log("IncomeChart Data:", data);
     }, [data]);
 
+    const validatedData = data?.datasets?.[0]?.data.map(Number) || [];
+
     const chartData = {
         labels: data?.labels || [],
         datasets: [{
             label: 'Ingresos',
-            data: data?.datasets?.[0]?.data || [],
+            data: validatedData,
             fill: false,
             borderColor: '#0D1D5F',
             tension: 0.1,
@@ -23,7 +25,7 @@ export default function IncomeChart({ data }) {
 
     const options = {
         responsive: true,
-        maintainAspectRadio: false,
+        maintainAspectRatio: false,
         plugins: {
             legend: { position: 'top' },
             title: { display: true, text: 'Ventas por Fecha', font: { size: 25, weight: '200' }, color: '#0D1D5F', },
@@ -47,8 +49,12 @@ export default function IncomeChart({ data }) {
     };
 
     return (
-        <div className="h-[400px] w-full">
-            <Line options={options} data={chartData} />
+        <div className="h-[400px] w-full relative">
+            <Line 
+                options={options} 
+                data={chartData} 
+                className='!w-full !h-full'
+            />
         </div>
     );
 }
