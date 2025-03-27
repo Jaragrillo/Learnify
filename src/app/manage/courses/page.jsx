@@ -268,9 +268,48 @@ export default function AdminCoursesPage() {
     }
   };
 
+  // Función para eliminar una categoría
+  const handleDeleteCategory = async (categoryId, reloadData) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará la categoría permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#d33',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Eliminando...',
+          text: 'Por favor, espera.',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        try {
+          const response = await fetch(`/api/manage/courses/categories/delete?id=${categoryId}`, {
+            method: 'DELETE',
+          });
+
+          if (!response.ok) {
+            throw new Error('Error al eliminar la categoría');
+          }
+
+          Swal.fire('¡Eliminada!', 'La categoría ha sido eliminada correctamente.', 'success');
+          reloadData(); // Recargar datos
+        } catch (error) {
+          Swal.fire('Error', error.message, 'error');
+        }
+      }
+    });
+  };
+
   return (
     <>
-      <main className="ml-80">
+      <main className="lg:ml-80">
         <section className="pt-10 px-10">
           <div className="flex items-center gap-2">
             <Image 
@@ -279,7 +318,7 @@ export default function AdminCoursesPage() {
                 width={50} 
                 height={50} 
             />
-            <h2 className="text-4xl text-[#0D1D5F]">Cursos</h2>
+            <h2 className="text-2xl sm:text-4xl text-[#0D1D5F]">Cursos</h2>
           </div>
         </section>
         <section className="p-10">
@@ -299,10 +338,10 @@ export default function AdminCoursesPage() {
         </section>
         <section className="px-10">
           <h3 className="text-3xl text-center text-[#0D1D5F] mb-10">Cursos más comprados</h3>
-          <div className="flex justify-between">
+          <div className="flex flex-col md:flex-row gap-10 justify-between">
             {dashboardCourseData.cursosMasComprados.map((course, index) => (
-              <div key={index} className="w-2/5 shadow-lg shadow-black/60 rounded-lg p-5">
-                <h4 className="text-2xl text-[#0D1D5F] mb-3">{course.title}</h4>
+              <div key={index} className="w-full md:w-2/5 shadow-lg shadow-black/60 rounded-lg p-5">
+                <h4 className="text-2xl text-justify sm:text-left text-[#0D1D5F] mb-3">{course.title}</h4>
                 <div className="flex items-center gap-1 mb-3">
                   <Image 
                     src="/svg/student.svg" 
@@ -349,10 +388,10 @@ export default function AdminCoursesPage() {
         </section>
         <section className="px-10">
           <h3 className="text-3xl text-center text-[#0D1D5F] mb-10">Cursos mejor valorados</h3>
-          <div className="flex justify-between">
+          <div className="flex flex-col md:flex-row gap-10 justify-between">
             {dashboardCourseData.cursosMejorValorados.map((course, index) => (
-              <div key={index} className="shadow-lg shadow-black/60 rounded-lg p-5 w-2/5">
-                <h4 className="text-2xl text-[#0D1D5F] mb-3">{course.title}</h4>
+              <div key={index} className="shadow-lg shadow-black/60 rounded-lg p-5 md:w-2/5">
+                <h4 className="text-2xl text-justify sm:text-left text-[#0D1D5F] mb-3">{course.title}</h4>
                 <div className="flex items-center mb-3">
                   {renderStars(Math.round(course.rating))} {/* Renderiza las estrellas */}
                   <p className="ml-2">({Math.round(course.rating)})</p> {/* Muestra el rating redondeado */}
@@ -395,15 +434,15 @@ export default function AdminCoursesPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {dashboardCourseData.cursos.map(curso => (
                   <tr key={curso.id_curso}>
-                    <td className="px-6 py-4 whitespace-nowrap">{curso.id_curso}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{curso.titulo}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">${curso.precio}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{curso.estudiantes}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{curso.id_autor}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{curso.id_categoria}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{curso.id_curso}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{curso.titulo}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">${curso.precio}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{curso.estudiantes}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{curso.id_autor}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{curso.categoria}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">
                       <button 
-                        className="bg-red-400 flex items-center px-3 py-2 rounded-lg hover:bg-red-600"
+                        className="bg-red-400 flex items-center justify-center px-5 py-2 rounded-lg hover:bg-red-600"
                         onClick={() => handleDeleteCourse(curso.id_curso, reloadData)}
                       >
                         <p className="text-white font-light">Eliminar</p>
@@ -430,7 +469,7 @@ export default function AdminCoursesPage() {
                 width={50} 
                 height={50} 
             />
-            <h2 className="text-4xl text-[#0D1D5F]">Categorías</h2>
+            <h2 className="text-2xl sm:text-4xl text-[#0D1D5F]">Categorías</h2>
           </div>
           <div>
             <div className="flex flex-row-reverse mb-2">
@@ -438,7 +477,7 @@ export default function AdminCoursesPage() {
                 className="flex items-center gap-1 group"
                 onClick={() => handleCreateCategory(reloadData)}
               >
-                <p className="text-2xl group-hover:underline text-[#0D1D5F]">Añadir nueva categoría</p>
+                <p className="text-xl sm:text-2xl group-hover:underline text-[#0D1D5F]">Añadir nueva categoría</p>
                 <Image 
                     src="/svg/addDarkBlue.svg" 
                     alt="addDarkBlue-svg" 
@@ -460,18 +499,30 @@ export default function AdminCoursesPage() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {dashboardCourseData.categorias.map(categoria => (
                     <tr key={categoria.id_categoria}>
-                      <td className="px-6 py-4 whitespace-nowrap">{categoria.id_categoria}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{categoria.categoria}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{categoria.descripcion.length > 50 ? categoria.descripcion.substring(0, 50) + "..." : categoria.descripcion}</td>
-                      <td className="px-6 py-4 whitespace-nowrap flex items-center gap-2">
+                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{categoria.id_categoria}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{categoria.categoria}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{categoria.descripcion.length > 50 ? categoria.descripcion.substring(0, 50) + "..." : categoria.descripcion}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base flex items-center gap-2">
                         <button 
-                          className="bg-blue-400 flex items-center px-3 py-2 rounded-lg hover:bg-blue-500 gap-1"
+                          className="bg-blue-400 w-fit flex items-center justify-center px-5 py-2 rounded-lg hover:bg-blue-500 gap-1"
                           onClick={() => handleEditCategory(categoria, reloadData)}
                         >
                           <p className="text-white font-light">Editar</p>
                           <Image 
                             src="/svg/edit.svg" 
                             alt="edit-svg" 
+                            width={24} 
+                            height={24} 
+                          />
+                        </button>
+                        <button 
+                          className="bg-red-400 flex items-center justify-center px-5 py-2 rounded-lg hover:bg-red-600"
+                          onClick={() => handleDeleteCategory(categoria.id_categoria, reloadData)}
+                        >
+                          <p className="text-white font-light">Eliminar</p>
+                          <Image 
+                            src="/svg/delete.svg" 
+                            alt="delete-svg" 
                             width={24} 
                             height={24} 
                           />

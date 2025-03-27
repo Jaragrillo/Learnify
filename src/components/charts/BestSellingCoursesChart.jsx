@@ -24,18 +24,20 @@ export default function BestSellingCoursesChart({ data }) {
     };
 
     return (
-        <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name">
-                    <Label value="Cursos" offset={0} position="insideBottom" style={{ fill: '#0D1D5F' }} />
-                </XAxis>
-                <YAxis>
-                    <Label value="Ventas" offset={0} position="insideLeft" angle={-90} style={{ fill: '#0D1D5F' }} />
-                </YAxis>
-                <Tooltip content={CustomTooltip}/>
-                <Bar dataKey="Ventas" fill="#cee4f1" stroke="#0D1D5F" strokeWidth={1} />
-            </BarChart>
-        </ResponsiveContainer>
+        <div className='sm:h-[400px] h-[200px]'>
+            <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name">
+                        <Label value="Cursos" offset={0} position="insideBottom" style={{ fill: '#0D1D5F' }} />
+                    </XAxis>
+                    <YAxis>
+                        <Label value="Ventas" offset={0} position="insideLeft" angle={-90} style={{ fill: '#0D1D5F' }} />
+                    </YAxis>
+                    <Tooltip content={CustomTooltip}/>
+                    <Bar dataKey="Ventas" fill="#cee4f1" stroke="#0D1D5F" strokeWidth={1} />
+                </BarChart>
+            </ResponsiveContainer>
+        </div>
     );
 }

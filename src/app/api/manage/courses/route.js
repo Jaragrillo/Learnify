@@ -1,6 +1,6 @@
 import { Course, Sale, Rating, User, Category } from '@/models/index';
 import { NextResponse } from 'next/server';
-import { Sequelize, Op } from 'sequelize';
+import { Sequelize } from 'sequelize';
 
 export async function GET(req, res) {
     try {
@@ -87,6 +87,18 @@ export async function GET(req, res) {
         // Tabla de cursos y categorías (sin cambios)
         const cursos = await Course.findAll({
             attributes: ['id_curso', 'titulo', 'precio', 'estudiantes', 'id_autor', 'id_categoria'],
+            include: [{
+                model: Category,
+                as: 'categoria', // Alias para la relación
+                attributes: ['categoria'],
+            }],
+        });
+
+        const cursosConNombreCategoria = cursos.map(curso => {
+            return {
+                ...curso.get({ plain: true }),
+                categoria: curso.categoria && curso.categoria.categoria ? curso.categoria.categoria : null, // Obtener el nombre de la categoría
+            };
         });
 
         const categorias = await Category.findAll({
@@ -96,7 +108,7 @@ export async function GET(req, res) {
         return NextResponse.json({
             cursosMasComprados: filteredCursosMasCompradosData,
             cursosMejorValorados: filteredCursosMejorValoradosData,
-            cursos,
+            cursos: cursosConNombreCategoria,
             categorias,
         });
     } catch (error) {
