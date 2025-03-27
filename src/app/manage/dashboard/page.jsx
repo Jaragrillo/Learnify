@@ -49,7 +49,7 @@ export default function AdminDashboardPage() {
     () => import('@/components/charts/IncomeChart'),
     { 
       ssr: false,
-      loading: () => <div className="h-[400px] w-full bg-gray-200 animate-pulse rounded-lg" />
+      loading: () => <div className="h-[400px] w-full bg-gray-100 animate-pulse rounded-lg" />
     }
   );
 
@@ -84,6 +84,7 @@ export default function AdminDashboardPage() {
           </div>
         </section>
         <section className="p-10">
+          <h3 className="text-[#0D1D5F] text-2xl mb-5 text-center">Ventas por Fecha</h3>
           <IncomeChart key={JSON.stringify(chartData)} data={chartData} />
         </section>
       </main>
