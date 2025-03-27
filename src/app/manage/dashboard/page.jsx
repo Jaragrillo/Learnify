@@ -1,14 +1,17 @@
 'use client'
 
-import IncomeChart from "@/components/charts/IncomeChart";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
 export default function AdminDashboardPage() {
   const [dashboardData, setDashboardData] = useState({ 
     incomes: 0, 
     users: 0, 
-    salesChartData: { labels: [], values: [] }
+    salesChartData: { 
+      labels: [], 
+      values: [] 
+    }
   });
 
   useEffect(() => {
@@ -40,6 +43,11 @@ export default function AdminDashboardPage() {
       tension: 0.1,
     }],
   };
+
+  const IncomeChart = dynamic(
+    () => import('@/components/charts/IncomeChart'),
+    { ssr: false }
+  );
 
   useEffect(() => {
     console.log("Chart Data:", dashboardData.salesChartData);
