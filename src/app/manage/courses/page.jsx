@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import BestSellingCoursesChart from "@/components/charts/BestSellingCoursesChart";
 import Swal from 'sweetalert2';
 
@@ -80,12 +80,13 @@ export default function AdminCoursesPage() {
   };
 
   // Prepara los datos para el gráfico de cursos más vendidos
-  const bestSellingChartData = {
+  const bestSellingChartData = useMemo(() => ({
     labels: dashboardCourseData.cursosMasComprados.map(course => course.title),
     datasets: [{
-        data: dashboardCourseData.cursosMasComprados.map(course => course.students), // Usamos estudiantes como ventas
+      label: 'Ventas',
+      data: dashboardCourseData.cursosMasComprados.map(course => course.students),
     }],
-  };
+  }), [dashboardCourseData.cursosMasComprados]); // Dependencia: solo recalculamos si cambian los cursos más vendidos
 
   // Función para eliminar un curso
   const handleDeleteCourse = async (courseId, reloadData) => {
@@ -291,7 +292,9 @@ export default function AdminCoursesPage() {
         </section>
         <section className="px-10">
           <div>
-            <BestSellingCoursesChart data={bestSellingChartData} />
+            {dashboardCourseData.cursosMasComprados.length > 0 && (
+              <BestSellingCoursesChart key={JSON.stringify(bestSellingChartData)} data={bestSellingChartData} />
+            )}
           </div>
           <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
         </section>
