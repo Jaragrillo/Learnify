@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function BestSellingCoursesChart({ data }) {
+function BestSellingCoursesChart({ data }) {
     useEffect(() => {
         console.log("BestSellingCoursesChart Data:", data);
     }, [data]);
@@ -39,3 +39,5 @@ export default function BestSellingCoursesChart({ data }) {
 
     return <Bar options={options} data={chartData} />;
 }
+
+export default React.memo(BestSellingCoursesChart);
