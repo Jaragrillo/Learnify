@@ -1,8 +1,8 @@
 'use client'
 
+import IncomeChart from "@/components/charts/IncomeChart";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 
 export default function AdminDashboardPage() {
   const [dashboardData, setDashboardData] = useState({ 
@@ -44,14 +44,6 @@ export default function AdminDashboardPage() {
       tension: 0.1,
     }],
   };
-
-  const IncomeChart = dynamic(
-    () => import('@/components/charts/IncomeChart'),
-    { 
-      ssr: false,
-      loading: () => <div className="h-[400px] w-full bg-gray-100 animate-pulse rounded-lg" />
-    }
-  );
 
   useEffect(() => {
     console.log("Chart Data:", dashboardData.salesChartData);
