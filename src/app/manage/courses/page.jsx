@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState, useEffect, useMemo } from 'react';
 import Swal from 'sweetalert2';
@@ -87,7 +88,7 @@ export default function AdminCoursesPage() {
     }],
   }), [dashboardCourseData.cursosMasComprados]); // Dependencia: solo recalculamos si cambian los cursos más vendidos
 
-  const BestSellingCoursesChart = dinamic(
+  const BestSellingCoursesChart = dynamic(
     () => import('@/components/charts/BestSellingCoursesChart'),
     { ssr : false }
   )
