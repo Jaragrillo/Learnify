@@ -37,16 +37,20 @@ export default function AdminDashboardPage() {
   const chartData = {
     labels: dashboardData.salesChartData.labels,
     datasets: [{
+      label: 'Ventas',
       data: dashboardData.salesChartData.values,
       fill: false,
-      borderColor: 'rgb(75, 192, 192)',
+      borderColor: '#0D1D5F',
       tension: 0.1,
     }],
   };
 
   const IncomeChart = dynamic(
     () => import('@/components/charts/IncomeChart'),
-    { ssr: false }
+    { 
+      ssr: false,
+      loading: () => <div className="h-[400px] w-full bg-gray-200 animate-pulse rounded-lg" />
+    }
   );
 
   useEffect(() => {
