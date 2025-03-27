@@ -51,7 +51,7 @@ export default function AdminDashboardPage() {
 
   return (
     <>
-      <main className="ml-80">
+      <main className="lg:ml-80">
         <section className="pt-10 px-10">
           <div className="flex items-center gap-2">
             <Image 
@@ -64,14 +64,14 @@ export default function AdminDashboardPage() {
           </div>
         </section>
         <section className="p-10">
-          <div className="flex justify-between">
-            <div className="w-[45%] border-2 border-[#0D1D5F] rounded-lg p-5">
+          <div className="flex flex-col sm:flex-row justify-between gap-10">
+            <div className="w-full sm:w-[45%] border-2 border-[#0D1D5F] rounded-lg p-5">
               <h3 className="text-lg font-medium">Ingresos</h3>
-              <p className="text-4xl font-medium my-3">${dashboardData.incomes} COP</p>
+              <p className="text-3xl sm:text-2xl md:text-4xl font-medium my-3">${dashboardData.incomes} COP</p>
             </div>
-            <div className="w-[45%] border-2 border-[#0D1D5F] rounded-lg p-5">
+            <div className="w-full sm:w-[45%] border-2 border-[#0D1D5F] rounded-lg p-5">
               <h3 className="text-lg font-medium">Usuarios</h3>
-              <p className="text-4xl font-medium my-3">{dashboardData.users}</p>
+              <p className="text-3xl sm:text-2xl md:text-4xl font-medium my-3">{dashboardData.users}</p>
             </div>
           </div>
         </section>
