@@ -1,6 +1,6 @@
 'use client'
 
-import dynamic from "next/dynamic";
+import BestSellingCoursesChart from "@/components/charts/BestSellingCoursesChart";
 import Image from "next/image";
 import { useState, useEffect, useMemo } from 'react';
 import Swal from 'sweetalert2';
@@ -87,11 +87,6 @@ export default function AdminCoursesPage() {
       data: dashboardCourseData.cursosMasComprados.map(course => course.students),
     }],
   }), [dashboardCourseData.cursosMasComprados]); // Dependencia: solo recalculamos si cambian los cursos más vendidos
-
-  const BestSellingCoursesChart = dynamic(
-    () => import('@/components/charts/BestSellingCoursesChart'),
-    { ssr : false }
-  )
 
   // Función para eliminar un curso
   const handleDeleteCourse = async (courseId, reloadData) => {
@@ -297,9 +292,8 @@ export default function AdminCoursesPage() {
         </section>
         <section className="px-10">
           <div>
-            {dashboardCourseData.cursosMasComprados.length > 0 && (
-              <BestSellingCoursesChart key={JSON.stringify(bestSellingChartData)} data={bestSellingChartData} />
-            )}
+            <h3 className="text-[#0D1D5F] text-2xl mb-5 text-center">Cursos Más Vendidos</h3>
+            <BestSellingCoursesChart key={JSON.stringify(bestSellingChartData)} data={bestSellingChartData} />
           </div>
           <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
         </section>
