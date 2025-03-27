@@ -84,7 +84,7 @@ export default function AdminDashboardPage() {
           </div>
         </section>
         <section className="p-10">
-          <IncomeChart data={chartData} />
+          <IncomeChart key={JSON.stringify(chartData)} data={chartData} />
         </section>
       </main>
     </>

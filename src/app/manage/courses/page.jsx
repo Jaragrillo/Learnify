@@ -48,10 +48,6 @@ export default function AdminCoursesPage() {
     }
   };
 
-  useEffect(() => {
-    reloadData();
-  }, []);
-
   // Obtenemos las estrellas de valoración
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating) || 0;
