@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState, useEffect, useMemo } from 'react';
-import BestSellingCoursesChart from "@/components/charts/BestSellingCoursesChart";
 import Swal from 'sweetalert2';
 
 export default function AdminCoursesPage() {
@@ -87,6 +86,11 @@ export default function AdminCoursesPage() {
       data: dashboardCourseData.cursosMasComprados.map(course => course.students),
     }],
   }), [dashboardCourseData.cursosMasComprados]); // Dependencia: solo recalculamos si cambian los cursos más vendidos
+
+  const BestSellingCoursesChart = dinamic(
+    () => import('@/components/charts/BestSellingCoursesChart'),
+    { ssr : false }
+  )
 
   // Función para eliminar un curso
   const handleDeleteCourse = async (courseId, reloadData) => {
