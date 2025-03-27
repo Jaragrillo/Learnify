@@ -24,6 +24,8 @@ function BestSellingCoursesChart({ data }) {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
+        redraw: true,
         plugins: {
             legend: { position: 'top', labels: { font: { size: 12 } } },
             title: { display: true, text: 'Cursos Más Vendidos', font: { size: 25, weight: '200' }, color: '#0D1D5F', },
