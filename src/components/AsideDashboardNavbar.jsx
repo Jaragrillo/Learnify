@@ -10,7 +10,7 @@ export default function AsideNavbarDashboard() {
     const pathname = usePathname();
 
     return(
-        <aside className='bg-[#0F5789] h-full w-80 px-10 py-20 fixed z-30'>
+        <aside className='bg-[#0F5789] h-full w-80 px-10 py-20 fixed z-30 hidden lg:block'>
             <p className='text-2xl text-center mb-10 text-white'>Learnify Management</p>
             <nav className='mx-auto'>
                 <ul>
