@@ -60,7 +60,7 @@ export default function AdminDashboardPage() {
                 width={50} 
                 height={50} 
             />
-            <h2 className="text-4xl text-[#0D1D5F]">Dashboard</h2>
+            <h2 className="text-2xl sm:text-4xl text-[#0D1D5F]">Dashboard</h2>
           </div>
         </section>
         <section className="p-10">

@@ -129,8 +129,8 @@ export default function NavbarDashboard() {
 
                 {/* SubNavbar para el Móvil */}
                 {isMobileMenuOpen && (
-                    <nav className='lg:hidden bg-[#0F5789] text-black/60 fixed w-full z-30 mt-[100px]'>
-                        <ul className='flex flex-col items-center'>
+                    <nav className='lg:hidden bg-[#0F5789] text-black fixed w-full z-30 mt-[100px]'>
+                        <ul className='flex flex-col items-center pt-5'>
                             <li className={`bg-gray-300 hover:bg-white rounded-lg p-2 mb-5 ${pathname.includes('dashboard') ? 'bg-white' : ''}`}>
                                 <Link href={"/manage/dashboard"}>
                                     <div className='flex items-center gap-3 w-60'>
