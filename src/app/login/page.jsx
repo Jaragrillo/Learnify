@@ -15,8 +15,15 @@ export default function LoginPage() {
   const router = useRouter();
   const { login, role } = useAuth(); // Obtener la función de actualización del contexto
 
-  const validateForm = () => {
+  const validateScriptInjection = (value) => {
+    const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
+    if (scriptRegex.test(value)) {
+      return false;
+    }
+    return true;
+  };
 
+  const validateForm = () => {
     // Expresiones regulares de validación
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/;
     const emailRegex = /\S+@\S+\.\S+/;
@@ -26,15 +33,40 @@ export default function LoginPage() {
       showAlert('El Correo Electrónico es obligatorio.');
       return false;
     };
+    if (formData.email.trim() !== formData.email) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.email.includes(' ')) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.email)) {
+      showAlert('El Correo Electrónico no debe contener código HTML o scripts.');
+      return false;
+    }
     if (!emailRegex.test(formData.email)) {
       showAlert('Correo Electrónico inválido.');
       return false;
     };
+
     // Validaciones de la contraseña
     if (!formData.password.trim()) {
       showAlert('La Contraseña es obligatoria.');
       return false;
     };
+    if (formData.password.trim() !== formData.password) {
+      showAlert('La Contraseña no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.password.includes('  ')) {
+      showAlert('La Contraseña no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.password)) {
+      showAlert('La Contraseña no debe contener código HTML o scripts.');
+      return false;
+    }
     if (!passwordRegex.test(formData.password)) {
       showAlert('La Contraseña no es válida.');
       return false;
@@ -215,13 +247,13 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    console.log("LoginPage: Role in useEffect:", role); // Debugging
+    // console.log("LoginPage: Role in useEffect:", role); // Debugging
     if (role === 1) {
-        console.log("LoginPage: Redirecting to /manage/dashboard"); // Debugging
-        router.push('/manage/dashboard');
+      // console.log("LoginPage: Redirecting to /manage/dashboard"); // Debugging
+      router.push('/manage/dashboard');
     } else if (role !== null) {
-        console.log("LoginPage: Redirecting to /user/home"); // Debugging
-        router.push('/user/home');
+      // console.log("LoginPage: Redirecting to /user/home"); // Debugging
+      router.push('/user/home');
     }
   }, [role, router]);
 
@@ -246,7 +278,7 @@ export default function LoginPage() {
 
                 <div className='mb-4'>
                   <input
-                    type="email"
+                    type="text"
                     name="email"
                     id="email"
                     value={formData.email}
@@ -278,7 +310,13 @@ export default function LoginPage() {
                     />
                   </button>
                 </div>
-                <button onClick={handleForgotPassword} className='mb-4 text-gray-500 block hover:text-gray-700 w-fit'>¿Olvidaste tu contraseña?</button>
+                <button
+                  type='button' 
+                  onClick={handleForgotPassword} 
+                  className='mb-4 text-gray-500 block hover:text-gray-700 w-fit'
+                >
+                  ¿Olvidaste tu contraseña?  
+                </button>
 
                 <button type="submit" className='m-auto mb-4 bg-[#1F84BA] text-white px-14 py-2 rounded-lg block hover:bg-[#3192c6] transition duration-300'>Iniciar sesión</button>
               </form>

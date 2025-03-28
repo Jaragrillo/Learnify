@@ -172,6 +172,80 @@ export default function AdminCoursesPage() {
     });
   };
 
+  // Funciones para validar los formularios de las categorías
+  // Validación para evitar inyecciones de scripts
+  const validateScriptInjection = (value) => {
+    const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
+    if (scriptRegex.test(value)) {
+      return false;
+    }
+    return true;
+  };
+
+  const showAlert = (message) => {
+    Swal.fire({
+      title: 'Error de Validación',
+      text: message,
+      icon: 'error',
+      confirmButtonText: 'Entendido',
+      customClass: {
+        confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded',
+      },
+      buttonsStyling: false,
+    });
+  };
+
+  const validateCategoryForm = (nombre, descripcion) => {
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios para el nombre de la categoría
+    const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+
+    // Validación del nombre de la categoría
+    if (!nombre.trim()) {
+      showAlert('El Nombre de la categoría es obligatorio.');
+      return false;
+    }
+    if (nombre.trim() !== nombre) {
+      showAlert('El Nombre de la categoría no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (nombre.includes('  ')) {
+      showAlert('El Nombre de la categoría no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(nombre)) {
+      showAlert('El Nombre de la categoría no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (!nameRegex.test(nombre)) {
+      showAlert('El Nombre de la categoría no debe contener números o caracteres especiales.');
+      return false;
+    }
+
+    // Validación de la descripción
+    if (!descripcion.trim()) {
+      showAlert('La Descripción es obligatoria.');
+      return false;
+    }
+    if (descripcion.trim() !== descripcion) {
+      showAlert('La Descripción no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (descripcion.includes('  ')) {
+      showAlert('La Descripción no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(descripcion)) {
+      showAlert('La Descripción no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (!alphanumericRegex.test(descripcion)) {
+      showAlert('La Descripción debe ser alfanumérica y contener al menos una letra.');
+      return false;
+    }
+
+    return true;
+  };
+
   // Función para crear una categoría
   const handleCreateCategory = async (reloadData) => {
     const { value: formValues } = await Swal.fire({
@@ -195,10 +269,7 @@ export default function AdminCoursesPage() {
     if (formValues) {
       const [nombre, descripcion] = formValues;
 
-      if (!nombre || !descripcion) {
-        Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
-        return;
-      }
+      if (!validateCategoryForm(nombre, descripcion)) return; // Validar el formulario
 
       Swal.fire({
         title: '¿Estás seguro?',
@@ -261,10 +332,7 @@ export default function AdminCoursesPage() {
     if (formValues) {
       const [nombre, descripcion] = formValues;
     
-      if (!nombre || !descripcion) {
-        Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
-        return;
-      }
+      if (!validateCategoryForm(nombre, descripcion)) return; // Validar el formulario
 
       if (nombre === category.categoria && descripcion === category.descripcion) {
         Swal.fire('Sin cambios', 'No se realizaron cambios en la categoría.', 'info');

@@ -18,16 +18,52 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Validación para evitar inyecciones de scripts
+  const validateScriptInjection = (value) => {
+    const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
+    if (scriptRegex.test(value)) {
+      return false;
+    }
+    return true;
+  };
+
   const validateForm = () => {
     // Expresión regular para validar el formato del correo
     const emailRegex = /\S+@\S+\.\S+/;
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios para nombre y apellidos
+    const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
 
+    // Validación del nombre
     if (!formData.nombre.trim()) return 'El Nombre es obligatorio.';
+    if (formData.nombre.trim() !== formData.nombre) return 'El Nombre no debe tener espacios en blanco al inicio o al final.';
+    if (formData.nombre.includes('  ')) return 'El Nombre no debe tener espacios en blanco dobles.';
+    if (!validateScriptInjection(formData.nombre)) return 'El Nombre no debe contener código HTML o scripts.';
+    if (!nameRegex.test(formData.nombre)) return 'El Nombre no debe contener números o caracteres especiales.';
+
+    // Validación de los apellidos
     if (!formData.apellidos.trim()) return 'Los Apellidos son obligatorios.';
-    if (!formData.correo.trim()) return 'El Correo es obligatorio.';
-    if (!emailRegex.test(formData.correo)) return 'El Correo no es válido.'
+    if (formData.apellidos.trim() !== formData.apellidos) return 'Los Apellidos no deben tener espacios en blanco al inicio o al final.';
+    if (formData.apellidos.includes('  ')) return 'Los Apellidos no deben tener espacios en blanco dobles.';
+    if (!validateScriptInjection(formData.apellidos)) return 'Los Apellidos no deben contener código HTML o scripts.';
+    if (!nameRegex.test(formData.apellidos)) return 'Los Apellidos no deben contener números o caracteres especiales.';
+
+    // Validación del correo electrónico
+    if (!formData.correo.trim()) return 'El Correo Electrónico es obligatorio.';
+    if (formData.correo.trim() !== formData.correo) return 'El Correo Electrónico no debe tener espacios en blanco al inicio o al final.';
+    if (formData.correo.includes(' ')) return 'El Correo Electrónico no debe tener espacios en blanco.';
+    if (!validateScriptInjection(formData.correo)) return 'El Correo Electrónico no debe contener código HTML o scripts.';
+    if (!emailRegex.test(formData.correo)) return 'Correo Electrónico inválido.';
+
+    // Validación del tipo de consulta
     if (!formData.tipo_consulta) return 'El Tipo de consulta es obligatorio.';
+
+    // Validación del mensaje
     if (!formData.mensaje.trim()) return 'El Mensaje es obligatorio.';
+    if (formData.mensaje.trim() !== formData.mensaje) return 'El Mensaje no debe tener espacios en blanco al inicio o al final.';
+    if (formData.mensaje.includes('  ')) return 'El Mensaje no debe tener espacios en blanco dobles.';
+    if (!validateScriptInjection(formData.mensaje)) return 'El Mensaje no debe contener código HTML o scripts.';
+    if (!alphanumericRegex.test(formData.mensaje)) return 'El Mensaje debe ser alfanumérico y contener al menos una letra.';
+
     return null;
   };
 
@@ -124,7 +160,7 @@ export default function ContactPage() {
                 </div>
                 <div className='w-full relative mb-10'>
                   <input 
-                    type="email" 
+                    type="text" 
                     name="correo" 
                     id="correo" 
                     value={formData.correo}

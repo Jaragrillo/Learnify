@@ -141,8 +141,24 @@ export default function EditClass() {
     };
 
     const validateForm = () => {
+        // Expresiones regulares de validación
+        const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/; // Alfanumérico con al menos una letra
+        const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i; // Inyección de scripts
+
+        // Validación del título
         if (!classData.titulo.trim()) return 'El Título es obligatorio.';
+        if (classData.titulo.trim() !== classData.titulo) return 'El Título no debe tener espacios en blanco al inicio o al final.';
+        if (classData.titulo.includes('  ')) return 'El Título no debe tener espacios en blanco dobles.';
+        if (scriptRegex.test(classData.titulo)) return 'El Título no debe contener código HTML o scripts.';
+        if (!alphanumericRegex.test(classData.titulo)) return 'El Título debe ser alfanumérico y contener al menos una letra.';
+
+        // Validación de la descripción
         if (!classData.descripcion.trim()) return 'La Descripción es obligatoria.';
+        if (classData.descripcion.trim() !== classData.descripcion) return 'La Descripción no debe tener espacios en blanco al inicio o al final.';
+        if (classData.descripcion.includes('  ')) return 'La Descripción no debe tener espacios en blanco dobles.';
+        if (scriptRegex.test(classData.descripcion)) return 'La Descripción no debe contener código HTML o scripts.';
+        if (!alphanumericRegex.test(classData.descripcion)) return 'La Descripción debe ser alfanumérica y contener al menos una letra.';
+
         if (!classData.url_video && !selectedVideoFile) return 'El Video es obligatorio.';
         return null;
     };

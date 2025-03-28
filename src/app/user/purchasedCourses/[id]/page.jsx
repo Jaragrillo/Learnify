@@ -164,11 +164,44 @@ export default function purchasedCoursePage() {
         setComentario(e.target.value);
     };
 
+    // Validación de comentario
+    const validateComentario = (comentario) => {
+        const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+
+        if (!comentario || comentario.trim() === '') {
+            return { valid: false, message: 'Por favor, escribe un comentario.' };
+        }
+
+        if (comentario.length > 500) {
+            return { valid: false, message: 'El comentario no puede exceder los 500 caracteres.' };
+        }
+
+        const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
+        if (scriptRegex.test(comentario)) {
+            return { valid: false, message: 'El comentario no debe contener código HTML o scripts.' };
+        }
+
+        if (comentario !== comentario.trim()) {
+            return { valid: false, message: 'El comentario no debe tener espacios al inicio o al final.' };
+        }
+
+        if (comentario.includes('  ')) {
+            return { valid: false, message: 'El comentario no debe contener espacios dobles.' };
+        }
+
+        if (!alphanumericRegex.test(comentario)) {
+            return { valid: false, message: 'El comentario debe ser alfanumérico y contener al menos una letra.' };
+        }
+
+        return { valid: true };
+    };
+
     const handleSubmitComentario = async (e) => {
         e.preventDefault();
 
-        if (!comentario.trim()) {
-            Swal.fire('Error', 'Por favor, escribe un comentario.', 'error');
+        const validation = validateComentario(comentario);
+        if (!validation.valid) {
+            Swal.fire('Error', validation.message, 'error');
             return;
         }
 

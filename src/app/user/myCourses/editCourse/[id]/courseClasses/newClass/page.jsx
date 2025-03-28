@@ -72,11 +72,27 @@ export default function NewCourse() {
     };
 
     const validateForm = () => {
-        if (!formData.title.trim()) return 'El Título es obligatorio.';
-        if (!formData.description.trim()) return 'La Descripción es obligatoria.';
-        if (!selectedVideoFile) return 'El Video es obligatorio.';
-        return null;
-      };
+      // Expresiones regulares de validación
+      const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/; // Alfanumérico con al menos una letra
+      const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i; // Inyección de scripts
+
+      // Validación del título
+      if (!formData.title.trim()) return 'El Título es obligatorio.';
+      if (formData.title.trim() !== formData.title) return 'El Título no debe tener espacios en blanco al inicio o al final.';
+      if (formData.title.includes('  ')) return 'El Título no debe tener espacios en blanco dobles.';
+      if (scriptRegex.test(formData.title)) return 'El Título no debe contener código HTML o scripts.';
+      if (!alphanumericRegex.test(formData.title)) return 'El Título debe ser alfanumérico y contener al menos una letra.';
+
+      // Validación de la descripción
+      if (!formData.description.trim()) return 'La Descripción es obligatoria.';
+      if (formData.description.trim() !== formData.description) return 'La Descripción no debe tener espacios en blanco al inicio o al final.';
+      if (formData.description.includes('  ')) return 'La Descripción no debe tener espacios en blanco dobles.';
+      if (!alphanumericRegex.test(formData.description)) return 'La Descripción debe ser alfanumérica y contener al menos una letra.';
+      if (scriptRegex.test(formData.description)) return 'La Descripción no debe contener código HTML o scripts.';
+
+      if (!selectedVideoFile) return 'El Video es obligatorio.';
+      return null;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();

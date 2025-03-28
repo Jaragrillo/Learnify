@@ -136,7 +136,131 @@ export default function EditProfilePage() {
     }
   };
 
+  // Validación para no permitir inyección de scripts
+  const validateScriptInjection = (value) => {
+    const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
+    if (scriptRegex.test(value)) {
+      return false;
+    }
+    return true;
+  };
+
+  // Validar el formulario que se envía
+  const validateForm = () => {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/;
+    const emailRegex = /\S+@\S+\.\S+/;
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
+    const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/; 
+
+    // Validación del nombre
+    if (!validateScriptInjection(userData.nombre)) {
+      showAlert('El Nombre no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (userData.nombre.trim() !== userData.nombre) {
+      showAlert('El Nombre no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (userData.nombre.includes('  ')) {
+      showAlert('El Nombre no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!nameRegex.test(userData.nombre)) {
+      showAlert('El Nombre no debe contener números o caracteres especiales.');
+      return false;
+    }
+
+    // Validación de los apellidos
+    if (!validateScriptInjection(userData.apellidos)) {
+      showAlert('Los Apellidos no deben contener código HTML o scripts.');
+      return false;
+    }
+    if (userData.apellidos.trim() !== userData.apellidos) {
+      showAlert('Los Apellidos no deben tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (userData.apellidos.includes('  ')) {
+      showAlert('Los Apellidos no deben tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!nameRegex.test(userData.apellidos)) {
+      showAlert('Los Apellidos no deben contener números o caracteres especiales.');
+      return false;
+    }
+
+    // Validación del correo electrónico
+    if (!validateScriptInjection(userData.correo)) {
+      showAlert('El Correo Electrónico no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (userData.correo.trim() !== userData.correo) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (userData.correo.includes('  ')) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!emailRegex.test(userData.correo)) {
+      showAlert('Correo Electrónico inválido.');
+      return false;
+    }
+
+    // Validación de la biografía
+    if (!validateScriptInjection(userData.biografia)) {
+      showAlert('La Biografía no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (userData.biografia.trim() !== userData.biografia) {
+      showAlert('La Biografía no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (userData.biografia.includes('  ')) {
+      showAlert('La Biografía no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!alphanumericRegex.test(userData.biografia)) {
+      showAlert('La Biografía debe ser alfanumérica y contener al menos una letra.');
+      return false;
+    }
+
+    // Validación de la nueva contraseña (si se ha introducido)
+    if (!validateScriptInjection(userData.newPassword)) {
+      showAlert('La Nueva Contraseña no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (userData.newPassword && userData.newPassword.trim() !== userData.newPassword) {
+      showAlert('La Contraseña no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (userData.newPassword && userData.newPassword.includes('  ')) {
+      showAlert('La Contraseña no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (userData.newPassword && !passwordRegex.test(userData.newPassword)) {
+      showAlert('La Nueva Contraseña debe tener entre 8 y 16 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.');
+      return false;
+    }
+
+    return true;
+  }
+
+  const showAlert = (message) => {
+    Swal.fire({
+      title: 'Error de Validación',
+      text: message,
+      icon: 'error',
+      confirmButtonText: 'Entendido',
+      customClass: {
+        confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded',
+      },
+      buttonsStyling: false,
+    });
+  };
+
   const handleSaveChanges = async () => {
+    if (!validateForm()) return; // Aplicar validaciones
+
     // Diccionario para mostrar nombres más amigables en la alerta
     const fieldNames = {
       nombre: "Nombre",
@@ -387,7 +511,7 @@ export default function EditProfilePage() {
                 </div>
               </label>
               <input 
-                type="email" 
+                type="text" 
                 value={userData.correo} 
                 onChange={(e) => setUserData({ ...userData, correo: e.target.value })} 
                 className="w-full px-2 py-3 shadow-lg shadow-black/40 focus:shadow focus:shadow-white/40 focus:outline-none transition duration-300"
