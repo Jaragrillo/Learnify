@@ -15,7 +15,9 @@ export default function AdminMessagesPage() {
     "Otro": 0,
   });
   const [totalMensajes, setTotalMensajes] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1); // Estado para la paginación de la tabla de mensajes
+  // Estados para la paginación de la tabla de mensajes
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // useEffect para obtener todos los mensajes
   useEffect(() => {
@@ -187,9 +189,20 @@ export default function AdminMessagesPage() {
   };
 
   // Funciones para la paginación de la tabla de mensajes
-  const itemsPerPage = useMemo(() => {
-    const width = window.innerWidth;
-    return width < 640 ? 5 : 10; // 5 para pantallas pequeñas, 10 para medianas y grandes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        setItemsPerPage(window.innerWidth < 640 ? 5 : 10);
+      };
+
+      handleResize(); // Establecer el valor inicial
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
   }, []);
 
   // Función para cambiar de página
