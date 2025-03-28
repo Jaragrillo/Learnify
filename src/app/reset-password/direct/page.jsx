@@ -1,13 +1,15 @@
-import { useState } from 'react';
+'use client';
+
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Swal from 'sweetalert2';
 import Image from 'next/image';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
     const searchParams = useSearchParams();
     const correo = searchParams.get('correo');
     const [contraseña, setContraseña] = useState('');
-    const [showPassword, setShowPassword] = useState(false); 
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
     const validateScriptInjection = (value) => {
@@ -100,6 +102,7 @@ export default function ResetPasswordPage() {
             }
         } catch (error) {
             console.error('Error:', error);
+            Swal.close();
             Swal.fire({
                 icon: 'error',
                 title: 'Error del servidor',
@@ -128,16 +131,16 @@ export default function ResetPasswordPage() {
                                 className="shadow shadow-black/60 appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                             />
                             <button
-                              type='button'
-                              onClick={() => setShowPassword(!showPassword)}
+                                type='button'
+                                onClick={() => setShowPassword(!showPassword)}
                             >
-                              <Image
-                                src={showPassword ? "/svg/passwordEyeOn.svg" : "/svg/passwordEyeOff.svg"}
-                                alt="password-Eye-svg"
-                                width={24}
-                                height={24}
-                                className="absolute top-0 bottom-0 right-3 m-auto"
-                              />
+                                <Image
+                                    src={showPassword ? "/svg/passwordEyeOn.svg" : "/svg/passwordEyeOff.svg"}
+                                    alt="password-Eye-svg"
+                                    width={24}
+                                    height={24}
+                                    className="absolute top-0 bottom-0 right-3 m-auto"
+                                />
                             </button>
                         </div>
                     </div>
@@ -150,5 +153,24 @@ export default function ResetPasswordPage() {
                 </form>
             </div>
         </div>
+    );
+}
+
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={
+            <div className="bg-gradient-to-l from-[#34ADDA] via-30% via-[#1E88C6] to-[#0E4472] flex justify-center items-center h-[80vh]">
+                <div className="bg-white p-8 rounded shadow-lg shadow-black/60 w-96 m-5 sm:m-0">
+                    <div className="animate-pulse">
+                        <div className="h-8 bg-gray-300 rounded mb-4"></div>
+                        <div className="h-12 bg-gray-300 rounded mb-4"></div>
+                        <div className="h-12 bg-gray-300 rounded mb-4"></div>
+                        <div className="h-10 bg-gray-300 rounded"></div>
+                    </div>
+                </div>
+            </div>
+        }>
+            <ResetPasswordContent />
+        </Suspense>
     );
 }
