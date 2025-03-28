@@ -86,10 +86,34 @@ export default function NewCourse() {
     };
 
     const validateForm = () => {
+        // Expresiones regulares de validación
+        const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/; // Alfanumérico con al menos una letra
+        const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i; // Inyección de scripts
+
+        // Validación del título
         if (!formData.title.trim()) return 'El Título es obligatorio.';
+        if (formData.title.trim() !== formData.title) return 'El Título no debe tener espacios en blanco al inicio o al final.';
+        if (formData.title.includes('  ')) return 'El Título no debe tener espacios en blanco dobles.';
+        if (scriptRegex.test(formData.title)) return 'El Título no debe contener código HTML o scripts.';
+        if (!alphanumericRegex.test(formData.title)) return 'El Título debe ser alfanumérico y contener al menos una letra.';
+
+        // Validación de la descripción
         if (!formData.description.trim()) return 'La Descripción es obligatoria.';
+        if (formData.description.trim() !== formData.description) return 'La Descripción no debe tener espacios en blanco al inicio o al final.';
+        if (formData.description.includes('  ')) return 'La Descripción no debe tener espacios en blanco dobles.';
+        if (scriptRegex.test(formData.description)) return 'La Descripción no debe contener código HTML o scripts.';
+        if (!alphanumericRegex.test(formData.description)) return 'La Descripción debe ser alfanumérica y contener al menos una letra.';
+
+        // Validación de la categoría
         if (!formData.category) return 'La Categoría es obligatoria.';
+        
+        // Validación del precio
         if (!formData.price.trim() || parseFloat(formData.price) <= 0) return 'El Precio debe ser mayor a 0.';
+        if (formData.price.trim() !== formData.price) return 'El Precio no debe tener espacios en blanco al inicio o al final.';
+        if (formData.price.includes(' ')) return 'El Precio no debe contener espacios en blanco.';
+        if (scriptRegex.test(formData.price)) return 'El Precio no debe contener código HTML o scripts.';
+        
+        // Validación de la portada
         if (!formData.coverImage) return 'La Portada es obligatoria.';
         return null;
       };

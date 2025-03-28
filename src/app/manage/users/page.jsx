@@ -95,6 +95,132 @@ export default function AdminUsersPage() {
     });
   };
 
+  // Validaciones para la creación de administrador
+  // Validación para evitar inyecciones de scripts
+  const validateScriptInjection = (value) => {
+    const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
+    if (scriptRegex.test(value)) {
+      return false;
+    }
+    return true;
+  };
+
+  const showAlert = (message) => {
+    Swal.fire({
+      title: 'Error de Validación',
+      text: message,
+      icon: 'error',
+      confirmButtonText: 'Entendido',
+      customClass: {
+        confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded',
+      },
+      buttonsStyling: false,
+    });
+  };
+
+  const validateForm = (formData) => {
+    // Expresiones regulares de validación
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/;
+    const emailRegex = /\S+@\S+\.\S+/;
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios para nombre y apellidos
+
+    // Validación del nombre
+    if (!formData.nombre.trim()) {
+      showAlert('El Nombre es obligatorio.');
+      return false;
+    }
+    if (formData.nombre.trim() !== formData.nombre) {
+      showAlert('El Nombre no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.nombre.includes('  ')) {
+      showAlert('El Nombre no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.nombre)) {
+      showAlert('El Nombre no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (!nameRegex.test(formData.nombre)) {
+      showAlert('El Nombre no debe contener números o caracteres especiales.');
+      return false;
+    }
+
+    // Validación de los apellidos
+    if (!formData.apellidos.trim()) {
+      showAlert('Los Apellidos son obligatorios.');
+      return false;
+    }
+    if (formData.apellidos.trim() !== formData.apellidos) {
+      showAlert('Los Apellidos no deben tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.apellidos.includes('  ')) {
+      showAlert('Los Apellidos no deben tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.apellidos)) {
+      showAlert('Los Apellidos no deben contener código HTML o scripts.');
+      return false;
+    }
+    if (!nameRegex.test(formData.apellidos)) {
+      showAlert('Los Apellidos no deben contener números o caracteres especiales.');
+      return false;
+    }
+
+    // Validación de la fecha de nacimiento
+    if (!formData.fecha_nacimiento) {
+      showAlert('La Fecha de Nacimiento es obligatoria.');
+      return false;
+    }
+
+    // Validación del correo electrónico
+    if (!formData.correo.trim()) {
+      showAlert('El Correo Electrónico es obligatorio.');
+      return false;
+    }
+    if (formData.correo.trim() !== formData.correo) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.correo.includes(' ')) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.correo)) {
+      showAlert('El Correo Electrónico no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (!emailRegex.test(formData.correo)) {
+      showAlert('Correo Electrónico inválido.');
+      return false;
+    }
+
+    // Validación de la contraseña
+    if (!formData.contraseña.trim()) {
+      showAlert('La Contraseña es obligatoria.');
+      return false;
+    }
+    if (formData.contraseña.trim() !== formData.contraseña) {
+      showAlert('La Contraseña no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.contraseña.includes('  ')) {
+      showAlert('La Contraseña no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.contraseña)) {
+      showAlert('La Contraseña no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (!passwordRegex.test(formData.contraseña)) {
+      showAlert('La Contraseña debe tener entre 8 y 16 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.');
+      return false;
+    }
+
+    return true;
+  };
+
   // Función para crear un administrador
   const handleCreateAdmin = async (reloadData) => {
     const { value: formValues } = await Swal.fire({
@@ -149,24 +275,15 @@ export default function AdminUsersPage() {
     if (formValues) {
       const [nombre, apellidos, fecha_nacimiento, correo, contraseña ] = formValues;
       
-      // Expresiones regulares de validación
-      const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/;
-      const emailRegex = /\S+@\S+\.\S+/;
+      const formData = {
+        nombre,
+        apellidos,
+        fecha_nacimiento,
+        correo,
+        contraseña,
+      };
 
-      if (!nombre || !apellidos || !fecha_nacimiento || !correo || !contraseña) {
-        Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
-        return;
-      }
-
-      if (!emailRegex.test(correo)) {
-        Swal.fire('Error', 'Correo Electrónico inválido.', 'error');
-        return;
-      }
-
-      if (!passwordRegex.test(contraseña)) {
-        Swal.fire('Error', 'La Contraseña debe tener entre 8 y 16 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.', 'error');
-        return;
-      }
+      if (!validateForm(formData)) return; // Validar el formulario
 
       Swal.fire({
         title: '¿Estás seguro?',

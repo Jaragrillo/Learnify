@@ -51,54 +51,136 @@ export default function RegisterPage() {
     };
   }, [formData.dateOfBirth]);  // Se ejecuta cuando cambia el valor de `date`
 
-  const validateForm = () => {
+  // Validación para evitar inyecciones de scripts
+  const validateScriptInjection = (value) => {
+    const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
+    if (scriptRegex.test(value)) {
+      return false;
+    }
+    return true;
+  };
 
+  const validateForm = () => {
     // Expresiones regulares de validación
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/;
     const emailRegex = /\S+@\S+\.\S+/;
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios para nombre y apellidos
 
     // Validación del nombre
     if (!formData.name.trim()) {
       showAlert('El Nombre es obligatorio.');
       return false;
-    };
+    }
+    if (formData.name.trim() !== formData.name) {
+      showAlert('El Nombre no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.name.includes('  ')) {
+      showAlert('El Nombre no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.name)) {
+      showAlert('El Nombre no debe contener código HTML o scripts.');
+      return false;
+    }
+    if (!nameRegex.test(formData.name)) {
+      showAlert('El Nombre no debe contener números o caracteres especiales.');
+      return false;
+    }
+
     // Validación de los apellidos
     if (!formData.lastName.trim()) {
       showAlert('Los Apellidos son obligatorios.');
-      return false; 
-    };
+      return false;
+    }
+    if (formData.lastName.trim() !== formData.lastName) {
+      showAlert('Los Apellidos no deben tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.lastName.includes('  ')) {
+      showAlert('Los Apellidos no deben tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.lastName)) {
+      showAlert('Los Apellidos no deben contener código HTML o scripts.');
+      return false;
+    }
+    if (!nameRegex.test(formData.lastName)) {
+      showAlert('Los Apellidos no deben contener números o caracteres especiales.');
+      return false;
+    }
+
     // Validación de la fecha de nacimiento
     if (!formData.dateOfBirth) {
       showAlert('La Fecha de Nacimiento es obligatoria.');
       return false;
-    };
-    // Validaciones del correo electrónico
+    }
+
+    // Validación del correo electrónico
     if (!formData.email.trim()) {
       showAlert('El Correo Electrónico es obligatorio.');
       return false;
-    };
+    }
+    if (formData.email.trim() !== formData.email) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.email.includes(' ')) {
+      showAlert('El Correo Electrónico no debe tener espacios en blanco.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.email)) {
+      showAlert('El Correo Electrónico no debe contener código HTML o scripts.');
+      return false;
+    }
     if (!emailRegex.test(formData.email)) {
       showAlert('Correo Electrónico inválido.');
       return false;
-    };
-    // Validaciones de la contraseña
+    }
+
+    // Validación de la contraseña
     if (!formData.password.trim()) {
       showAlert('La Contraseña es obligatoria.');
       return false;
-    };
+    }
+    if (formData.password.trim() !== formData.password) {
+      showAlert('La Contraseña no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.password.includes('  ')) {
+      showAlert('La Contraseña no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.password)) {
+      showAlert('La Contraseña no debe contener código HTML o scripts.');
+      return false;
+    }
     if (!passwordRegex.test(formData.password)) {
       showAlert('La Contraseña debe tener entre 8 y 16 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.');
       return false;
-    };
-    // Validaciones de la confirmación de la contraseña
+    }
+
+    // Validación de la confirmación de la contraseña
     if (!formData.confirmPassword.trim()) {
-      showAlert('Confirmar la Contraseña es obligatorio.');
+      showAlert('La Confirmación de la Contraseña es obligatoria.');
       return false;
-    };
+    }
+    if (formData.confirmPassword.trim() !== formData.confirmPassword) {
+      showAlert('La Confirmación de la Contraseña no debe tener espacios en blanco al inicio o al final.');
+      return false;
+    }
+    if (formData.confirmPassword.includes('  ')) {
+      showAlert('La Confirmación de la Contraseña no debe tener espacios en blanco dobles.');
+      return false;
+    }
+    if (!validateScriptInjection(formData.confirmPassword)) {
+      showAlert('La Confirmación de la Contraseña no debe contener código HTML o scripts.');
+      return false;
+    }
     if (formData.password !== formData.confirmPassword) {
       showAlert('Las Contraseñas no coinciden.');
       return false;
-    };
+    }
 
     return true;
   }
@@ -263,7 +345,7 @@ export default function RegisterPage() {
                 </div>
                 <div className='mb-4'><div className="3"></div>
                   <input 
-                    type="email" 
+                    type="text" 
                     name="email" 
                     id="email" 
                     value={formData.email}
