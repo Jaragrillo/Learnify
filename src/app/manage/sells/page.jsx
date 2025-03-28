@@ -15,7 +15,9 @@ export default function AdminSalesPage() {
     ventasAnio: [],
     ventas: [],
   });
-  const [currentPageSales, setCurrentPageSales] = useState(1); // Estado para manejar la paginación
+  // Estados para manejar la paginación
+  const [currentPageSales, setCurrentPageSales] = useState(1); 
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchSalesData = async () => {
@@ -99,9 +101,20 @@ export default function AdminSalesPage() {
   };
 
   // Funciones para manejar la paginación de la tabla de ventas
-  const itemsPerPage = useMemo(() => {
-    const width = window.innerWidth;
-    return width < 640 ? 5 : 10; // 5 para pantallas pequeñas, 10 para medianas y grandes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        setItemsPerPage(window.innerWidth < 640 ? 5 : 10);
+      };
+
+      handleResize(); // Establecer el valor inicial
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
   }, []);
 
   // Función para cambiar de página

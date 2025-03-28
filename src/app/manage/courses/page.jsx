@@ -17,6 +17,7 @@ export default function AdminCoursesPage() {
   // Estados para la paginación
   const [currentPageCourses, setCurrentPageCourses] = useState(1);
   const [currentPageCategories, setCurrentPageCategories] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,9 +94,20 @@ export default function AdminCoursesPage() {
   }), [dashboardCourseData.cursosMasComprados]); // Dependencia: solo recalculamos si cambian los cursos más vendidos
 
   // Funciones para el manejo de la páginación de las tablas
-  const itemsPerPage = useMemo(() => {
-    const width = window.innerWidth;
-    return width < 640 ? 5 : 10; // 5 para pantallas pequeñas, 10 para medianas y grandes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        setItemsPerPage(window.innerWidth < 640 ? 5 : 10);
+      };
+
+      handleResize(); // Establecer el valor inicial
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
   }, []);
 
   // Funciones para cambiar de página
