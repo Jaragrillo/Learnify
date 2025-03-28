@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
@@ -18,6 +18,7 @@ export default function AdminUsersPage() {
     correo: '',
     contraseña: '',
   });
+  const [currentPageUsers, setCurrentPageUsers] = useState(1); // Estado para la paginación de la tabla de usuarios
 
   useEffect(() => {
     const fetchUsersData = async () => { 
@@ -25,7 +26,7 @@ export default function AdminUsersPage() {
         const response = await fetch('/api/manage/users');
         if (response.ok) {
           const data = await response.json();
-          setDashboardUsersData(data);
+          setDashboardUsersData(data.reverse());
           setTotalUsers(data.length);
         } else {
           console.error('Error al obtener datos de usuarios');
@@ -43,7 +44,7 @@ export default function AdminUsersPage() {
       const response = await fetch('/api/manage/users');
       if (response.ok) {
         const data = await response.json();
-        setDashboardUsersData(data);
+        setDashboardUsersData(data.reverse());
         setTotalUsers(data.length);
       } else {
         console.error('Error al obtener datos de usuarios');
@@ -52,10 +53,6 @@ export default function AdminUsersPage() {
       console.error('Error al obtener datos de usuarios:', error);
     }
   };
-
-  useEffect(() => {
-    reloadData();
-  }, []);
 
   // Función para eliminar un usuario
   const handleDeleteUser = async (userId, reloadData) => {
@@ -211,9 +208,27 @@ export default function AdminUsersPage() {
     }
   };
 
+  // Funciones para manejar la paginación de la tabla de usuarios
+  const itemsPerPage = useMemo(() => {
+    const width = window.innerWidth;
+    return width < 640 ? 5 : 10; // 5 para pantallas pequeñas, 10 para medianas y grandes
+  }, []);
+
+  // Función para cambiar de página
+  const handlePageChangeUsers = (pageNumber) => {
+    setCurrentPageUsers(pageNumber);
+  };
+
+  // Cálculo de los datos a mostrar en cada página
+  const currentUsers = useMemo(() => {
+    const startIndex = (currentPageUsers - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return dashboardUsersData.slice(startIndex, endIndex);
+  }, [dashboardUsersData, currentPageUsers, itemsPerPage]);
+
   return (
     <>
-      <main className="ml-80">
+      <main className="lg:ml-80">
         <section className="pt-10 px-10">
           <div className="flex items-center gap-2">
             <Image 
@@ -222,7 +237,7 @@ export default function AdminUsersPage() {
                 width={50} 
                 height={50} 
             />
-            <h2 className="text-4xl text-[#0D1D5F]">Usuarios</h2>
+            <h2 className="text-2xl sm:text-4xl text-[#0D1D5F]">Usuarios</h2>
           </div>
         </section>
         <section className="p-10">
@@ -240,7 +255,7 @@ export default function AdminUsersPage() {
               className="flex items-center gap-1 group"
               onClick={() => handleCreateAdmin(reloadData)}
             >
-              <p className="text-2xl group-hover:underline text-[#0D1D5F]">Añadir nuevo administrador</p>
+              <p className="text-base sm:text-2xl group-hover:underline text-[#0D1D5F]">Añadir nuevo administrador</p>
               <Image 
                   src="/svg/addDarkBlue.svg" 
                   alt="addDarkBlue-svg" 
@@ -265,7 +280,7 @@ export default function AdminUsersPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {dashboardUsersData.map(usuario => (
+                {currentUsers.map(usuario => (
                   <tr key={usuario.id_usuario}>
                     <td className="px-6 py-4 whitespace-nowrap">{usuario.id_usuario}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -291,12 +306,12 @@ export default function AdminUsersPage() {
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{usuario.nombre}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{usuario.apellidos}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{new Date(usuario.fecha_nacimiento).toLocaleDateString()}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{usuario.correo}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{usuario.id_rol}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{usuario.nombre}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{usuario.apellidos}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{new Date(usuario.fecha_nacimiento).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{usuario.correo}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{usuario.rol.rol}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">
                       {usuario.biografia ? (usuario.biografia.length > 50 ? usuario.biografia.substring(0, 50) + "..." : usuario.biografia) : "El usuario no cuenta con biografía."}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -319,6 +334,18 @@ export default function AdminUsersPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+          {/* Paginación para usuarios */}
+          <div className="flex justify-center mt-4">
+            {Array.from({ length: Math.ceil(dashboardUsersData.length / itemsPerPage) }, (_, index) => (
+              <button
+                key={index + 1}
+                className={`mx-1 px-3 py-1 rounded ${currentPageUsers === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                onClick={() => handlePageChangeUsers(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
           </div>
         </section>
       </main>

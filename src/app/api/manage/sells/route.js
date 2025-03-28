@@ -1,9 +1,27 @@
 import { NextResponse } from 'next/server';
-import { Sale } from '@/models/index';
+import { Sale, Course, User } from '@/models/index';
 
 export async function GET(req) {
     try {
-        const ventas = await Sale.findAll();
+        const ventas = await Sale.findAll({
+            include: [
+                {
+                    model: Course,
+                    as: 'Course', 
+                    attributes: ['titulo'] 
+                },
+                {
+                    model: User,
+                    as: 'Autor', 
+                    attributes: ['nombre', 'apellidos']
+                },
+                {
+                    model: User,
+                    as: 'Cliente', 
+                    attributes: ['nombre', 'apellidos']
+                },
+            ]
+        });
 
         const ingresosTotales = ventas.reduce((total, venta) => total + parseFloat(venta.precio), 0);
 

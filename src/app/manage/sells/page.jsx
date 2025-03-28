@@ -3,7 +3,7 @@
 import IncomeBarChart from "@/components/charts/IncomeBarChart";
 import IncomeChart from "@/components/charts/IncomeChart";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import * as XLSX from 'xlsx';
 
 export default function AdminSalesPage() {
@@ -15,6 +15,7 @@ export default function AdminSalesPage() {
     ventasAnio: [],
     ventas: [],
   });
+  const [currentPageSales, setCurrentPageSales] = useState(1); // Estado para manejar la paginación
 
   useEffect(() => {
     const fetchSalesData = async () => {
@@ -62,9 +63,9 @@ export default function AdminSalesPage() {
   const handleDownloadSalesReport = () => {
     const ventas = dashboardSalesData.ventas.map(venta => ({
       ID: venta.id_venta,
-      Curso: venta.id_curso,
-      Autor: venta.id_autor,
-      Cliente: venta.id_cliente,
+      Curso: venta.Course.titulo,
+      Autor: `${venta.Autor.nombre} ${venta.Autor.apellidos}`,
+      Cliente: `${venta.Cliente.nombre} ${venta.Cliente.apellidos}`,
       Precio: formatCurrency(venta.precio),
       'Fecha Venta': new Date(venta.fecha_venta).toLocaleDateString(),
     }));
@@ -73,7 +74,7 @@ export default function AdminSalesPage() {
     const fechaDescarga = new Date().toLocaleDateString();
 
     // Crear el encabezado del informe
-    const headerInforme = [['Informe de Ventas hasta', fechaDescarga]];
+    const headerInforme = [[`Informe de Ventas hasta ${fechaDescarga}`]];
 
     // Crear el encabezado de las columnas
     const headerColumnas = Object.keys(ventas[0]);
@@ -82,9 +83,14 @@ export default function AdminSalesPage() {
     const data = [headerColumnas, ...ventas.map(venta => Object.values(venta))];
 
     // Crear la hoja de cálculo
-    const worksheet = XLSX.utils.book_new();
-    XLSX.utils.sheet_add_aoa(worksheet, headerInforme); // Añadir el encabezado del informe
+    const worksheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(worksheet, headerInforme, { origin: 'A1' }); // Añadir el encabezado del informe
     XLSX.utils.sheet_add_aoa(worksheet, data, { origin: 'A2' }); // Añadir el encabezado de las columnas y los datos
+
+    // Unir las celdas del encabezado del informe
+    worksheet['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } }, // Unir desde A1 hasta F1
+    ];
 
     // Crear el libro de Excel y descargar el archivo
     const workbook = XLSX.utils.book_new();
@@ -92,9 +98,27 @@ export default function AdminSalesPage() {
     XLSX.writeFile(workbook, `Informe_Ventas_${fechaDescarga.replace(/\//g, '-')}.xlsx`);
   };
 
+  // Funciones para manejar la paginación de la tabla de ventas
+  const itemsPerPage = useMemo(() => {
+    const width = window.innerWidth;
+    return width < 640 ? 5 : 10; // 5 para pantallas pequeñas, 10 para medianas y grandes
+  }, []);
+
+  // Función para cambiar de página
+  const handlePageChangeSales = (pageNumber) => {
+    setCurrentPageSales(pageNumber);
+  };
+
+  // Cálculo de los datos a mostrar en cada página
+  const currentSales = useMemo(() => {
+    const startIndex = (currentPageSales - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return dashboardSalesData.ventas.slice(startIndex, endIndex);
+  }, [dashboardSalesData.ventas, currentPageSales, itemsPerPage]);
+
   return (
     <>
-      <main className="ml-80">
+      <main className="lg:ml-80">
         <section className="pt-10 px-10">
           <div className="flex items-center gap-2">
             <Image 
@@ -103,14 +127,14 @@ export default function AdminSalesPage() {
                 width={50} 
                 height={50} 
             />
-            <h2 className="text-4xl text-[#0D1D5F]">Ventas</h2>
+            <h2 className="text-2xl sm:text-4xl text-[#0D1D5F]">Ventas</h2>
           </div>
         </section>
         <section className="p-10">
           <div className="flex justify-between">
             <div className="w-full border-2 border-[#0D1D5F] rounded-lg p-5">
               <h3 className="text-xl font-medium">Ingresos totales</h3>
-              <p className="text-4xl font-medium my-3">{formatCurrency(dashboardSalesData.ingresosTotales)} COP</p>
+              <p className="text-2xl sm:text-4xl font-medium my-3">{formatCurrency(dashboardSalesData.ingresosTotales)} COP</p>
             </div>
           </div>
         </section>
@@ -167,7 +191,7 @@ export default function AdminSalesPage() {
               className="flex items-center gap-1 group"
               onClick={handleDownloadSalesReport}
             >
-              <p className="text-2xl group-hover:underline text-[#0D1D5F]">Descargar informe de las ventas</p>
+              <p className="text-sm sm:text-2xl group-hover:underline text-[#0D1D5F]">Descargar informe de las ventas</p>
               <Image 
                   src="/svg/downloadDarkBlue.svg" 
                   alt="downloadDarkBlue-svg" 
@@ -189,18 +213,30 @@ export default function AdminSalesPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {dashboardSalesData.ventas.map(venta => (
+                {currentSales.map(venta => (
                   <tr key={venta.id_venta}>
-                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_venta}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_curso}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_autor}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{venta.id_cliente}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatCurrency(venta.precio)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{new Date(venta.fecha_venta).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{venta.id_venta}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{venta.Course.titulo}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{`${venta.Autor.nombre.split(' ')[0]} ${venta.Autor.apellidos.charAt(0)}.`}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{`${venta.Cliente.nombre.split(' ')[0]} ${venta.Cliente.apellidos.charAt(0)}.`}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{formatCurrency(venta.precio)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{new Date(venta.fecha_venta).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+          {/* Paginación para ventas */}
+          <div className="flex justify-center mt-4">
+            {Array.from({ length: Math.ceil(dashboardSalesData.ventas.length / itemsPerPage) }, (_, index) => (
+              <button
+                key={index + 1}
+                className={`mx-1 px-3 py-1 rounded ${currentPageSales === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                onClick={() => handlePageChangeSales(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
           </div>
         </section>
       </main>
