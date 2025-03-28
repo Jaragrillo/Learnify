@@ -1,10 +1,16 @@
 // pages/api/manage/users.js
 import { NextResponse } from 'next/server';
-import { User } from '@/models/index'; 
+import { User, Role } from '@/models/index'; 
 
 export async function GET(req) {
     try {
-        const usuarios = await User.findAll();
+        const usuarios = await User.findAll({
+            include: [{
+                model: Role,
+                as: 'rol',
+                attributes: ['rol'] 
+            }]
+        });
 
         return NextResponse.json(usuarios);
     } catch (error) {

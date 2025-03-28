@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function AdminMessagesPage() {
@@ -15,6 +15,7 @@ export default function AdminMessagesPage() {
     "Otro": 0,
   });
   const [totalMensajes, setTotalMensajes] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1); // Estado para la paginación de la tabla de mensajes
 
   // useEffect para obtener todos los mensajes
   useEffect(() => {
@@ -68,10 +69,7 @@ export default function AdminMessagesPage() {
     }
   };
 
-  useEffect(() => {
-    reloadData();
-  }, []);
-
+  // Funcionamiento de mensajes por categorías
   useEffect(() => {
     setTotalMensajes(mensajesTotales.length); // Usar mensajesTotales para el total
     calcularCategorias(mensajesTotales); // Usar mensajesTotales para las categorías
@@ -123,6 +121,7 @@ export default function AdminMessagesPage() {
     return message;
   };
 
+  // Función para ver los detalles del mensaje → eliminarlo o cerrar los detalles
   const showMessageDetails = (mensaje) => {
     const color = getBarColor(mensaje.tipo_consulta).split('-')[1];
     Swal.fire({
@@ -187,9 +186,27 @@ export default function AdminMessagesPage() {
     });
   };
 
+  // Funciones para la paginación de la tabla de mensajes
+  const itemsPerPage = useMemo(() => {
+    const width = window.innerWidth;
+    return width < 640 ? 5 : 10; // 5 para pantallas pequeñas, 10 para medianas y grandes
+  }, []);
+
+  // Función para cambiar de página
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Cálculo de los datos a mostrar en cada página
+  const currentMessages = useMemo(() => {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      return mensajes.slice(startIndex, endIndex);
+  }, [mensajes, currentPage, itemsPerPage]);
+
   return (
     <>
-      <main className="ml-80">
+      <main className="lg:ml-80">
         <section className="p-10">
           <div className="flex items-center gap-2">
             <Image 
@@ -198,7 +215,7 @@ export default function AdminMessagesPage() {
                 width={50} 
                 height={50} 
             />
-            <h2 className="text-4xl text-[#0D1D5F]">Mensajes</h2>
+            <h2 className="text-2xl sm:text-4xl text-[#0D1D5F]">Mensajes</h2>
           </div>
         </section>
         <section className="px-10">
@@ -232,8 +249,8 @@ export default function AdminMessagesPage() {
         <section className="px-10 pb-10">
           <h3 className="text-2xl font-medium text-[#0D1D5F] mb-10">Mensajes</h3>
           <div className="w-full">
-            <div className="flex flex-row-reverse mb-5">
-              <select name="tipo_consulta" id="tipo_consulta" value={filtroTipoConsulta} onChange={handleFiltroChange} className="text-xl px-2 py-2 border border-[#0D1D5F] text-[#0D1D5F] focus:outline-none">
+            <div className="flex justify-center sm:justify-normal sm:flex-row-reverse mb-5">
+              <select name="tipo_consulta" id="tipo_consulta" value={filtroTipoConsulta} onChange={handleFiltroChange} className="text-xl px-2 py-2 border w-full sm:w-fit border-[#0D1D5F] text-[#0D1D5F] focus:outline-none">
                 <option value="">Todos</option>
                 <option value="Soporte técnico">Soporte técnico</option>
                 <option value="Pregunta sobre facturación">Pregunta sobre facturación</option>
@@ -254,15 +271,15 @@ export default function AdminMessagesPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {mensajes.length > 0 ? (
-                    mensajes.map(mensaje => (
+                  {currentMessages.length > 0 ? (
+                    currentMessages.map(mensaje => (
                       <tr key={mensaje.id_contacto} onClick={() => showMessageDetails(mensaje)} className="hover:bg-gray-100 cursor-pointer">
-                        <td className="px-6 py-4 whitespace-nowrap">{mensaje.id_contacto}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{mensaje.nombre}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{mensaje.apellidos}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{mensaje.correo}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{mensaje.tipo_consulta}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{truncateMessage(mensaje.mensaje, 20)}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{mensaje.id_contacto}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{mensaje.nombre}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{mensaje.apellidos}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{mensaje.correo}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{mensaje.tipo_consulta}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{truncateMessage(mensaje.mensaje, 20)}</td>
                       </tr>
                     ))
                   ) : (
@@ -274,6 +291,18 @@ export default function AdminMessagesPage() {
                   )}
                 </tbody>
               </table>
+            </div>
+            {/* Paginación para mensajes */}
+            <div className="flex justify-center mt-4">
+              {Array.from({ length: Math.ceil(mensajes.length / itemsPerPage) }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`mx-1 px-3 py-1 rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
             </div>
           </div>
         </section>

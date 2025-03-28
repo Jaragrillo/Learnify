@@ -33,8 +33,9 @@ Invoice.hasMany(InvoiceDetail, { foreignKey: 'id_factura' });
 InvoiceDetail.belongsTo(Invoice, { foreignKey: 'id_factura' });
 InvoiceDetail.belongsTo(Course, { foreignKey: 'id_curso' });
 Sale.belongsTo(Course, { foreignKey: 'id_curso' });
-Sale.belongsTo(Course, { foreignKey: 'id_autor', as: 'Autor' });
+// Sale.belongsTo(Course, { foreignKey: 'id_autor', as: 'Autor' });
 Sale.belongsTo(User, { foreignKey: 'id_cliente', as: 'Cliente' });
+Sale.belongsTo(User, { foreignKey: 'id_autor', as: 'Autor' });
 Payments.belongsTo(Invoice, { foreignKey: 'id_factura' });
 
 export { User, Role, Course, CourseContent, Rating, Comment, Category, Contact, Invoice, InvoiceDetail, Sale, Payments };

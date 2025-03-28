@@ -14,6 +14,10 @@ export default function AdminCoursesPage() {
     categorias: [],
   });
 
+  // Estados para la paginación
+  const [currentPageCourses, setCurrentPageCourses] = useState(1);
+  const [currentPageCategories, setCurrentPageCategories] = useState(1);
+
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -87,6 +91,35 @@ export default function AdminCoursesPage() {
       data: dashboardCourseData.cursosMasComprados.map(course => course.students),
     }],
   }), [dashboardCourseData.cursosMasComprados]); // Dependencia: solo recalculamos si cambian los cursos más vendidos
+
+  // Funciones para el manejo de la páginación de las tablas
+  const itemsPerPage = useMemo(() => {
+    const width = window.innerWidth;
+    return width < 640 ? 5 : 10; // 5 para pantallas pequeñas, 10 para medianas y grandes
+  }, []);
+
+  // Funciones para cambiar de página
+  const handlePageChangeCourses = (pageNumber) => {
+    setCurrentPageCourses(pageNumber);
+  };
+
+  const handlePageChangeCategories = (pageNumber) => {
+    setCurrentPageCategories(pageNumber);
+  };
+
+  // Cálculo de los datos a mostrar en cada página
+  const currentCourses = useMemo(() => {
+    const startIndex = (currentPageCourses - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return dashboardCourseData.cursos.slice(startIndex, endIndex);
+  }, [dashboardCourseData.cursos, currentPageCourses, itemsPerPage]);
+
+  const currentCategories = useMemo(() => {
+    const startIndex = (currentPageCategories - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return dashboardCourseData.categorias.slice(startIndex, endIndex);
+  }, [dashboardCourseData.categorias, currentPageCategories, itemsPerPage]);
+
 
   // Función para eliminar un curso
   const handleDeleteCourse = async (courseId, reloadData) => {
@@ -432,7 +465,7 @@ export default function AdminCoursesPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {dashboardCourseData.cursos.map(curso => (
+                {currentCourses.map(curso => (
                   <tr key={curso.id_curso}>
                     <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{curso.id_curso}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{curso.titulo}</td>
@@ -458,6 +491,18 @@ export default function AdminCoursesPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+          {/* Paginación para cursos */}
+          <div className="flex justify-center mt-4">
+            {Array.from({ length: Math.ceil(dashboardCourseData.cursos.length / itemsPerPage) }, (_, index) => (
+              <button
+                key={index + 1}
+                className={`mx-1 px-3 py-1 rounded ${currentPageCourses === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                onClick={() => handlePageChangeCourses(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
           </div>
           <div className="my-10 h-[2px] w-full bg-[#0D1D5F]/60 rounded-xl"></div>
         </section>
@@ -497,7 +542,7 @@ export default function AdminCoursesPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {dashboardCourseData.categorias.map(categoria => (
+                  {currentCategories.map(categoria => (
                     <tr key={categoria.id_categoria}>
                       <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{categoria.id_categoria}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-xs sm:text-base">{categoria.categoria}</td>
@@ -532,6 +577,18 @@ export default function AdminCoursesPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+            {/* Paginación para categorías */}
+            <div className="flex justify-center mt-4">
+              {Array.from({ length: Math.ceil(dashboardCourseData.categorias.length / itemsPerPage) }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`mx-1 px-3 py-1 rounded ${currentPageCategories === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  onClick={() => handlePageChangeCategories(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
             </div>
           </div>
         </section>
