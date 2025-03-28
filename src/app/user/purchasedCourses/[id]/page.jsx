@@ -323,16 +323,15 @@ export default function purchasedCoursePage() {
 
             // Añadir contenido al PDF
             doc.text('Factura de Compra', 10, 10);
-            doc.text(`ID Factura: ${invoiceData.factura.id_factura}`, 10, 20);
+            doc.text(`N° Factura: ${invoiceData.factura.id_factura}`, 10, 20);
             doc.text(`Fecha: ${new Date(invoiceData.factura.fecha_factura).toLocaleDateString()}`, 10, 30);
             doc.text(`Cliente: ${invoiceData.cliente.nombre} ${invoiceData.cliente.apellidos}`, 10, 40);
             doc.text(`Curso: ${courseData.titulo}`, 10, 50);
             doc.text(`Total: ${invoiceData.factura.total}`, 10, 60);
 
             // Crear tabla de detalle de factura
-            const columns = ['ID Detalle', 'Curso', 'Cantidad', 'Precio Unitario', 'Subtotal'];
+            const columns = ['Curso', 'Cantidad', 'Precio Unitario', 'Subtotal'];
             const rows = invoiceData.detalle.map(item => [
-                item.id_detalle,
                 courseData.titulo,
                 item.cantidad,
                 item.precio_unitario,
