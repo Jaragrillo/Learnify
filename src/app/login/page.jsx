@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import { useAuth } from '@/contexts/AuthContext'
+import emailjs from '@emailjs/browser'
 
 export default function LoginPage() {
 
@@ -142,6 +143,77 @@ export default function LoginPage() {
     }
   }
 
+  const handleForgotPassword = async (event) => {
+    event.preventDefault();
+
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!formData.email.trim()) {
+      showAlert('El Correo Electrónico es obligatorio.');
+      return;
+    }
+    if (!emailRegex.test(formData.email)) {
+      showAlert('Correo Electrónico inválido.');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Enviando correo...',
+      text: 'Enviando correo para restablecer contraseña.',
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
+
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ correo: formData.email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Email a enviar:", formData.email);
+        emailjs.send(
+          'service_qg49g5u',
+          'template_nkd6kvm',
+          {
+            to_email: formData.email,
+            reset_link: data.resetLink,
+          },
+          'kdLC3vKHC5-m9nao4'
+        );
+        Swal.close()
+        Swal.fire({
+          icon: 'success',
+          title: 'Correo enviado',
+          text: data.message,
+          confirmButtonText: 'Entendido',
+        });
+      } else {
+        Swal.close()
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: data.error || 'Error al enviar el correo.',
+          confirmButtonText: 'Entendido',
+        });
+        console.error('Error from server:', data);
+      }
+    } catch (error) {
+      Swal.close()
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error del servidor',
+        text: 'Error al procesar la solicitud.',
+        confirmButtonText: 'Entendido',
+      });
+    }
+  };
+
   useEffect(() => {
     console.log("LoginPage: Role in useEffect:", role); // Debugging
     if (role === 1) {
@@ -206,7 +278,7 @@ export default function LoginPage() {
                     />
                   </button>
                 </div>
-                <Link href={"/"} className='mb-4 text-gray-500 block hover:text-gray-700 w-fit'>¿Olvidaste tu contraseña?</Link>
+                <button onClick={handleForgotPassword} className='mb-4 text-gray-500 block hover:text-gray-700 w-fit'>¿Olvidaste tu contraseña?</button>
 
                 <button type="submit" className='m-auto mb-4 bg-[#1F84BA] text-white px-14 py-2 rounded-lg block hover:bg-[#3192c6] transition duration-300'>Iniciar sesión</button>
               </form>
