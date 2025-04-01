@@ -31,7 +31,7 @@ export default function ContactPage() {
     // Expresión regular para validar el formato del correo
     const emailRegex = /\S+@\S+\.\S+/;
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios para nombre y apellidos
-    const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+    const notOnlyNumbersRegex = /^(?!^\d+$).*$/;
 
     // Validación del nombre
     if (!formData.nombre.trim()) return 'El Nombre es obligatorio.';
@@ -62,7 +62,7 @@ export default function ContactPage() {
     if (formData.mensaje.trim() !== formData.mensaje) return 'El Mensaje no debe tener espacios en blanco al inicio o al final.';
     if (formData.mensaje.includes('  ')) return 'El Mensaje no debe tener espacios en blanco dobles.';
     if (!validateScriptInjection(formData.mensaje)) return 'El Mensaje no debe contener código HTML o scripts.';
-    if (!alphanumericRegex.test(formData.mensaje)) return 'El Mensaje debe ser alfanumérico y contener al menos una letra.';
+    if (!notOnlyNumbersRegex.test(formData.mensaje)) return 'El Mensaje no puede contener solo números.';
 
     return null;
   };
@@ -72,38 +72,48 @@ export default function ContactPage() {
 
     const error = validateForm();
     if (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error de Validación',
-          text: error,
-          confirmButtonText: 'Entendido',
-        });
-        return;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de Validación',
+        text: error,
+        confirmButtonText: 'Entendido',
+      });
+      return;
     }
+
+    Swal.fire({
+      title: 'Enviando mensaje...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
     try {
       const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Error al enviar el mensaje');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al enviar el mensaje');
       }
 
+      Swal.close(); // Cierra el loader
       Swal.fire('Enviado', 'Tu mensaje ha sido enviado correctamente.', 'success');
       setFormData({
-          nombre: '',
-          apellidos: '',
-          correo: '',
-          tipo_consulta: '',
-          mensaje: '',
+        nombre: '',
+        apellidos: '',
+        correo: '',
+        tipo_consulta: '',
+        mensaje: '',
       }); // Limpia el formulario
     } catch (error) {
+      Swal.close(); // Cierra el loader
       Swal.fire('Error', error.message, 'error');
     }
   }

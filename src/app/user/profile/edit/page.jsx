@@ -150,7 +150,7 @@ export default function EditProfilePage() {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/;
     const emailRegex = /\S+@\S+\.\S+/;
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
-    const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/; 
+    const notOnlyNumbersRegex = /^(?!^\d+$).*$/;
 
     // Validación del nombre
     if (!validateScriptInjection(userData.nombre)) {
@@ -219,8 +219,8 @@ export default function EditProfilePage() {
       showAlert('La Biografía no debe tener espacios en blanco dobles.');
       return false;
     }
-    if (!alphanumericRegex.test(userData.biografia)) {
-      showAlert('La Biografía debe ser alfanumérica y contener al menos una letra.');
+    if (!notOnlyNumbersRegex.test(userData.biografia)) {
+      showAlert('La Biografía no puede contener solo números.');
       return false;
     }
 
