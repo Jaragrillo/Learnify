@@ -87,7 +87,7 @@ export default function NewCourse() {
 
     const validateForm = () => {
         // Expresiones regulares de validación
-        const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/; // Alfanumérico con al menos una letra
+        const notOnlyNumbersRegex = /^(?!^\d+$).*$/;
         const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i; // Inyección de scripts
 
         // Validación del título
@@ -95,14 +95,14 @@ export default function NewCourse() {
         if (formData.title.trim() !== formData.title) return 'El Título no debe tener espacios en blanco al inicio o al final.';
         if (formData.title.includes('  ')) return 'El Título no debe tener espacios en blanco dobles.';
         if (scriptRegex.test(formData.title)) return 'El Título no debe contener código HTML o scripts.';
-        if (!alphanumericRegex.test(formData.title)) return 'El Título debe ser alfanumérico y contener al menos una letra.';
+        if (!notOnlyNumbersRegex.test(formData.title)) return 'El Título no puede contener solo números.';
 
         // Validación de la descripción
         if (!formData.description.trim()) return 'La Descripción es obligatoria.';
         if (formData.description.trim() !== formData.description) return 'La Descripción no debe tener espacios en blanco al inicio o al final.';
         if (formData.description.includes('  ')) return 'La Descripción no debe tener espacios en blanco dobles.';
         if (scriptRegex.test(formData.description)) return 'La Descripción no debe contener código HTML o scripts.';
-        if (!alphanumericRegex.test(formData.description)) return 'La Descripción debe ser alfanumérica y contener al menos una letra.';
+        if (!notOnlyNumbersRegex.test(formData.description)) return 'La Descripción no puede contener solo números.';
 
         // Validación de la categoría
         if (!formData.category) return 'La Categoría es obligatoria.';

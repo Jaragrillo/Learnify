@@ -166,31 +166,31 @@ export default function purchasedCoursePage() {
 
     // Validación de comentario
     const validateComentario = (comentario) => {
-        const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        const notOnlyNumbersRegex = /^(?!^\d+$).*$/;
 
         if (!comentario || comentario.trim() === '') {
-            return { valid: false, message: 'Por favor, escribe un comentario.' };
+            return { valid: false, message: 'Por favor, escribe un Comentario.' };
         }
 
         if (comentario.length > 500) {
-            return { valid: false, message: 'El comentario no puede exceder los 500 caracteres.' };
+            return { valid: false, message: 'El Comentario no puede exceder los 500 caracteres.' };
         }
 
         const scriptRegex = /<[^>]*script[^>]*>|<\/?[a-z][\s\S]*>/i;
         if (scriptRegex.test(comentario)) {
-            return { valid: false, message: 'El comentario no debe contener código HTML o scripts.' };
+            return { valid: false, message: 'El Comentario no debe contener código HTML o scripts.' };
         }
 
         if (comentario !== comentario.trim()) {
-            return { valid: false, message: 'El comentario no debe tener espacios al inicio o al final.' };
+            return { valid: false, message: 'El Comentario no debe tener espacios al inicio o al final.' };
         }
 
         if (comentario.includes('  ')) {
-            return { valid: false, message: 'El comentario no debe contener espacios dobles.' };
+            return { valid: false, message: 'El Comentario no debe contener espacios dobles.' };
         }
 
-        if (!alphanumericRegex.test(comentario)) {
-            return { valid: false, message: 'El comentario debe ser alfanumérico y contener al menos una letra.' };
+        if (!notOnlyNumbersRegex.test(comentario)) {
+            return { valid: false, message: 'El Comentario no puede contener solo números.' };
         }
 
         return { valid: true };

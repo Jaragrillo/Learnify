@@ -197,7 +197,7 @@ export default function AdminCoursesPage() {
 
   const validateCategoryForm = (nombre, descripcion) => {
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios para el nombre de la categoría
-    const alphanumericRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+    const notOnlyNumbersRegex = /^(?!^\d+$).*$/;
 
     // Validación del nombre de la categoría
     if (!nombre.trim()) {
@@ -238,8 +238,8 @@ export default function AdminCoursesPage() {
       showAlert('La Descripción no debe contener código HTML o scripts.');
       return false;
     }
-    if (!alphanumericRegex.test(descripcion)) {
-      showAlert('La Descripción debe ser alfanumérica y contener al menos una letra.');
+    if (!notOnlyNumbersRegex.test(descripcion)) {
+      showAlert('La Descripción no puede contener solo números.');
       return false;
     }
 
